@@ -1,0 +1,1 @@
+Garage 3D model (c) by [TH-Studio](https://www.cgtrader.com/designers/th-studio).
