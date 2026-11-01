@@ -10,7 +10,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '../docs');
 const catalog = JSON.parse(await readFile(join(root, 'data/posters.json'), 'utf8'));
 const artifactDir = await mkdtemp(join(tmpdir(), 'exhibition-gallery-'));
 const prefix = '/virtual-exhibition/';
-const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.jpg': 'image/jpeg' };
+const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml' };
 const server = createServer(async (request, response) => {
   try {
     const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
@@ -44,7 +44,7 @@ try {
   assert(requests.every((value) => value.startsWith(url)), 'No third-party or origin-root requests');
   await page.screenshot({ path: join(artifactDir, 'desktop.png'), fullPage: true });
 
-  for (const label of ['La halle 3D', 'Le projet']) {
+  for (const label of ['Le projet']) {
     const link = page.getByRole('link', { name: label, exact: true });
     await expect(link).toHaveAttribute('aria-disabled', 'true');
     assert.equal(await link.getAttribute('href'), null);
@@ -53,7 +53,9 @@ try {
     await page.keyboard.press('Enter');
     assert.equal(page.url(), url);
   }
-  await expect(page.getByRole('button', { name: /Entrer dans la halle/ })).toBeDisabled();
+  await expect(page.getByRole('link', { name: 'La halle 3D', exact: true })).toHaveAttribute('href', './halle.html');
+  await expect(page.getByRole('link', { name: /Entrer dans la halle/ })).toHaveAttribute('href', './halle.html');
+  assert(!requests.some((value) => value.includes('/vendor/three/') || value.includes('/models/')), 'The 2D page must not load the 3D engine or assets');
 
   const first = page.locator('.poster-link').first();
   await first.focus();

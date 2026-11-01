@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La halle 3D — IEE Paris 8</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./css/gallery.css">
+  <link rel="stylesheet" href="./css/hall.css">
+  <script type="importmap">
+    {"imports":{"three":"./vendor/three/build/three.module.min.js","three/addons/":"./vendor/three/addons/"}}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#la-halle">Aller au contenu</a>
+
+  <header class="site-header">
+    <div class="brand">
+      <p class="wordmark">IEE</p>
+      <span class="brand-divider" aria-hidden="true"></span>
+      <p class="brand-lines">Institut d’études européennes<br>Paris 8</p>
+    </div>
+    <nav class="site-nav" aria-label="Navigation principale">
+      <a href="./index.html">Les affiches</a>
+      <a href="./halle.html" aria-current="page">La halle 3D</a>
+      <a role="link" aria-disabled="true" tabindex="0" title="Bientôt disponible">Le projet</a>
+    </nav>
+  </header>
+
+  <main id="la-halle" tabindex="-1">
+    <div class="hall-intro">
+      <h1>La halle 3D</h1>
+      <p>Un lieu à parcourir, des affiches à découvrir.</p>
+    </div>
+
+    <section class="hall-scene" aria-label="Visite interactive de la halle">
+      <div id="hall-stage" class="hall-stage">
+        <canvas id="hall-canvas" tabindex="0" aria-label="Visite de la halle. Glisser pour regarder, touches Z Q S D ou flèches pour se déplacer."></canvas>
+
+        <div id="hall-loading" class="hall-loading" role="status">
+          <span id="hall-loading-label">Préparation de la visite…</span>
+          <progress id="hall-progress" max="1" value="0"></progress>
+        </div>
+
+        <div id="hall-error" class="hall-error" role="alert" hidden>
+          <p id="hall-error-message"></p>
+          <button type="button" id="hall-retry">Réessayer</button>
+          <a href="./index.html">Voir les affiches en 2D</a>
+        </div>
+      </div>
+
+      <p id="hall-notice" class="hall-notice" role="status" hidden></p>
+
+      <div id="hall-controls" class="hall-controls">
+        <button type="button" id="hall-overview" disabled>Vue d’ensemble</button>
+        <button type="button" id="hall-previous" aria-label="Affiche précédente" disabled>←</button>
+        <span id="hall-position">—</span>
+        <button type="button" id="hall-next" aria-label="Affiche suivante" disabled>→</button>
+        <label class="visually-hidden" for="hall-select">Choisir une affiche</label>
+        <select id="hall-select" disabled></select>
+        <a id="hall-read" class="hall-read" href="./index.html" hidden>Lire l’affiche ↗</a>
+      </div>
+
+      <div class="hall-info">
+        <h2 id="hall-title">Le garage</h2>
+        <p id="hall-author" hidden></p>
+        <p id="hall-help">Glisser pour regarder · ZQSD ou flèches pour se déplacer · Molette pour avancer</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Architecture : <a href="https://www.cgtrader.com/designers/th-studio">TH-Studio</a></p>
+    <p>IEE · Université Paris 8</p>
+  </footer>
+
+  <noscript>
+    <p class="hall-noscript">La visite 3D nécessite JavaScript. <a href="./index.html">Voir les affiches en 2D</a></p>
+  </noscript>
+
+  <script type="module" src="./js/hall.js"></script>
+</body>
+</html>

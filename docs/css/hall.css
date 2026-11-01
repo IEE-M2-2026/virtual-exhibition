@@ -1,0 +1,303 @@
+/* La halle 3D — IEE Paris 8
+   Page-specific layout layered on gallery.css. */
+
+[hidden] {
+  display: none !important;
+}
+
+#la-halle:focus {
+  outline: none;
+}
+
+/* Title row ----------------------------------------------------------- */
+
+.hall-intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 24px;
+  margin-inline: var(--gutter);
+  padding: 18px 0 14px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hall-intro h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.hall-intro p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Scene --------------------------------------------------------------- */
+
+.hall-scene {
+  margin-inline: var(--gutter);
+  padding-top: 16px;
+}
+
+.hall-stage {
+  position: relative;
+  height: clamp(420px, 68vh, 900px);
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+#hall-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#hall-canvas:active {
+  cursor: grabbing;
+}
+
+#hall-canvas:focus-visible {
+  outline-offset: -3px;
+}
+
+/* Loading and error overlay ------------------------------------------- */
+
+.hall-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  padding: 14px 18px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+#hall-progress {
+  width: 200px;
+  max-width: 100%;
+  height: 4px;
+  border: 0;
+  background: var(--rule);
+  color: var(--ink);
+  accent-color: var(--ink);
+}
+
+.hall-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+#hall-error-message {
+  max-width: 46ch;
+}
+
+#hall-error-message:empty {
+  display: none;
+}
+
+#hall-retry {
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.2;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+#hall-retry:hover {
+  background: var(--soft);
+}
+
+#hall-error a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  text-underline-offset: 3px;
+}
+
+/* Notice, controls, info ---------------------------------------------- */
+
+.hall-notice {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.hall-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding-top: 10px;
+}
+
+.hall-controls button,
+#hall-select {
+  min-height: 44px;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  background: none;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.hall-controls button {
+  min-width: 44px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+#hall-select {
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 10px;
+  background: var(--paper);
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.hall-controls button:hover,
+#hall-select:hover {
+  border-color: var(--ink);
+}
+
+.hall-controls button:disabled,
+#hall-select:disabled {
+  border-color: var(--rule);
+  color: var(--muted);
+  cursor: default;
+}
+
+#hall-position {
+  min-width: 44px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.hall-read {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hall-info {
+  padding: 14px 0 24px;
+}
+
+#hall-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: break-word;
+}
+
+#hall-author {
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+#hall-help {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.hall-noscript {
+  margin: 16px var(--gutter) 0;
+  font-size: 13px;
+}
+
+/* Responsive ---------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  :root {
+    --gutter: 16px;
+  }
+
+  .hall-intro {
+    padding: 14px 0 12px;
+  }
+
+  .hall-intro h1 {
+    font-size: 26px;
+  }
+
+  .hall-scene {
+    padding-top: 12px;
+  }
+
+  .hall-stage {
+    height: max(360px, 56vh);
+    height: max(360px, 56dvh);
+  }
+
+  #hall-select {
+    flex: 1 1 160px;
+  }
+
+  .hall-read {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 479px) {
+  .hall-controls {
+    gap: 8px;
+  }
+
+  .hall-controls button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  #hall-select {
+    font-size: 12px;
+  }
+}

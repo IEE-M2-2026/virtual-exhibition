@@ -209,6 +209,7 @@ button {
 }
 
 .hero-cta {
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -218,7 +219,7 @@ button {
   color: var(--ink);
   font-size: 14px;
   line-height: 1.2;
-  cursor: default;
+  cursor: pointer;
 }
 
 .hero-cta:disabled {

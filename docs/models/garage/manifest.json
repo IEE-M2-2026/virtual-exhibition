@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "credit": "TH-Studio",
+  "credit_url": "https://www.cgtrader.com/designers/th-studio",
+  "texture_size": 2048,
+  "detail_texture_size": 1024,
+  "normal_source_convention": "opengl",
+  "parts": [
+    {
+      "id": "a",
+      "src": "./models/garage/garage-a.glb",
+      "bytes": 45284,
+      "sha256": "e235cc02dc58d4215dd3aa3d758f9a7eb9a61504121a1f845a28e49b83a91bfd",
+      "source_sha256": "348b95a20b94b16b3a1960b9dd5b1bc8667a42500e46e056080085b1c931f053",
+      "triangles": 712,
+      "bounds": [
+        [
+          -20.35924,
+          0.1,
+          -12.91948
+        ],
+        [
+          20.36948,
+          11.36189,
+          10.4
+        ]
+      ]
+    },
+    {
+      "id": "b",
+      "src": "./models/garage/garage-b.glb",
+      "bytes": 19156,
+      "sha256": "3d8cb8661681e2b4bf28bc3ed5cad4026dbd272985eb927d783d116d852a9f48",
+      "source_sha256": "1a0f0ff154144bd518624868c6492adffcb6c7cfc96f3314aefed11fa448de5e",
+      "triangles": 304,
+      "bounds": [
+        [
+          -20.02338,
+          -0.0,
+          -10.75727
+        ],
+        [
+          20.0,
+          9.35603,
+          10.0
+        ]
+      ]
+    },
+    {
+      "id": "c",
+      "src": "./models/garage/garage-c.glb",
+      "bytes": 183060,
+      "sha256": "8a039ae04fb93fa60ed6446d28c5b660ccea1c10faa9f7fc3d26f25d7891e175",
+      "source_sha256": "fc1e1c5829edc6ff8d4a554819f2c00d1e30d8252770c1aa2ac16bf37c064511",
+      "triangles": 2798,
+      "bounds": [
+        [
+          -20.30332,
+          7.95202,
+          -10.13316
+        ],
+        [
+          20.30782,
+          11.22634,
+          10.13331
+        ]
+      ]
+    },
+    {
+      "id": "d",
+      "src": "./models/garage/garage-d.glb",
+      "bytes": 128136,
+      "sha256": "88fd20a723b199d23d66b8306995bfe84f42d796e1fec5af4c423f5ff2020a9b",
+      "source_sha256": "f94af720428523125545abf1c0644bb9b109819caec5e693673135cb270a4203",
+      "triangles": 1964,
+      "bounds": [
+        [
+          -20.2858,
+          -0.0,
+          -12.71881
+        ],
+        [
+          20.29031,
+          11.32714,
+          10.40006
+        ]
+      ]
+    },
+    {
+      "id": "e",
+      "src": "./models/garage/garage-e.glb",
+      "bytes": 305388,
+      "sha256": "3d4158157fd95f66bc4a1972f89f6f75c04da6ae55f663392a582390fbf158fb",
+      "source_sha256": "91ea4efcd2a8c388580f18be15a604c46774cc24c1525fa2038545b481300f7b",
+      "triangles": 5986,
+      "bounds": [
+        [
+          -20.03359,
+          0.12611,
+          -12.72445
+        ],
+        [
+          20.03127,
+          11.25555,
+          9.99116
+        ]
+      ]
+    }
+  ],
+  "textures": {
+    "albedo": {
+      "src": "./models/garage/albedo.webp",
+      "bytes": 876426,
+      "sha256": "7b99675bbe13da515fd5033acdbc7780a3999a03ec331b0028bf7aeb661c183f"
+    },
+    "normal": {
+      "src": "./models/garage/normal.webp",
+      "bytes": 1141372,
+      "sha256": "f6086a43de60b6fcf0c1a841d00d741612dea3f17df02b177d576b880f8be6ad"
+    },
+    "surface": {
+      "src": "./models/garage/surface.webp",
+      "bytes": 325568,
+      "sha256": "89495f8a318392b16cdf5d606c6fdee518360dbf9d64086122e16c6f82498d93"
+    }
+  },
+  "initial_parts": [
+    "a",
+    "c"
+  ],
+  "remaining_parts": [
+    "b",
+    "d",
+    "e"
+  ],
+  "floor_y": 0.2,
+  "walk_bounds": {
+    "x": [
+      -17.5,
+      17.5
+    ],
+    "z": [
+      -7.8,
+      7.8
+    ]
+  },
+  "overview": {
+    "position": [
+      16,
+      2.1,
+      0
+    ],
+    "target": [
+      -8,
+      2.0,
+      0
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 # 2D theatre poster gallery
 
-The gallery follows [the supplied mockup](img/Concept-Paris-8-theatre-poster%20exhibition-2.png): white page, IEE / Paris 8 header, five poster columns on wide screens, a responsive grid and restrained captions. “La halle 3D”, “Le projet” and the hall entry button are visible but inactive.
+The gallery follows [the supplied mockup](img/Concept-Paris-8-theatre-poster%20exhibition-2.png): white page, IEE / Paris 8 header, five poster columns on wide screens, a responsive grid and restrained captions. “La halle 3D” and the hall entry action open the [first 3D visit](hall_3d.md). “Le projet” remains inactive. The 2D page does not load the 3D engine or model assets.
 
 The current source collection contains eight posters. The *En attendant Godot* original was removed in commit `77e67f3`; its stale catalogue entry and generated images have been removed as well. There is no fallback to an obsolete export.
 
@@ -41,6 +41,6 @@ npx playwright install chromium
 npm run test:gallery
 ```
 
-Browser tests run against a temporary local HTTP server under a repository-style prefix, then stop it. They check desktop/mobile layout, available posters, inactive navigation, sorting, detail viewing and keyboard/focus behavior, direct links, loading errors and missing metadata. Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to use an existing Chromium binary. Test screenshots are temporary files outside the repository.
+Browser tests run against a temporary local HTTP server under a repository-style prefix, then stop it. They check desktop/mobile layout, available posters, inactive project navigation, working hall link destinations, sorting, detail viewing and keyboard/focus behavior, direct links, loading errors and missing metadata. Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to use an existing Chromium binary. Test screenshots are temporary files outside the repository.
 
 HTML/CSS were prepared through the Codex/Copilot-Ollama duo, then reviewed and integrated by Codex. See [the task and progress records](duo/progress.md).

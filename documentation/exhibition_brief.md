@@ -1,6 +1,6 @@
 # Theatre posters — exhibition brief
 
-Status: the 2D gallery and image preparation pipeline are implemented. The collective composition and 3D environment remain future work. The current visual reference is [the Paris 8 gallery mockup](img/Concept-Paris-8-theatre-poster%20exhibition-2.png).
+Status: the 2D gallery, image pipeline and first 3D garage visit are implemented. The collective composition and final poster arrangement remain future work. The 2D visual reference is [the Paris 8 gallery mockup](img/Concept-Paris-8-theatre-poster%20exhibition-2.png); the 3D architecture is the supplied TH-Studio garage.
 
 ## Purpose and visual direction
 
@@ -20,7 +20,7 @@ The **3D exhibition** evokes a repurposed industrial hall, following the atmosph
 
 ## Technical approach
 
-Use plain HTML, CSS and JavaScript ES modules; reserve Three.js for the future hall. The current gallery has no runtime dependencies. No backend, database or runtime image conversion is required. Python runs at build time to prepare assets. GitHub Pages serves the complete `docs/` directory, using the repository's branch deployment option with `/docs` selected.
+Use plain HTML, CSS and JavaScript ES modules. The 2D gallery has no runtime dependencies; the separate 3D page uses locally vendored Three.js. No backend, database or runtime image conversion is required. Python and Blender run at build time to prepare assets. GitHub Pages serves the complete `docs/` directory, using the repository's branch deployment option with `/docs` selected.
 
 Vendor a pinned Three.js release under `docs/vendor/three/`, retaining its licence. Copy the required build modules and selected addons **with their transitive dependencies** from that same release; use a local import map. This keeps runtime requests on the site's own host. Static hosting alone does not require vendoring, but self-contained dependencies suit the exhibition's preservation goals. See the [Three.js installation guide](https://threejs.org/manual/pages/installation.html).
 
@@ -46,11 +46,14 @@ docs/                         Complete deployment root
   .nojekyll                   Serve the directory as plain static files
   css/gallery.css             Responsive gallery and detail viewer
   js/gallery.js               Catalogue loading, sorting and detail navigation
-  models/                     Future GLB environment and associated assets
-  vendor/three/               Future pinned Three.js modules and licence
+  halle.html                  First 3D garage visit
+  css/hall.css                3D page layout and controls
+  js/hall.js                  Shared materials, progressive loading and navigation
+  models/garage/              Five geometry-only GLBs, three shared maps and manifest
+  vendor/three/               Pinned Three.js bundle, GLTFLoader and licence
 ```
 
-The image pipeline, generated assets and 2D gallery are implemented. `models/` and `vendor/three/` remain architectural reservations. “La halle 3D” and “Le projet” are visible inactive links; the hall entry button is also inactive. The initial gallery order follows the editorial catalogue, with an optional alphabetical sort. Each poster opens a flat detail viewer with zoom, previous/next controls and an addressable hash. Escape closes the viewer and returns focus to the gallery.
+The “La halle 3D” navigation link and hall entry action now open `halle.html`. “Le projet” remains inactive. The initial 2D gallery order follows the editorial catalogue, with an optional alphabetical sort. Each poster opens a flat detail viewer with zoom, previous/next controls and an addressable hash. Escape closes the viewer and returns focus to the gallery. The 3D page provides guided poster viewpoints, drag-to-look, keyboard movement and a link back to each flat detail view.
 
 ## Public filenames and clean builds
 
@@ -66,10 +69,10 @@ The pipeline produces progressive JPEGs with maximum long edges of 512, 2048 and
 
 Load thumbnails for the collective view, load 3D textures as needed, and request a detail image only when its viewer opens. Dispose of unused GPU textures; compressed JPEG size does not represent GPU memory use. Use sRGB colour textures and avoid lighting or tone mapping that alters the posters' intended colours.
 
-Begin the hall with simple procedural walls, floor and panels so navigation can be tested before finding a model. Later import a locally hosted GLB with documented provenance and suitable reuse terms. Keep poster planes separate from the architecture. Initial targets: a hall asset below 10 MB, no mandatory detail-image downloads on entry, and usable interaction on a mid-range phone; measure and revise during implementation.
+The first hall assembles the five supplied garage FBXs through Blender into separate geometry-only GLBs. A single shared material uses one albedo, one normal map and one packed roughness/metallic map. The shell, roof and albedo open first; remaining pieces and surface detail arrive in the background. The complete garage is about 2.88 MiB, excluding Three.js and posters. Poster planes remain separate and are placed automatically in two provisional rows. Only the selected or nearby poster receives a higher-resolution texture; the previous high-resolution texture is disposed. See [the 3D implementation guide](hall_3d.md) for assembly, measured sizes and reproduction commands. Phone frame rate remains to be measured on physical hardware.
 
 ## Acceptance and open decisions
 
 The initial website is ready when every catalogued poster is reachable from both views, its proportions and public metadata are correct, keyboard/touch and the 2D fallback work, and all assets load under a repository subpath without external runtime services. A rebuild must leave no obsolete poster files, and public asset paths and JSON must contain no original filenames or private student identity fields.
 
-Before final design: confirm the exhibition title and student credits, identify the author and premiere year of *La Mouche*, choose the hall model, and decide the meta-poster's final composition and export format. Missing editorial information remains absent from JSON until confirmed.
+Before final design: confirm the exhibition title and student credits, identify the author and premiere year of *La Mouche*, refine the poster arrangement in the chosen garage, and decide the meta-poster's final composition and export format. Missing editorial information remains absent from JSON until confirmed.
