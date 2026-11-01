@@ -4,3 +4,8 @@ commit_with_llm_albert.sh
 # macOS Finder metadata (all directories)
 .DS_Store
 ._.DS_Store
+
+# Local Python environment and caches
+.venv/
+__pycache__/
+*.py[cod]

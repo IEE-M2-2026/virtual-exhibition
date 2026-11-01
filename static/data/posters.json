@@ -1,0 +1,307 @@
+{
+  "schema_version": 2,
+  "generator": {
+    "encoder": "mozjpeg",
+    "encoder_version": "mozjpeg version 4.1.5 (build 20231012)",
+    "pillow_version": "13.0.0",
+    "pypdfium2_version": "5.14.0",
+    "quality": 88,
+    "subsampling": "4:4:4",
+    "progressive": true,
+    "color_space": "sRGB",
+    "background": "#ffffff",
+    "max_edges": {
+      "thumbnail": 512,
+      "texture": 2048,
+      "detail": 4096
+    }
+  },
+  "posters": [
+    {
+      "id": "rhinoceros-eugene-ionesco-71736d",
+      "metadata": {
+        "title": "Rhinocéros",
+        "author": "Eugène Ionesco",
+        "premiere_year": 1959
+      },
+      "source_sha256": "71736d066c6d12e2b8f56c962109fac0588eede19fdc683844b86dc064a8cd34",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/rhinoceros-eugene-ionesco-71736d.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 60230,
+          "sha256": "02c6448268e0ed589b0001a5279949ff96257562c56032df98a0d61a9b7df04a"
+        },
+        "texture": {
+          "src": "./posters/texture/rhinoceros-eugene-ionesco-71736d.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 486240,
+          "sha256": "27ddbfe3a6a94a00dc595e0ebc74a8fee5e5a19dcaf7ae3ca98e89527e95922d"
+        },
+        "detail": {
+          "src": "./posters/detail/rhinoceros-eugene-ionesco-71736d.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 1322304,
+          "sha256": "547a8b0f29580c74e1cb0d6f16b2d182a87f545fa3a484c261824911e24b19db"
+        }
+      }
+    },
+    {
+      "id": "huis-clos-jean-paul-sartre-b14104",
+      "metadata": {
+        "title": "Huis clos",
+        "author": "Jean-Paul Sartre",
+        "premiere_year": 1944
+      },
+      "source_sha256": "b1410491489897148e8637eb5680a83e2e100d1fcc863f2c117b92df23906a12",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/huis-clos-jean-paul-sartre-b14104.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 37485,
+          "sha256": "fecd53b3cef842503255d3a26fe2d96ca5af4a802b0a016a821437d947bf4354"
+        },
+        "texture": {
+          "src": "./posters/texture/huis-clos-jean-paul-sartre-b14104.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 190890,
+          "sha256": "9699ec405742180fb8caf87f1123b1595e0629a94d0c37ea3817fb5ac330a5cf"
+        },
+        "detail": {
+          "src": "./posters/detail/huis-clos-jean-paul-sartre-b14104.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 418747,
+          "sha256": "ff1b29bbb2b9abcd0570d4bfe2eb0be03e8f534d26a5ba09a3224b2541999879"
+        }
+      }
+    },
+    {
+      "id": "dans-la-solitude-des-champs-de-coton-bernard-marie-koltes-138853",
+      "metadata": {
+        "title": "Dans la solitude des champs de coton",
+        "author": "Bernard-Marie Koltès",
+        "premiere_year": 1987
+      },
+      "source_sha256": "13885390c4d25a31a37a1973de65da7e46ed3d96b58af48d5faaaa3a8ec7a92a",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/dans-la-solitude-des-champs-de-coton-bernard-marie-koltes-138853.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 38753,
+          "sha256": "35c8b6b72850fdee97ee63d05e6caa5a8c41a85dd352053f2f03593bf6a54ea1"
+        },
+        "texture": {
+          "src": "./posters/texture/dans-la-solitude-des-champs-de-coton-bernard-marie-koltes-138853.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 308431,
+          "sha256": "ae4393fbee02c5e72d430f8aa9982fa8d82fcddb3cf47703c3860db8ff59d2bc"
+        },
+        "detail": {
+          "src": "./posters/detail/dans-la-solitude-des-champs-de-coton-bernard-marie-koltes-138853.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 807580,
+          "sha256": "8a701be1d319f84fb650a91c6bc521e393b3d3886d7130c642c070d3189deb3a"
+        }
+      }
+    },
+    {
+      "id": "antigone-jean-anouilh-ca6bee",
+      "metadata": {
+        "title": "Antigone",
+        "author": "Jean Anouilh",
+        "premiere_year": 1944
+      },
+      "source_sha256": "ca6bee36902b0edba55ebf8a9d8ae7a562aea510bf94cd1c27dc2ee526c97a0b",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/antigone-jean-anouilh-ca6bee.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 42063,
+          "sha256": "d6d4d31ef61438f294867ce1a880da31c279a60bc9c7c1d3f3a153d25c9a1bf5"
+        },
+        "texture": {
+          "src": "./posters/texture/antigone-jean-anouilh-ca6bee.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 673742,
+          "sha256": "f51ff61170a05260a7ac381c72a84760668902544f0ce6a2db4a4ebea39ea120"
+        },
+        "detail": {
+          "src": "./posters/detail/antigone-jean-anouilh-ca6bee.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 2163724,
+          "sha256": "8070a1859b8b8204a09b6cfd8097eb315cfee2188f755e637b178bfd540e87ed"
+        }
+      }
+    },
+    {
+      "id": "4-48-psychose-sarah-kane-d230a9",
+      "metadata": {
+        "title": "4.48 Psychose",
+        "author": "Sarah Kane",
+        "premiere_year": 2000
+      },
+      "source_sha256": "d230a989b01522386976d8cbdd64d54dd956dea22023a7d81a565a746ee47006",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/4-48-psychose-sarah-kane-d230a9.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 50193,
+          "sha256": "5f97390f2b2ee5aa8354121f1da1e90cd60d1005c806dc8ead60b499f9b6e9b2"
+        },
+        "texture": {
+          "src": "./posters/texture/4-48-psychose-sarah-kane-d230a9.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 370542,
+          "sha256": "eacf58e00ff8bd999529eb0434284982a4eee0690b403c92616986c012ae29d8"
+        },
+        "detail": {
+          "src": "./posters/detail/4-48-psychose-sarah-kane-d230a9.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 1017668,
+          "sha256": "3d7e48bec7609179615670916ac4b68c2538099050701a62ad4022ab9752bdcf"
+        }
+      }
+    },
+    {
+      "id": "noces-de-sang-federico-garcia-lorca-f6c1a3",
+      "metadata": {
+        "title": "Noces de sang",
+        "author": "Federico García Lorca",
+        "premiere_year": 1933
+      },
+      "source_sha256": "f6c1a3f3bcebd6e9460533e307cf711efe9fd5058eff2cc862ab8411411d55b9",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/noces-de-sang-federico-garcia-lorca-f6c1a3.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 32324,
+          "sha256": "8911bc024fa66a2db5b6f86e7aa903a1f7a0671fae866368353fdc09bf0f51f9"
+        },
+        "texture": {
+          "src": "./posters/texture/noces-de-sang-federico-garcia-lorca-f6c1a3.jpg",
+          "width": 1449,
+          "height": 2048,
+          "bytes": 242375,
+          "sha256": "bf4b6c32cf85f97c581f9a384d1a3ed56c756943e06768b96bf228bca9819ad8"
+        },
+        "detail": {
+          "src": "./posters/detail/noces-de-sang-federico-garcia-lorca-f6c1a3.jpg",
+          "width": 2899,
+          "height": 4096,
+          "bytes": 698789,
+          "sha256": "49508a4193aad9b83ed5b7bbea04a6cbda168b3a06c2070ff80a3e3bef9d765f"
+        }
+      }
+    },
+    {
+      "id": "la-mouche-704d75",
+      "metadata": {
+        "title": "La Mouche"
+      },
+      "source_sha256": "704d75888dbe206d9363361696d489f654191126ef3ce9b52b53fad932e74a09",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/la-mouche-704d75.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 26146,
+          "sha256": "c95bcd409b30cc59485df131295bc5dc7b342b2daad7ec09dd7794d55f7d8186"
+        },
+        "texture": {
+          "src": "./posters/texture/la-mouche-704d75.jpg",
+          "width": 1414,
+          "height": 2000,
+          "bytes": 257385,
+          "sha256": "48a0f5785c83fa8cd03fb7e4c2165bf8014dfb4452f44f3b5a3cfede13108d6f"
+        },
+        "detail": {
+          "src": "./posters/detail/la-mouche-704d75.jpg",
+          "width": 1414,
+          "height": 2000,
+          "bytes": 257385,
+          "sha256": "48a0f5785c83fa8cd03fb7e4c2165bf8014dfb4452f44f3b5a3cfede13108d6f"
+        }
+      }
+    },
+    {
+      "id": "4-48-psychose-sarah-kane-239732",
+      "metadata": {
+        "title": "4.48 Psychose",
+        "author": "Sarah Kane",
+        "premiere_year": 2000
+      },
+      "source_sha256": "23973268e2aaff5e5175fe315caf367d40f2cfa8ebbe55d5f8c1b25fc5660341",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/4-48-psychose-sarah-kane-239732.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 69549,
+          "sha256": "c1c054f4cd166362e178f2f025b9ed8450f6a2aa9a88c49088ea997f6fb00171"
+        },
+        "texture": {
+          "src": "./posters/texture/4-48-psychose-sarah-kane-239732.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 505744,
+          "sha256": "efdf7de3f26604aef96e5c70e93424871733ad211e83501af3a44f8258f0d26e"
+        },
+        "detail": {
+          "src": "./posters/detail/4-48-psychose-sarah-kane-239732.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 1175762,
+          "sha256": "7b58cfcd94b57da9109299413c78ef790c8b5c7d060be27e9fb14f398a199b2b"
+        }
+      }
+    },
+    {
+      "id": "en-attendant-godot-samuel-beckett-06b24d",
+      "metadata": {
+        "title": "En attendant Godot",
+        "author": "Samuel Beckett",
+        "premiere_year": 1953
+      },
+      "source_sha256": "06b24d2e5f334c7c36978ff48df9b5625deb1bba39ff3a5af77b08b31f4c264e",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/en-attendant-godot-samuel-beckett-06b24d.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 72711,
+          "sha256": "baa93b711ae23efb68daed74670e39846816d9c5eb361992e60a47758271e13a"
+        },
+        "texture": {
+          "src": "./posters/texture/en-attendant-godot-samuel-beckett-06b24d.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 643077,
+          "sha256": "30d1ba113e69e2ae636c719a9726e7b63f845725bb17d22f8ca5837c330f9d0b"
+        },
+        "detail": {
+          "src": "./posters/detail/en-attendant-godot-samuel-beckett-06b24d.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 1967398,
+          "sha256": "0a4678c599ce448c2f8f544d46018bb42d1f6d828f7276acd92269b06baf7ae9"
+        }
+      }
+    }
+  ]
+}
