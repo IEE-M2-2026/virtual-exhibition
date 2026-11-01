@@ -50,6 +50,38 @@
       }
     },
     {
+      "id": "4-48-psychose-sarah-kane-d16acb",
+      "metadata": {
+        "title": "4.48 Psychose",
+        "author": "Sarah Kane",
+        "premiere_year": 2000
+      },
+      "source_sha256": "d16acb89d30ad8c8cfe668ec755e4a3b0aff9f94f2a7355200c2d26b424c2f52",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/4-48-psychose-sarah-kane-d16acb.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 43748,
+          "sha256": "14f6b43426d59623ff402d3b01cd892d7cf4c6cd3fbcec9231881a10efe8e052"
+        },
+        "texture": {
+          "src": "./posters/texture/4-48-psychose-sarah-kane-d16acb.jpg",
+          "width": 1414,
+          "height": 2000,
+          "bytes": 301741,
+          "sha256": "dd1a101ebb54a2e39e897af5f5cc7b6b6582a3793a6b452de0fb078fd79aea70"
+        },
+        "detail": {
+          "src": "./posters/detail/4-48-psychose-sarah-kane-d16acb.jpg",
+          "width": 1414,
+          "height": 2000,
+          "bytes": 301741,
+          "sha256": "dd1a101ebb54a2e39e897af5f5cc7b6b6582a3793a6b452de0fb078fd79aea70"
+        }
+      }
+    },
+    {
       "id": "rhinoceros-eugene-ionesco-71736d",
       "metadata": {
         "title": "Rhinocéros",
