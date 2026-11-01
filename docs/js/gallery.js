@@ -1,7 +1,7 @@
 const siteRoot = new URL('./', document.baseURI);
 const grid = document.querySelector('#poster-grid');
 const count = document.querySelector('#poster-count');
-const sortButton = document.querySelector('#sort-button');
+const sortControl = document.querySelector('#sort-order');
 const status = document.querySelector('#gallery-status');
 const errorPanel = document.querySelector('#gallery-error');
 const dialog = document.querySelector('#poster-dialog');
@@ -13,8 +13,9 @@ const collator = new Intl.Collator('fr', { numeric: true, sensitivity: 'base' })
 
 let posters = [];
 let orderedPosters = [];
+let randomPosters = [];
 let selectedId = null;
-let sortDirection = 0;
+let sortOrder = 'random';
 let returnFocus = null;
 let imageRequest = 0;
 
@@ -83,12 +84,23 @@ function makeCard(poster, index) {
 }
 
 function renderGrid() {
-  orderedPosters = [...posters];
-  if (sortDirection) {
+  sortControl.value = sortOrder;
+  orderedPosters = sortOrder === 'random' ? [...randomPosters] : [...posters];
+  if (sortOrder !== 'random') {
+    const sortDirection = sortOrder === 'title-asc' ? 1 : -1;
     orderedPosters.sort((a, b) => sortDirection * collator.compare(titleOf(a), titleOf(b)));
   }
   grid.replaceChildren(...orderedPosters.map(makeCard));
   count.textContent = `Toutes les affiches (${posters.length})`;
+}
+
+function shuffle(items) {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
 }
 
 function resetZoom() {
@@ -181,7 +193,7 @@ async function loadGallery() {
   errorPanel.hidden = true;
   status.hidden = false;
   status.textContent = 'Chargement des affiches…';
-  sortButton.disabled = true;
+  sortControl.disabled = true;
   try {
     const response = await fetch(new URL('./data/posters.json', siteRoot), { cache: 'no-cache' });
     if (!response.ok) throw new Error(`Catalogue: HTTP ${response.status}`);
@@ -192,10 +204,12 @@ async function loadGallery() {
       for (const variant of ['thumbnail', 'texture', 'detail']) imageURL(poster.images[variant]);
     }
     posters = catalog.posters;
+    // Shuffle once per load; reading, closing and sorting never move cards at random.
+    randomPosters = shuffle(posters);
     renderGrid();
     status.hidden = posters.length > 0;
     status.textContent = posters.length ? '' : 'Les affiches seront bientôt disponibles.';
-    sortButton.disabled = posters.length < 2;
+    sortControl.disabled = posters.length < 2;
     syncHash();
   } catch (error) {
     status.hidden = true;
@@ -205,10 +219,8 @@ async function loadGallery() {
   }
 }
 
-sortButton.addEventListener('click', () => {
-  sortDirection = sortDirection === 1 ? -1 : 1;
-  sortButton.textContent = sortDirection === 1 ? 'Titre : A → Z ↓' : 'Titre : Z → A ↑';
-  sortButton.setAttribute('aria-label', sortDirection === 1 ? 'Tri par titre croissant. Trier de Z à A' : 'Tri par titre décroissant. Trier de A à Z');
+sortControl.addEventListener('change', () => {
+  sortOrder = sortControl.value;
   renderGrid();
 });
 document.querySelector('#retry-button').addEventListener('click', loadGallery);

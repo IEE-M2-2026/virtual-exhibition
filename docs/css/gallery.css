@@ -247,7 +247,7 @@ button {
   font-size: 14px;
 }
 
-.sort-button {
+.sort-order {
   padding: 0;
   border: 0;
   background: none;
@@ -257,7 +257,7 @@ button {
   cursor: pointer;
 }
 
-.sort-button:disabled {
+.sort-order:disabled {
   color: var(--ink);
   cursor: default;
 }

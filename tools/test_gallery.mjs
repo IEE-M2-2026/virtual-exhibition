@@ -29,6 +29,12 @@ try {
   browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined });
   const context = await browser.newContext({ viewport: { width: 1396, height: 1127 }, deviceScaleFactor: 1 });
   const page = await context.newPage();
+  // Alternate deterministic draws to verify fresh shuffles without flaky chance checks.
+  await page.addInitScript(() => {
+    const visit = Number(sessionStorage.getItem('shuffle-test-visits') || 0);
+    sessionStorage.setItem('shuffle-test-visits', String(visit + 1));
+    Math.random = () => visit % 2 ? 0.999999 : 0;
+  });
   const exceptions = [];
   const requests = [];
   page.on('pageerror', (error) => exceptions.push(error.message));
@@ -36,7 +42,13 @@ try {
   await page.goto(url);
   await expect(page.locator('.poster-card')).toHaveCount(catalog.posters.length);
   await expect(page.locator('#poster-count')).toHaveText(`Toutes les affiches (${catalog.posters.length})`);
-  assert.deepEqual(await page.locator('.poster-title').allTextContents(), catalog.posters.map((p) => p.metadata.title));
+  await expect(page.locator('#sort-order')).toHaveValue('random');
+  const cardIds = () => page.locator('.poster-link').evaluateAll((links) => links.map((link) => link.dataset.posterId));
+  const initialIds = await cardIds();
+  const sourceIds = catalog.posters.map((poster) => poster.id);
+  assert.deepEqual([...initialIds].sort(), [...sourceIds].sort(), 'Shuffle keeps every poster, including duplicate titles');
+  assert.notDeepEqual(initialIds, sourceIds, 'Controlled random draw changes catalogue order');
+  const titleById = (id) => catalog.posters.find((poster) => poster.id === id).metadata.title;
   await expect(page.locator('.poster-image img')).toHaveCount(catalog.posters.length);
   await page.waitForFunction(() => [...document.querySelectorAll('.poster-image img')].every((image) => image.complete && image.naturalWidth > 0));
   assert.equal(await page.locator('#poster-grid').evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(' ').length), 5);
@@ -62,22 +74,29 @@ try {
   await page.keyboard.press('Enter');
   await expect(page.locator('#poster-dialog')).toBeVisible();
   await expect(page.locator('#detail-image')).toBeVisible();
-  await expect(page.locator('#detail-title')).toHaveText(catalog.posters[0].metadata.title);
+  await expect(page.locator('#detail-title')).toHaveText(titleById(initialIds[0]));
   await page.locator('#zoom-button').click();
   await expect(page.locator('#zoom-button')).toHaveAttribute('aria-pressed', 'true');
   await page.locator('#zoom-button').click();
   await page.keyboard.press('ArrowRight');
-  await expect(page.locator('#detail-title')).toHaveText(catalog.posters[1].metadata.title);
+  await expect(page.locator('#detail-title')).toHaveText(titleById(initialIds[1]));
   await page.keyboard.press('Escape');
   await expect(page.locator('#poster-dialog')).not.toBeVisible();
   await expect(first).toBeFocused();
+  assert.deepEqual(await cardIds(), initialIds, 'Viewer navigation preserves the random order');
 
-  await page.locator('#sort-button').click();
+  await page.locator('#sort-order').selectOption('title-asc');
   const collator = new Intl.Collator('fr', { numeric: true, sensitivity: 'base' });
   const sorted = catalog.posters.map((poster) => poster.metadata.title).sort(collator.compare);
   assert.deepEqual(await page.locator('.poster-title').allTextContents(), sorted);
-  await page.locator('#sort-button').click();
+  await page.locator('#sort-order').selectOption('title-desc');
   assert.deepEqual(await page.locator('.poster-title').allTextContents(), [...sorted].reverse());
+  await page.locator('#sort-order').selectOption('random');
+  assert.deepEqual(await cardIds(), initialIds, 'Returning to random restores this visit’s shuffled order');
+  await page.reload();
+  await expect(page.locator('.poster-card')).toHaveCount(catalog.posters.length);
+  await expect(page.locator('#sort-order')).toHaveValue('random');
+  assert.notDeepEqual(await cardIds(), initialIds, 'Reload uses a new random draw');
 
   const unknown = catalog.posters.find((poster) => !poster.metadata.author);
   if (unknown) {
@@ -122,7 +141,7 @@ try {
   await page.route('**/data/posters.json', (route) => route.fulfill({ json: { schema_version: 2, posters: [] } }));
   await page.reload();
   await expect(page.locator('#gallery-status')).toHaveText('Les affiches seront bientôt disponibles.');
-  await expect(page.locator('#sort-button')).toBeDisabled();
+  await expect(page.locator('#sort-order')).toBeDisabled();
   assert.deepEqual(exceptions, [], 'No uncaught JavaScript errors');
   console.log(`PASS: ${catalog.posters.length} posters; responsive layout; inactive navigation; sorting; detail/zoom/keyboard/focus; deep links/history; error retry; empty state; repository prefix.`);
   console.log(`Screenshots: ${artifactDir}`);

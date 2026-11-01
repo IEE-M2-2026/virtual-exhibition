@@ -53,7 +53,7 @@ docs/                         Complete deployment root
   vendor/three/               Pinned Three.js bundle, GLTFLoader and licence
 ```
 
-The “La halle 3D” navigation link and hall entry action now open `halle.html`. “Le projet” remains inactive. The initial 2D gallery order follows the editorial catalogue, with an optional alphabetical sort. Each poster opens a flat detail viewer with zoom, previous/next controls and an addressable hash. Escape closes the viewer and returns focus to the gallery. The 3D page provides guided poster viewpoints, drag-to-look, keyboard movement and a link back to each flat detail view.
+The “La halle 3D” navigation link and hall entry action now open `halle.html`. “Le projet” remains inactive. The 2D gallery defaults to a new random order on each load, with a selector for random or alphabetical order in either direction; the shuffled order stays stable during viewing. Each poster opens a flat detail viewer with zoom, previous/next controls and an addressable hash. Escape closes the viewer and returns focus to the gallery. The 3D page provides guided poster viewpoints, drag-to-look, keyboard movement and a link back to each flat detail view.
 
 ## Public filenames and clean builds
 

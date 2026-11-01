@@ -8,6 +8,7 @@ The current source collection contains eight posters. The *En attendant Godot* o
 
 ```sh
 .venv/bin/python tools/prepare_posters.py --encoder mozjpeg
+python3 tools/version_frontend.py
 .venv/bin/python -m http.server 8000 --bind 127.0.0.1 --directory docs
 ```
 
@@ -21,8 +22,8 @@ The entire public site is `docs/`, including HTML, CSS, JavaScript, normalized J
 
 ## Interactions
 
-- Initial order follows the source catalogue, matching the reference sequence for the remaining posters.
-- The title-sort button toggles alphabetical ascending/descending order. Both versions of *4.48 Psychose* remain distinct.
+- The default order is random: an unbiased Fisher–Yates shuffle runs once when the catalogue loads. Opening, navigating and closing the viewer preserves that order; reloading the page draws a fresh order.
+- The accessible order selector offers Random (default), Title A–Z and Title Z–A. Returning to Random restores the current visit’s shuffled order. Both versions of *4.48 Psychose* remain distinct.
 - Select an artwork to open its detail viewer. High-resolution images load only when the viewer opens.
 - Use previous/next buttons or left/right arrow keys to browse. In zoom mode, arrow keys scroll the image instead. “Agrandir” / “Vue entière” toggles zoom.
 - Escape or “Fermer” closes the viewer and restores focus. Hash links (`#poster=<id>`) open an artwork directly; browser history is supported.

@@ -97,7 +97,7 @@ These numbers exclude poster images and HTTP compression; they are not elapsed l
 
 ## Visit and provisional poster placement
 
-- Drag with a mouse or one finger to look around.
+- Drag with a mouse or one finger to grab the view: scenery follows the gesture horizontally and vertically.
 - With the canvas focused, use ZQSD/WASD or arrow keys to move. The wheel moves forwards/backwards. On touch screens, use the poster arrows or selection list to move between viewing positions.
 - Select a visible poster, use previous/next or choose a title to move in front of it. “Vue d’ensemble” returns to the entrance view. Reduced-motion preferences disable camera transitions.
 - “Lire l’affiche” opens the existing 2D detail viewer for the same public ID. Direct `halle.html#poster=<id>` links are supported.
@@ -132,7 +132,7 @@ npm --prefix tools run test:hall
 /Applications/Blender.app/Contents/MacOS/Blender --background res/3d/garage/baked/garage-assembled.blend --python-exit-code 1 --python tools/check_garage_bake.py
 ```
 
-The browser checks use real WebGL rendering in Chromium with SwiftShader for repeatable automated runs. Set `PLAYWRIGHT_BROWSER=firefox` to run the same suite in Playwright Firefox; optional `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` and `PLAYWRIGHT_FIREFOX_EXECUTABLE_PATH` select installed test binaries. They check asset requests, all five loaded parts, shared material/texture identity, poster navigation, texture eviction, keyboard movement, mobile layout, direct links, a deliberately delayed GLB, and the no-WebGL fallback. Asset tests also verify GLB UVs, absence of embedded textures and collision meshes, roof elevation, file checksums and packed-map channels. Screenshots are saved to a temporary directory and visually reviewed. Software-rendered test results do not constitute a frame-rate benchmark on a phone or a physical GPU.
+The browser checks use real WebGL rendering in Chromium with SwiftShader for repeatable automated runs. Set `PLAYWRIGHT_BROWSER=firefox` to run the same suite in Playwright Firefox; optional `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` and `PLAYWRIGHT_FIREFOX_EXECUTABLE_PATH` select installed test binaries. They check mouse dragging on both axes, native emulated touch dragging in Chromium, asset requests, all five loaded parts, shared material/texture identity, poster navigation, texture eviction, keyboard movement, mobile layout, direct links, a deliberately delayed GLB, and the no-WebGL fallback. Asset tests also verify GLB UVs, absence of embedded textures and collision meshes, roof elevation, file checksums and packed-map channels. Screenshots are saved to a temporary directory and visually reviewed. Software-rendered test results do not constitute a frame-rate benchmark on a phone or a physical GPU.
 
 The Blender check re-bakes a small shell probe twice, first with the assembled neighbours and then with them hidden. It verifies that neighbouring parts actually darken the AO, checks the two UV sets and packed project textures, and does not save the modified scene. A separate constant-colour island probe checks that EXTEND fills the entire image, including the corners; asset checks verify the padded per-part PNGs match the published atlas. Browser screenshots include the same view with a neutral white AO atlas for comparison.
 

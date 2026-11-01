@@ -76,6 +76,19 @@ try {
   await expect(neutralAO.locator('#hall-stage')).toHaveAttribute('data-state', 'complete', { timeout: 45000 });
   await neutralAO.screenshot({ path: join(artifacts, 'overview-without-ao.png'), fullPage: true });
   await neutralAO.close();
+  // Dragging right/down grabs the scene in that direction on both axes.
+  const dragStart = await diagnostic();
+  const canvasBounds = await page.locator('#hall-canvas').boundingBox();
+  const mouseX = canvasBounds.x + canvasBounds.width / 2, mouseY = canvasBounds.y + canvasBounds.height / 2;
+  await page.mouse.move(mouseX, mouseY);
+  await page.mouse.down();
+  await page.mouse.move(mouseX + 70, mouseY + 45, { steps: 5 });
+  await page.mouse.up();
+  const dragEnd = await diagnostic();
+  assert(dragEnd.viewAngles.yaw > dragStart.viewAngles.yaw);
+  assert(dragEnd.viewAngles.pitch > dragStart.viewAngles.pitch);
+  assert.deepEqual(dragEnd.camera, dragStart.camera, 'Dragging rotates without moving');
+  assert.equal(dragEnd.selected, dragStart.selected, 'Dragging does not select a poster');
   await page.locator('#hall-next').click();
   await expect(page.locator('#hall-title')).toHaveText(catalog.posters[0].metadata.title);
   await expect(page.locator('#hall-read')).toHaveAttribute('href', `./index.html#poster=${catalog.posters[0].id}`);
@@ -104,6 +117,20 @@ try {
   await page.locator('#hall-next').click();
   await expect(page.locator('#hall-title')).toHaveText(catalog.posters[0].metadata.title);
   await page.screenshot({ path: join(artifacts, 'mobile.png'), fullPage: true });
+  if (!useFirefox) {
+    const touchStart = await diagnostic();
+    const bounds = await page.locator('#hall-canvas').boundingBox();
+    const x = bounds.x + bounds.width / 2, y = bounds.y + bounds.height / 2;
+    const session = await context.newCDPSession(page);
+    await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y, id: 0 }] });
+    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x + 55, y: y + 40, id: 0 }] });
+    await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    const touchEnd = await diagnostic();
+    assert(touchEnd.viewAngles.yaw > touchStart.viewAngles.yaw);
+    assert(touchEnd.viewAngles.pitch > touchStart.viewAngles.pitch);
+    assert.equal(touchEnd.selected, touchStart.selected);
+    await session.detach();
+  }
 
   await page.goto(`${base}halle.html#poster=${catalog.posters[2].id}`);
   await expect(page.locator('#hall-title')).toHaveText(catalog.posters[2].metadata.title, { timeout: 30000 });

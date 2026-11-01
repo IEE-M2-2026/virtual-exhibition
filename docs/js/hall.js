@@ -308,8 +308,9 @@ function bindControls() {
   });
   canvas.addEventListener('pointermove', (event) => {
     if (!pointer || pointer.id !== event.pointerId) return;
-    yaw -= (event.clientX - pointer.x) * 0.003;
-    pitch = THREE.MathUtils.clamp(pitch - (event.clientY - pointer.y) * 0.003, -0.8, 0.9);
+    // Grab the scene: visible landmarks follow the hand/finger on both axes.
+    yaw += (event.clientX - pointer.x) * 0.003;
+    pitch = THREE.MathUtils.clamp(pitch + (event.clientY - pointer.y) * 0.003, -0.8, 0.9);
     pointer.moved ||= Math.hypot(event.clientX - pointer.startX, event.clientY - pointer.startY) > 6;
     pointer.x = event.clientX;
     pointer.y = event.clientY;
@@ -476,6 +477,7 @@ export function getDiagnostics() {
     roughnessContrast: garageMaterial?.userData.probeUniforms.garageRoughnessContrast.value,
     highResolutionPosterTextures: highTexture ? 1 : 0,
     selected, camera: camera?.position.toArray(), triangles: renderer?.info.render.triangles,
+    viewAngles: { yaw, pitch },
     drawCalls: renderer?.info.render.calls, gpuTextures: renderer?.info.memory.textures,
   };
 }

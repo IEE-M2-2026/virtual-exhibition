@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Affiches de théâtre — IEE Paris 8</title>
   <link rel="icon" href="./favicon.svg?v=02d25c2b85ad" type="image/svg+xml">
-  <link rel="stylesheet" href="./css/gallery.css?v=e26ebdbb686e">
+  <link rel="stylesheet" href="./css/gallery.css?v=a063b38f23ff">
 </head>
 <body>
   <a class="skip-link" href="#les-affiches">Aller au contenu</a>
@@ -41,7 +41,11 @@
       <h2 id="gallery-heading" class="visually-hidden">Galerie des affiches</h2>
       <div class="gallery-toolbar">
         <p id="poster-count" class="poster-count">Toutes les affiches</p>
-        <button type="button" id="sort-button" class="sort-button" disabled>Trier par titre ↓</button>
+        <select id="sort-order" class="sort-order" aria-label="Ordre de présentation" disabled>
+          <option value="random" selected>Ordre aléatoire</option>
+          <option value="title-asc">Titre : A → Z</option>
+          <option value="title-desc">Titre : Z → A</option>
+        </select>
       </div>
       <p id="gallery-status" class="gallery-status" role="status">Chargement des affiches…</p>
       <div id="gallery-error" class="gallery-error" role="alert" hidden>
@@ -85,6 +89,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="./js/gallery.js?v=6756024c4ca1"></script>
+  <script type="module" src="./js/gallery.js?v=d43fb7c29d11"></script>
 </body>
 </html>
