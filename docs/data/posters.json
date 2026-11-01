@@ -270,6 +270,38 @@
           "sha256": "7b58cfcd94b57da9109299413c78ef790c8b5c7d060be27e9fb14f398a199b2b"
         }
       }
+    },
+    {
+      "id": "incendies-wajdi-mouawad-e27920",
+      "metadata": {
+        "title": "Incendies",
+        "author": "Wajdi Mouawad",
+        "premiere_year": 2003
+      },
+      "source_sha256": "e279208922bed78d6afd16ad15d8352fa9da5ad11c7d64404e5900939544ce67",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/incendies-wajdi-mouawad-e27920.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 41886,
+          "sha256": "40e462c378e2a2b0c0de2234af6abacfe02d95e76813c505723a0c149f0dca0e"
+        },
+        "texture": {
+          "src": "./posters/texture/incendies-wajdi-mouawad-e27920.jpg",
+          "width": 1447,
+          "height": 2048,
+          "bytes": 312850,
+          "sha256": "a0e5137fe1d526be13c7bb5b1c28043d658811ed09219c270bcfc51b63ad3569"
+        },
+        "detail": {
+          "src": "./posters/detail/incendies-wajdi-mouawad-e27920.jpg",
+          "width": 2895,
+          "height": 4096,
+          "bytes": 964414,
+          "sha256": "143ab8b06a6f120fe71773b15d15db8e228e0b8baf14e2c64a0a0d5b793a503c"
+        }
+      }
     }
   ]
 }

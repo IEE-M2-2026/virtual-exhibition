@@ -94,6 +94,50 @@ try {
   await expect(page.locator('#hall-read')).toHaveAttribute('href', `./index.html#poster=${catalog.posters[0].id}`);
   await expect.poll(async () => (await diagnostic()).highResolutionPosterTextures).toBe(1);
   await page.screenshot({ path: join(artifacts, 'poster.png'), fullPage: true });
+  // Follow the actual camera positions: neighbours stay on the same side and
+  // move along the row, with only two crossings during a complete loop.
+  const tour = await page.locator('#hall-select option').evaluateAll((options) =>
+    options.filter((option) => option.value !== '').map((option) => Number(option.value)));
+  assert.deepEqual([...tour].sort((a, b) => a - b), catalog.posters.map((_, index) => index));
+  let previousStop = await diagnostic(), crossings = 0;
+  for (let position = 1; position <= tour.length; position += 1) {
+    await page.locator('#hall-next').click();
+    const stop = await diagnostic();
+    assert.equal(stop.selected, tour[position % tour.length]);
+    await expect(page.locator('#hall-position')).toHaveText(`${position % tour.length + 1} / ${tour.length}`);
+    if (Math.abs(stop.camera[2] - previousStop.camera[2]) < 0.001) {
+      assert(Math.abs(stop.viewAngles.yaw - previousStop.viewAngles.yaw) < 0.001, 'Same-row navigation keeps the viewing direction');
+      if (tour.length > 1) {
+        assert((stop.camera[0] - previousStop.camera[0]) * Math.sign(stop.camera[2]) > 0, 'Visit adjacent posters in row order');
+      }
+    } else {
+      crossings += 1;
+    }
+    previousStop = stop;
+  }
+  assert.equal(crossings, tour.length > 1 ? 2 : 0, 'Cross the hall only at row ends');
+  for (let position = tour.length - 1; position >= 0; position -= 1) {
+    await page.locator('#hall-previous').click();
+    assert.equal((await diagnostic()).selected, tour[position], 'Previous retraces the tour');
+  }
+  await page.locator('#hall-overview').click();
+  await page.locator('#hall-previous').click();
+  assert.equal((await diagnostic()).selected, tour.at(-1), 'Previous from overview starts at the last tour stop');
+  await page.locator('#hall-select').selectOption(String(tour[1]));
+  await page.locator('#hall-previous').click();
+  assert.equal((await diagnostic()).selected, tour[0], 'Selection list and arrows share the same route');
+  // Exercise the animated path too, rather than only reduced-motion jumps.
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  const firstStop = await diagnostic();
+  await page.locator('#hall-next').click();
+  const nextX = firstStop.camera[0] - 26 / (Math.ceil(tour.length / 2) - 1);
+  await expect.poll(async () => {
+    const frame = await diagnostic();
+    assert(Math.abs(frame.viewAngles.yaw - firstStop.viewAngles.yaw) < 0.001, 'Animated same-row movement never spins the camera');
+    return Math.abs(frame.camera[0] - nextX);
+  }).toBeLessThan(0.001);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.locator('#hall-previous').click();
   const before = (await diagnostic()).camera;
   await page.locator('#hall-canvas').focus();
   await page.keyboard.down('z');
@@ -135,6 +179,9 @@ try {
   await page.goto(`${base}halle.html#poster=${catalog.posters[2].id}`);
   await expect(page.locator('#hall-title')).toHaveText(catalog.posters[2].metadata.title, { timeout: 30000 });
   await expect(page.locator('#hall-stage')).toHaveAttribute('data-state', 'complete', { timeout: 30000 });
+
+  await page.locator('#hall-next').click();
+  assert.equal((await diagnostic()).selected, tour[(tour.indexOf(2) + 1) % tour.length], 'Deep links resume the physical tour');
 
   // The early scene remains usable while secondary model parts are still pending.
   let release;

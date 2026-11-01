@@ -19,6 +19,7 @@ const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const keys = new Set();
 const garageMeshes = [];
 const panels = [];
+const tourOrder = [];
 const raycaster = new THREE.Raycaster();
 const loader = new GLTFLoader();
 const textureLoader = new THREE.TextureLoader();
@@ -170,7 +171,14 @@ function createPanels(posters) {
     scene.add(group);
     const normal = new THREE.Vector3(0, 0, -side);
     panels.push({ poster, image, material, group, normal, thumbnail: null });
-    select.add(new Option(`${index + 1}. ${poster.metadata.title || 'Affiche sans titre'}`, String(index)));
+  });
+  // Follow one row to its end, then return along the opposite row.
+  // Keep catalogue indices for picking, texture loading and direct links.
+  const indices = panels.map((_, index) => index);
+  tourOrder.push(...indices.filter((index) => index % 2 === 0),
+    ...indices.filter((index) => index % 2 === 1).reverse());
+  tourOrder.forEach((index, position) => {
+    select.add(new Option(`${position + 1}. ${panels[index].poster.metadata.title || 'Affiche sans titre'}`, String(index)));
   });
 }
 
@@ -264,10 +272,18 @@ function goToPoster(index, updateHash = true) {
     author.hidden = !panel.poster.metadata.author;
     readLink.href = `./index.html#poster=${encodeURIComponent(panel.poster.id)}`;
     readLink.hidden = false;
-    document.querySelector('#hall-position').textContent = `${index + 1} / ${panels.length}`;
+    document.querySelector('#hall-position').textContent = `${tourOrder.indexOf(index) + 1} / ${panels.length}`;
     upgradePoster(index);
     if (updateHash) history.replaceState(null, '', `#poster=${encodeURIComponent(panel.poster.id)}`);
   }
+}
+
+function stepPoster(step) {
+  if (!tourOrder.length) return;
+  const current = tourOrder.indexOf(selected);
+  const next = current < 0 ? (step > 0 ? 0 : tourOrder.length - 1)
+    : (current + step + tourOrder.length) % tourOrder.length;
+  goToPoster(tourOrder[next]);
 }
 
 function syncHash() {
@@ -333,8 +349,8 @@ function bindControls() {
     walk(THREE.MathUtils.clamp(-event.deltaY * 0.006, -1.5, 1.5), 0);
   }, { passive: false });
   document.querySelector('#hall-overview').addEventListener('click', () => goToPoster(-1));
-  document.querySelector('#hall-next').addEventListener('click', () => goToPoster((selected + 1) % panels.length));
-  document.querySelector('#hall-previous').addEventListener('click', () => goToPoster((selected < 0 ? panels.length - 1 : selected - 1 + panels.length) % panels.length));
+  document.querySelector('#hall-next').addEventListener('click', () => stepPoster(1));
+  document.querySelector('#hall-previous').addEventListener('click', () => stepPoster(-1));
   select.addEventListener('change', () => goToPoster(select.value === '' ? -1 : Number(select.value)));
   window.addEventListener('hashchange', syncHash);
   if (matchMedia('(pointer: coarse)').matches) document.querySelector('#hall-help').textContent = 'Glisser pour regarder · Utiliser les flèches ou la liste pour passer d’une affiche à l’autre';

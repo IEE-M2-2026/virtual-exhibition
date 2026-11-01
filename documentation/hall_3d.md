@@ -100,6 +100,7 @@ These numbers exclude poster images and HTTP compression; they are not elapsed l
 - Drag with a mouse or one finger to grab the view: scenery follows the gesture horizontally and vertically.
 - With the canvas focused, use ZQSD/WASD or arrow keys to move. The wheel moves forwards/backwards. On touch screens, use the poster arrows or selection list to move between viewing positions.
 - Select a visible poster, use previous/next or choose a title to move in front of it. “Vue d’ensemble” returns to the entrance view. Reduced-motion preferences disable camera transitions.
+- Previous/next follows a continuous tour: along the first row, then back along the opposite row, looping at the entrance. Camera direction stays constant between neighbours in the same row; crossing to the opposite side happens only at row ends. The title selector and position counter use this same tour order, including after selecting a poster directly or opening a deep link.
 - “Lire l’affiche” opens the existing 2D detail viewer for the same public ID. Direct `halle.html#poster=<id>` links are supported.
 
 Posters are simple planes with neutral backs, placed automatically in two rows from the current catalogue. Positions and sizes adapt to the number of posters. Placement is intentionally provisional; no student-specific coordinates or final exhibition arrangement are encoded. Poster materials are unlit and excluded from scene tone mapping to preserve their colours.
