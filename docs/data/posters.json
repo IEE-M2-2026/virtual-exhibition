@@ -50,6 +50,38 @@
       }
     },
     {
+      "id": "rhinoceros-eugene-ionesco-6fd0ea",
+      "metadata": {
+        "title": "Rhinocéros",
+        "author": "Eugène Ionesco",
+        "premiere_year": 1959
+      },
+      "source_sha256": "6fd0ea8f34b325404505efd01b20aef171d1ef7ce599fdc800735576f561fa8e",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/rhinoceros-eugene-ionesco-6fd0ea.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 55760,
+          "sha256": "fc361cebe101640fab97a13a2e5fc7515637e4de4704847c33811106aa9d2f32"
+        },
+        "texture": {
+          "src": "./posters/texture/rhinoceros-eugene-ionesco-6fd0ea.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 442433,
+          "sha256": "169eca8215fedc97d59035261f9eb06260d2a2936c06a6910bb9060c21dcba76"
+        },
+        "detail": {
+          "src": "./posters/detail/rhinoceros-eugene-ionesco-6fd0ea.jpg",
+          "width": 2481,
+          "height": 3508,
+          "bytes": 935570,
+          "sha256": "ff6d7eac5857192b8d1069be456d720408fbfa37bf0db1f2279cd3408340652f"
+        }
+      }
+    },
+    {
       "id": "huis-clos-jean-paul-sartre-b14104",
       "metadata": {
         "title": "Huis clos",
