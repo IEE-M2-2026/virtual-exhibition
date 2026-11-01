@@ -18,6 +18,38 @@
   },
   "posters": [
     {
+      "id": "top-girls-caryl-churchill-723a4e",
+      "metadata": {
+        "title": "Top Girls",
+        "author": "Caryl Churchill",
+        "premiere_year": 1982
+      },
+      "source_sha256": "723a4e2562df46d8256eb2f78e2714fdbe96e98324e752ea49d2cf674abc6921",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/top-girls-caryl-churchill-723a4e.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 61086,
+          "sha256": "7ecbe0e34ff2150b0d0d39005b016a0d372867cdeee20c3a58a6e024f085b3e8"
+        },
+        "texture": {
+          "src": "./posters/texture/top-girls-caryl-churchill-723a4e.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 384699,
+          "sha256": "cbec98ef80e49e81a513dafcd27b1c8a3d85be990a3d43876a0c32eb91d450ad"
+        },
+        "detail": {
+          "src": "./posters/detail/top-girls-caryl-churchill-723a4e.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 965771,
+          "sha256": "75d99cd70da25a1d177f1cfb0ebc643c5cc982ebcc1547d903eccccd3e86ae50"
+        }
+      }
+    },
+    {
       "id": "rhinoceros-eugene-ionesco-71736d",
       "metadata": {
         "title": "Rhinocéros",
