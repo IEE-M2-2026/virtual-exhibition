@@ -1,2 +1,6 @@
 commit_with_llm_albert.py
 commit_with_llm_albert.sh
+
+# macOS Finder metadata (all directories)
+.DS_Store
+._.DS_Store
