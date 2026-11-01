@@ -24,7 +24,7 @@ The entire public site is `docs/`, including HTML, CSS, JavaScript, normalized J
 
 - The default order is random: an unbiased Fisher–Yates shuffle runs once when the catalogue loads. Opening, navigating and closing the viewer preserves that order; reloading the page draws a fresh order.
 - The accessible order selector offers Random (default), Title A–Z and Title Z–A. Returning to Random restores the current visit’s shuffled order. Both versions of *4.48 Psychose* remain distinct.
-- Select an artwork to open its detail viewer. High-resolution images load only when the viewer opens.
+- Select an artwork to open its detail viewer: a portrait window using almost the full screen height on desktop, and a full-screen viewer on mobile. The complete poster fits within the available area by default, without cropping or scrolling; opening another poster resets zoom. High-resolution images load only when the viewer opens.
 - Use previous/next buttons or left/right arrow keys to browse. In zoom mode, arrow keys scroll the image instead. “Agrandir” / “Vue entière” toggles zoom.
 - Escape or “Fermer” closes the viewer and restores focus. Hash links (`#poster=<id>`) open an artwork directly; browser history is supported.
 - Missing author/year fields are omitted. The public catalogue never includes the original filenames or other private editorial fields. Credits already printed within artwork are unchanged.
@@ -42,6 +42,6 @@ npx playwright install chromium
 npm run test:gallery
 ```
 
-Browser tests run against a temporary local HTTP server under a repository-style prefix, then stop it. They check desktop/mobile layout, available posters, inactive project navigation, working hall link destinations, sorting, detail viewing and keyboard/focus behavior, direct links, loading errors and missing metadata. Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to use an existing Chromium binary. Test screenshots are temporary files outside the repository.
+Browser tests run against a temporary local HTTP server under a repository-style prefix, then stop it. They check desktop/mobile layout, available posters, inactive project navigation, working hall link destinations, sorting, full-poster fitting across screen sizes and orientation changes, zoom reset, keyboard/focus behavior, direct links, loading errors and missing metadata. Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to use an existing Chromium binary. For Firefox, install it with Playwright and set `PLAYWRIGHT_BROWSER=firefox`; `PLAYWRIGHT_FIREFOX_EXECUTABLE_PATH` optionally selects an existing binary. Test screenshots are temporary files outside the repository.
 
 HTML/CSS were prepared through the Codex/Copilot-Ollama duo, then reviewed and integrated by Codex. See [the task and progress records](duo/progress.md).

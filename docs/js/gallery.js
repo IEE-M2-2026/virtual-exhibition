@@ -115,6 +115,8 @@ function showPoster(id) {
   if (index < 0) return false;
   const poster = orderedPosters[index];
   selectedId = id;
+  const { width, height } = poster.images.detail;
+  dialog.style.setProperty('--poster-ratio', Math.min(0.8, width / height));
   resetZoom();
   document.querySelector('#detail-title').textContent = titleOf(poster);
   const author = document.querySelector('#detail-author');

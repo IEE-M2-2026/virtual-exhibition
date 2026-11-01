@@ -4,7 +4,7 @@ import { readFile, mkdtemp } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { chromium, expect } from '@playwright/test';
+import { chromium, firefox, expect } from '@playwright/test';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../docs');
 const catalog = JSON.parse(await readFile(join(root, 'data/posters.json'), 'utf8'));
@@ -26,9 +26,44 @@ await new Promise((done) => server.listen(0, '127.0.0.1', done));
 const url = `http://127.0.0.1:${server.address().port}${prefix}`;
 let browser;
 try {
-  browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined });
+  const useFirefox = process.env.PLAYWRIGHT_BROWSER === 'firefox';
+  browser = await (useFirefox ? firefox : chromium).launch({
+    executablePath: (useFirefox ? process.env.PLAYWRIGHT_FIREFOX_EXECUTABLE_PATH : process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH) || undefined,
+  });
   const context = await browser.newContext({ viewport: { width: 1396, height: 1127 }, deviceScaleFactor: 1 });
   const page = await context.newPage();
+  async function checkFullPoster() {
+    await expect(page.locator('#zoom-button')).toBeEnabled();
+    await expect(page.locator('#zoom-button')).toHaveAttribute('aria-pressed', 'false');
+    const layout = await page.evaluate(() => {
+      const dialog = document.querySelector('#poster-dialog');
+      const viewport = document.querySelector('#detail-viewport');
+      const image = document.querySelector('#detail-image');
+      const bounds = image.getBoundingClientRect();
+      const frame = viewport.getBoundingClientRect();
+      const box = dialog.getBoundingClientRect();
+      const style = getComputedStyle(image);
+      return {
+        contained: bounds.left >= frame.left && bounds.right <= frame.right + 1 && bounds.top >= frame.top && bounds.bottom <= frame.bottom + 1,
+        fit: style.objectFit,
+        scroll: viewport.scrollHeight > viewport.clientHeight + 1 || viewport.scrollWidth > viewport.clientWidth + 1,
+        height: box.height,
+        width: box.width,
+        windowHeight: innerHeight,
+        windowWidth: innerWidth,
+        artworkHeight: Math.min(bounds.height, bounds.width * image.naturalHeight / image.naturalWidth),
+        availableHeight: frame.height,
+      };
+    });
+    assert(layout.contained && layout.fit === 'contain' && !layout.scroll, 'Default view contains the whole poster without scrolling');
+    assert(layout.height >= layout.windowHeight - 26, 'Viewer uses the available screen height');
+    if (layout.windowWidth >= 768 && layout.windowHeight >= 600) {
+      assert(layout.width < layout.height, 'Desktop viewer is portrait');
+      assert(layout.artworkHeight > layout.availableHeight * 0.9, 'Desktop poster uses nearly all the image area height');
+    }
+    await expect(page.locator('#close-dialog')).toBeInViewport();
+    await expect(page.locator('#detail-title')).toBeInViewport();
+  }
   // Alternate deterministic draws to verify fresh shuffles without flaky chance checks.
   await page.addInitScript(() => {
     const visit = Number(sessionStorage.getItem('shuffle-test-visits') || 0);
@@ -75,11 +110,14 @@ try {
   await expect(page.locator('#poster-dialog')).toBeVisible();
   await expect(page.locator('#detail-image')).toBeVisible();
   await expect(page.locator('#detail-title')).toHaveText(titleById(initialIds[0]));
+  await checkFullPoster();
+  await page.screenshot({ path: join(artifactDir, 'desktop-detail.png') });
   await page.locator('#zoom-button').click();
   await expect(page.locator('#zoom-button')).toHaveAttribute('aria-pressed', 'true');
-  await page.locator('#zoom-button').click();
-  await page.keyboard.press('ArrowRight');
+  assert(await page.locator('#detail-viewport').evaluate((el) => el.scrollHeight > el.clientHeight), 'Zoom provides a scrollable full-resolution image');
+  await page.locator('#next-poster').click();
   await expect(page.locator('#detail-title')).toHaveText(titleById(initialIds[1]));
+  await checkFullPoster();
   await page.keyboard.press('Escape');
   await expect(page.locator('#poster-dialog')).not.toBeVisible();
   await expect(first).toBeFocused();
@@ -124,11 +162,24 @@ try {
       await page.screenshot({ path: join(artifactDir, 'mobile.png'), fullPage: true });
       await page.locator('.poster-link').first().click();
       await expect(page.locator('#detail-image')).toBeVisible();
+      await checkFullPoster();
       await expect(page.locator('#close-dialog')).toBeInViewport();
       await page.screenshot({ path: join(artifactDir, 'mobile-detail.png') });
       await page.locator('#close-dialog').click();
     }
   }
+
+  await page.locator('.poster-link').first().click();
+  for (const size of [{ width: 1280, height: 720 }, { width: 320, height: 568 }, { width: 844, height: 390 }]) {
+    await page.setViewportSize(size);
+    // Dynamic viewport units settle on the next rendered frames after a resize.
+    await page.evaluate(() => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done))));
+    for (let index = 0; index < catalog.posters.length; index += 1) {
+      await checkFullPoster();
+      await page.locator('#next-poster').click();
+    }
+  }
+  await page.locator('#close-dialog').click();
 
   await page.route('**/data/posters.json', (route) => route.fulfill({ status: 503, body: 'Unavailable' }));
   await page.reload();

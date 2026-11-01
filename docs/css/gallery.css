@@ -378,9 +378,15 @@ button {
 /* Detail dialog ------------------------------------------------------- */
 
 .poster-dialog {
-  width: min(1080px, 94vw);
-  max-width: min(1080px, 94vw);
-  max-height: 92vh;
+  --poster-ratio: 0.707;
+  width: min(calc((100vh - 156px) * var(--poster-ratio) + 16px), calc(100vw - 24px));
+  width: min(calc((100dvh - 156px) * var(--poster-ratio) + 16px), calc(100vw - 24px));
+  min-width: min(360px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
+  height: calc(100vh - 24px);
+  height: calc(100dvh - 24px);
+  max-height: calc(100vh - 24px);
+  max-height: calc(100dvh - 24px);
   margin: auto;
   padding: 0;
   border: 1px solid var(--rule);
@@ -397,7 +403,7 @@ button {
 .poster-dialog[open] {
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .dialog-shell {
@@ -405,7 +411,8 @@ button {
   flex: 1 1 auto;
   grid-template-rows: auto minmax(0, 1fr) auto;
   min-height: 0;
-  max-height: inherit;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .dialog-toolbar {
@@ -415,7 +422,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 10px 12px;
-  padding: 10px 16px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--rule);
   background: var(--paper);
 }
@@ -466,8 +473,8 @@ button {
   flex: 1 1 auto;
   place-items: center;
   min-height: 0;
-  height: min(60vh, 660px);
-  padding: 16px;
+  min-width: 0;
+  padding: 8px;
   overflow: hidden;
   background: var(--soft);
 }
@@ -475,8 +482,10 @@ button {
 #detail-image {
   display: block;
   grid-area: 1 / 1;
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
@@ -519,7 +528,7 @@ button {
 
 .dialog-metadata {
   flex: 0 0 auto;
-  padding: 14px 16px 18px;
+  padding: 10px 12px 12px;
   border-top: 1px solid var(--rule);
 }
 
@@ -608,6 +617,7 @@ button {
 
   .poster-dialog {
     width: 100vw;
+    min-width: 0;
     max-width: 100vw;
     height: 100vh;
     height: 100dvh;
@@ -618,8 +628,7 @@ button {
   }
 
   .detail-viewport {
-    height: auto;
-    padding: 12px;
+    padding: 6px;
   }
 
   .dialog-toolbar button {
@@ -627,11 +636,21 @@ button {
   }
 
   .dialog-toolbar {
-    padding: 10px 12px;
+    padding: 8px;
+    gap: 4px;
+  }
+
+  .dialog-nav,
+  .dialog-actions {
+    gap: 4px;
+  }
+
+  .detail-position {
+    min-width: 36px;
   }
 
   .dialog-metadata {
-    padding: 12px 12px 16px;
+    padding: 8px 12px;
   }
 }
 
