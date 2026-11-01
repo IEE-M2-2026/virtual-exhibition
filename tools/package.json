@@ -5,7 +5,9 @@
   "scripts": {
     "test:gallery": "node test_gallery.mjs",
     "test:hall": "node test_hall.mjs",
-    "vendor:three": "node vendor_three.mjs"
+    "vendor:three": "node vendor_three.mjs",
+    "version:site": "python3 version_frontend.py",
+    "check:site": "python3 version_frontend.py --check"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

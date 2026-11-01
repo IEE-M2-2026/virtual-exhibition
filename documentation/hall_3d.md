@@ -94,6 +94,7 @@ From the repository root, with the Python environment installed:
 .venv/bin/python tools/prepare_garage.py --device METAL
 npm --prefix tools ci
 npm --prefix tools run vendor:three
+python3 tools/version_frontend.py
 python3 -m http.server 8000 --bind 127.0.0.1 --directory docs
 ```
 
@@ -117,3 +118,9 @@ The Blender check re-bakes a small shell probe twice, first with the assembled n
 Latest local verification: 13 Python asset/catalogue tests and both browser suites passed. The 256² Blender shell probe found 8,355 pixels whose occlusion increased by more than 0.05 with neighbouring parts present. The browser rendered all five AO-enabled meshes with one shared material and one request per garage texture; the neutral-AO comparison visibly changed architectural contact shading.
 
 Lighting verification also exercises the injected box-projection GLSL on the GPU against analytical ray/box intersections, including parallel rays and a point just outside the proxy. The measured maximum error was below 0.000001 world units; off-centre HDR cube samples matched their source face pixels. Capture and sky radiance both exceeded 1. A failed HDR face was checked separately: navigation remains available with the sky fallback.
+
+## Publishing and browser cache
+
+GitHub Pages serves the HTML, JavaScript and CSS with a ten-minute cache lifetime observed on this deployment. A successful push can therefore coexist with an older module cached in a visitor's browser. Before committing changes to the front end, run `python3 tools/version_frontend.py` (or `npm --prefix tools run version:site`) and commit the updated HTML too. The tool appends each file's content hash to script/style URLs and versions import-map targets, including transitive garage material and HDR loader imports. Dynamic diagnostic imports resolve to the same module instance. Model and image URLs already use manifest hashes. Run `python3 tools/version_frontend.py --check` to detect stale frontend URLs.
+
+After a push, allow the Pages deployment to finish. If a tab still shows the previous view, force reload with Cmd+Shift+R on macOS, or compare in a private window; HTML itself can still be cached briefly. On 2026-11-01, a clean browser session produced pixel-identical local and live screenshots, and all sixteen garage geometry/texture/HDR files matched their manifest hashes. The deployed lighting changes were present; no new deployment was required to recover them.
