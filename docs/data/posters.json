@@ -270,38 +270,6 @@
           "sha256": "7b58cfcd94b57da9109299413c78ef790c8b5c7d060be27e9fb14f398a199b2b"
         }
       }
-    },
-    {
-      "id": "en-attendant-godot-samuel-beckett-06b24d",
-      "metadata": {
-        "title": "En attendant Godot",
-        "author": "Samuel Beckett",
-        "premiere_year": 1953
-      },
-      "source_sha256": "06b24d2e5f334c7c36978ff48df9b5625deb1bba39ff3a5af77b08b31f4c264e",
-      "images": {
-        "thumbnail": {
-          "src": "./posters/thumbnail/en-attendant-godot-samuel-beckett-06b24d.jpg",
-          "width": 362,
-          "height": 512,
-          "bytes": 72711,
-          "sha256": "baa93b711ae23efb68daed74670e39846816d9c5eb361992e60a47758271e13a"
-        },
-        "texture": {
-          "src": "./posters/texture/en-attendant-godot-samuel-beckett-06b24d.jpg",
-          "width": 1448,
-          "height": 2048,
-          "bytes": 643077,
-          "sha256": "30d1ba113e69e2ae636c719a9726e7b63f845725bb17d22f8ca5837c330f9d0b"
-        },
-        "detail": {
-          "src": "./posters/detail/en-attendant-godot-samuel-beckett-06b24d.jpg",
-          "width": 2897,
-          "height": 4096,
-          "bytes": 1967398,
-          "sha256": "0a4678c599ce448c2f8f544d46018bb42d1f6d828f7276acd92269b06baf7ae9"
-        }
-      }
     }
   ]
 }

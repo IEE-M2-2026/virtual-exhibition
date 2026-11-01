@@ -33,7 +33,7 @@ def arguments():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source-dir', type=Path, default=ROOT / 'res/posters')
     parser.add_argument('--catalog', type=Path, default=ROOT / 'res/posters.json')
-    parser.add_argument('--output-dir', type=Path, default=ROOT / 'static',
+    parser.add_argument('--output-dir', type=Path, default=ROOT / 'docs',
                         help='Website root; writes posters/ and data/posters.json')
     parser.add_argument('--encoder', choices=('auto', 'mozjpeg', 'pillow'), default='auto')
     parser.add_argument('--cjpeg', type=Path, help='Explicit path to MozJPEG cjpeg')

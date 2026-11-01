@@ -1,6 +1,6 @@
 # Preparing posters for the website
 
-`tools/prepare_posters.py` reads `res/posters.json` and the originals in `res/posters/`. It writes three JPEG variants per poster and `static/data/posters.json`. It does not modify the originals or editorial catalogue.
+`tools/prepare_posters.py` reads `res/posters.json` and the originals in `res/posters/`. It writes three JPEG variants per poster and `docs/data/posters.json`. It does not modify the originals or editorial catalogue.
 
 ## Install and run
 
@@ -50,12 +50,12 @@ Each output poster contains:
 
 The manifest uses `schema_version: 2` and records generation settings. Each filename contains only the public ID and `.jpg`, for example `antigone-jean-anouilh-<checksum>.jpg`. Variants live in separate `posters/thumbnail/`, `posters/texture/` and `posters/detail/` directories.
 
-The source checksum is recalculated on every run. It changes when the original bytes change, not merely because the converter was run again. Renaming an original does not change it. Changing a title or author changes the slug. No random generation suffix is added. To invalidate cached images when encoder settings change without modifying an original, the future website should append a short prefix of the image's `sha256` as a query parameter.
+The source checksum is recalculated on every run. It changes when the original bytes change, not merely because the converter was run again. Renaming an original does not change it. Changing a title or author changes the slug. No random generation suffix is added. To invalidate cached images when encoder settings change without modifying an original, the gallery appends a short prefix of the image's `sha256` as a query parameter.
 
 The `src` paths are relative to the **website root**, not to `data/posters.json` or the JavaScript module:
 
 ```js
-// Called from static/index.html, including at /repository-name/ on Pages.
+// Called from docs/index.html, including at /repository-name/ on Pages.
 const siteRoot = new URL('./', document.baseURI);
 const catalog = await fetch(new URL('./data/posters.json', siteRoot)).then(r => r.json());
 const asset = catalog.posters[0].images.texture;
@@ -69,11 +69,11 @@ imageURL.searchParams.set('v', asset.sha256.slice(0, 8));
 2. Run the converter. It validates catalogue coverage, rejects missing files, duplicate entries and multi-page/frame inputs, and ignores hidden system files such as `.DS_Store`. Supported sources are PDF, PNG, JPEG, TIFF and WebP.
 3. Review the JPEGs and commit the new manifest with the images it references, including deletions from the previous iteration. Generated assets can be tracked for review, but every future site rebuild must rerun normalization before publishing.
 
-Each successful run replaces the entire `static/posters/` directory and `static/data/posters.json`: a clean slate with no files left from previous normalization runs, including old filenames containing personal data. `posters/` is exclusively generated output; never keep hand-authored files there. Other website files, including other files under `data/`, are preserved.
+Each successful run replaces the entire `docs/posters/` directory and `docs/data/posters.json`: a clean slate with no files left from previous normalization runs, including old filenames containing personal data. `posters/` is exclusively generated output; never keep hand-authored files there. Other website files, including other files under `data/`, are preserved.
 
 Conversions are staged before replacement. If a conversion fails, the previous output manifest and images remain intact, and the site build must stop without deploying. The old poster directory is removed after successful replacement. Symlink output directories are rejected. Concurrent runs against the same output directory and serving files during replacement are not supported; complete the offline build before deploying the whole site artifact.
 
-The future site build must install the pinned Python dependencies and selected encoder, run `prepare_posters.py`, assemble the interface and vendor assets, and publish only `static/`. The public manifest and asset paths must never contain original filenames or local student identity fields. This normalization does not edit any credits already visible inside the artwork.
+Before each site reconstruction, install the pinned Python dependencies and selected encoder, run `prepare_posters.py`, then publish only the complete `docs/` directory. The existing HTML, CSS and JavaScript need no bundler. The public manifest and asset paths must never contain original filenames or local student identity fields. This normalization does not edit any credits already visible inside the artwork.
 
 Re-running converts the whole collection; there is no incremental cache. To compare encoders without touching the website output:
 
@@ -84,7 +84,7 @@ Re-running converts the whole collection; there is no incremental cache. To comp
 
 ### Initial collection measurement
 
-The nine current posters were converted with MozJPEG 4.1.5 and Pillow 13.0.0, using pypdfium2 5.14.0, quality 88 and identical dimensions and 4:4:4 sampling:
+Historical measurement of the initial nine-poster collection, before removal of the *En attendant Godot* original: MozJPEG 4.1.5 and Pillow 13.0.0, using pypdfium2 5.14.0, quality 88 and identical dimensions and 4:4:4 sampling. The current gallery contains eight posters.
 
 | All nine posters | MozJPEG | Pillow |
 | --- | ---: | ---: |
@@ -101,7 +101,7 @@ Other options include `--source-dir`, `--catalog`, `--quality`, `--thumbnail-siz
 
 ```sh
 .venv/bin/python -m unittest discover -s tools -p 'test_*.py'
-.venv/bin/python -m http.server 8000 --directory static
+.venv/bin/python -m http.server 8000 --bind 127.0.0.1 --directory docs
 ```
 
-At this stage the HTTP server exposes the generated images and manifest; there is no exhibition entry page yet. Once the website exists, `static/` will be the complete artifact published by GitHub Pages.
+Open `http://127.0.0.1:8000/` to view the gallery. `docs/` is the complete directory published by GitHub Pages; the former `static/` output has been removed. See [the gallery guide](gallery.md) for deployment and interaction checks.

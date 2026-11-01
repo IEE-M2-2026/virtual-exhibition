@@ -1,0 +1,11 @@
+{
+  "name": "virtual-exhibition-checks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:gallery": "node test_gallery.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}

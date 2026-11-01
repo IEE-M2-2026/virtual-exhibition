@@ -1,6 +1,6 @@
 # Theatre posters — exhibition brief
 
-Status: initial proposal. This iteration delivers the brief and image preparation pipeline; the exhibition interface, collective composition and 3D environment are future work.
+Status: the 2D gallery and image preparation pipeline are implemented. The collective composition and 3D environment remain future work. The current visual reference is [the Paris 8 gallery mockup](img/Concept-Paris-8-theatre-poster%20exhibition-2.png).
 
 ## Purpose and visual direction
 
@@ -20,11 +20,11 @@ The **3D exhibition** evokes a repurposed industrial hall, following the atmosph
 
 ## Technical approach
 
-Use plain HTML, CSS and JavaScript ES modules with Three.js. No backend, database or runtime image conversion is required. Python runs at build time, locally or in CI, to prepare assets. GitHub Pages serves the finished `static/` directory through a future GitHub Actions workflow.
+Use plain HTML, CSS and JavaScript ES modules; reserve Three.js for the future hall. The current gallery has no runtime dependencies. No backend, database or runtime image conversion is required. Python runs at build time to prepare assets. GitHub Pages serves the complete `docs/` directory, using the repository's branch deployment option with `/docs` selected.
 
-Vendor a pinned Three.js release under `static/vendor/three/`, retaining its licence. Copy the required build modules and selected addons **with their transitive dependencies** from that same release; use a local import map. This keeps runtime requests on the site's own host. Static hosting alone does not require vendoring, but self-contained dependencies suit the exhibition's preservation goals. See the [Three.js installation guide](https://threejs.org/manual/pages/installation.html).
+Vendor a pinned Three.js release under `docs/vendor/three/`, retaining its licence. Copy the required build modules and selected addons **with their transitive dependencies** from that same release; use a local import map. This keeps runtime requests on the site's own host. Static hosting alone does not require vendoring, but self-contained dependencies suit the exhibition's preservation goals. See the [Three.js installation guide](https://threejs.org/manual/pages/installation.html).
 
-Use relative URLs throughout so the site works beneath a GitHub Pages repository prefix. Publish only `static/`; original PDFs, tools and documentation stay outside the deployed artifact. The [GitHub Pages custom workflow](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) supports publishing a selected directory.
+Use relative URLs throughout so the site works beneath a GitHub Pages repository prefix. Publish only `docs/`; original PDFs, tools and documentation stay outside the deployed artifact. GitHub documents the [branch and folder publishing configuration](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
 
 ## Repository structure
 
@@ -37,26 +37,26 @@ tools/
   prepare_posters.py           Offline conversion and manifest generation
   requirements.txt            Pinned Python dependencies
   test_prepare_posters.py      Pipeline regression checks
-static/                       Entire future deployment root
+docs/                         Complete deployment root
   data/posters.json            Generated web catalogue
   posters/thumbnail/*.jpg      Generated thumbnails
   posters/texture/*.jpg        Generated 3D textures
   posters/detail/*.jpg         Generated reading images
-  index.html                  Future entry point
-  css/                        Future interface styles
-  js/                         Future catalogue, composition, scene and navigation
+  index.html                  Gallery entry point
+  .nojekyll                   Serve the directory as plain static files
+  css/gallery.css             Responsive gallery and detail viewer
+  js/gallery.js               Catalogue loading, sorting and detail navigation
   models/                     Future GLB environment and associated assets
   vendor/three/               Future pinned Three.js modules and licence
-.github/workflows/            Future Pages deployment workflow
 ```
 
-Only the image pipeline and generated assets are implemented at this stage; future paths above are architectural reservations.
+The image pipeline, generated assets and 2D gallery are implemented. `models/` and `vendor/three/` remain architectural reservations. “La halle 3D” and “Le projet” are visible inactive links; the hall entry button is also inactive. The initial gallery order follows the editorial catalogue, with an optional alphabetical sort. Each poster opens a flat detail viewer with zoom, previous/next controls and an addressable hash. Escape closes the viewer and returns focus to the gallery.
 
 ## Public filenames and clean builds
 
 Normalized filenames must contain only the play title, its playwright when known, and a short checksum derived from the original file's bytes. Use an ASCII slug and a six-character SHA-256 prefix, extending it only on collision. Store each image size in its own directory. Recompute the checksum on every generation; unchanged originals produce unchanged checksums. Never copy original filenames, paths or private student metadata into public asset names, IDs or JSON. Public editorial fields are restricted to `title`, `author` and `premiere_year`. Keep the complete source catalogue under `res/`, outside the deployed site.
 
-Every site reconstruction must run normalization from a clean slate: replace all generated poster images and the public manifest, removing the previous iteration and any obsolete filenames. Stage and validate conversions first; a failed conversion must stop the build without deployment. The cleanup owns only `static/posters/` and `static/data/posters.json`, preserving originals and other website assets. The future Pages workflow must install the image toolchain, run this step on every build, then publish the completed `static/` artifact. Do not retain an archive of older normalized images in the deployment.
+Every site reconstruction must run normalization from a clean slate: replace all generated poster images and the public manifest, removing the previous iteration and any obsolete filenames. Stage and validate conversions first; a failed conversion must stop the build without deployment. The cleanup owns only `docs/posters/` and `docs/data/posters.json`, preserving originals and other website assets. Run this step before committing and publishing the completed `docs/` directory through GitHub Pages. Branch deployment serves these prebuilt files; it does not execute Python. Do not retain an archive of older normalized images in the deployment.
 
 When an encoder setting changes but the original does not, use an image-checksum query parameter to refresh browser caches without adding extra data to filenames. Visible credits printed inside the artworks are not changed by the normalization process.
 

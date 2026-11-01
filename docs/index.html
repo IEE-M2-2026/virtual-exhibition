@@ -1,1 +1,89 @@
-Hello!
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Affiches de théâtre — IEE Paris 8</title>
+  <link rel="stylesheet" href="./css/gallery.css">
+</head>
+<body>
+  <a class="skip-link" href="#les-affiches">Aller au contenu</a>
+
+  <header class="site-header">
+    <div class="brand">
+      <p class="wordmark">IEE</p>
+      <span class="brand-divider" aria-hidden="true"></span>
+      <p class="brand-lines">Institut d’études européennes<br>Paris 8</p>
+    </div>
+    <nav class="site-nav" aria-label="Navigation principale">
+      <a href="#les-affiches" aria-current="page">Les affiches</a>
+      <a role="link" aria-disabled="true" tabindex="0" title="Bientôt disponible">La halle 3D</a>
+      <a role="link" aria-disabled="true" tabindex="0" title="Bientôt disponible">Le projet</a>
+    </nav>
+  </header>
+
+  <main id="les-affiches" tabindex="-1">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">EXPOSITION COLLECTIVE · 2026</p>
+        <h1 id="hero-title">Affiches de théâtre</h1>
+        <p class="hero-subtitle">Un autre regard sur la scène.</p>
+      </div>
+      <div class="hero-actions">
+        <button type="button" class="hero-cta" disabled>
+          Entrer dans la halle 3D <span class="hero-cta-arrow" aria-hidden="true">↗</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="gallery" aria-labelledby="gallery-heading">
+      <h2 id="gallery-heading" class="visually-hidden">Galerie des affiches</h2>
+      <div class="gallery-toolbar">
+        <p id="poster-count" class="poster-count">Toutes les affiches</p>
+        <button type="button" id="sort-button" class="sort-button" disabled>Trier par titre ↓</button>
+      </div>
+      <p id="gallery-status" class="gallery-status" role="status">Chargement des affiches…</p>
+      <div id="gallery-error" class="gallery-error" role="alert" hidden>
+        <p id="gallery-error-message">Les affiches n’ont pas pu être chargées.</p>
+        <button type="button" id="retry-button" class="retry-button">Réessayer</button>
+      </div>
+      <ul id="poster-grid" class="poster-grid"></ul>
+      <noscript>
+        <p class="noscript-message">Activez JavaScript pour afficher les affiches de l’exposition.</p>
+      </noscript>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>IEE · Université Paris 8</p>
+    <p>Atelier infographie · 2026</p>
+  </footer>
+
+  <dialog id="poster-dialog" class="poster-dialog" aria-labelledby="detail-title">
+    <div class="dialog-shell">
+      <div class="dialog-toolbar">
+        <div class="dialog-nav">
+          <button type="button" id="previous-poster" aria-label="Affiche précédente">←</button>
+          <p id="detail-position" class="detail-position">—</p>
+          <button type="button" id="next-poster" aria-label="Affiche suivante">→</button>
+        </div>
+        <div class="dialog-actions">
+          <button type="button" id="zoom-button" aria-pressed="false">Agrandir</button>
+          <button type="button" id="close-dialog">Fermer ×</button>
+        </div>
+      </div>
+      <div id="detail-viewport" class="detail-viewport">
+        <img id="detail-image" alt="">
+        <p id="detail-status" role="status"></p>
+      </div>
+      <div class="dialog-metadata">
+        <h2 id="detail-title" class="detail-title"></h2>
+        <p id="detail-author" class="detail-author"></p>
+        <p id="detail-year" class="detail-year"></p>
+      </div>
+    </div>
+  </dialog>
+
+  <script type="module" src="./js/gallery.js"></script>
+</body>
+</html>

@@ -9,3 +9,4 @@ commit_with_llm_albert.sh
 .venv/
 __pycache__/
 *.py[cod]
+node_modules/
