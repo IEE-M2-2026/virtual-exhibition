@@ -2,17 +2,16 @@
 
 The gallery follows [the supplied mockup](img/Concept-Paris-8-theatre-poster%20exhibition-2.png): white page, IEE / Paris 8 header, five poster columns on wide screens, a responsive grid and restrained captions. “La halle 3D” and the hall entry action open the [first 3D visit](hall_3d.md). “Le projet” remains inactive. The 2D page does not load the 3D engine or model assets.
 
-The current source collection contains eight posters. The *En attendant Godot* original was removed in commit `77e67f3`; its stale catalogue entry and generated images have been removed as well. There is no fallback to an obsolete export.
+The source collection is listed in `res/posters.json`. The *En attendant Godot* original was removed in commit `77e67f3`; its stale catalogue entry and generated images have been removed as well. There is no fallback to an obsolete export.
 
 ## Build and preview
 
 ```sh
-.venv/bin/python tools/prepare_posters.py --encoder mozjpeg
-python3 tools/version_frontend.py
+./tools/rebuild.sh
 .venv/bin/python -m http.server 8000 --bind 127.0.0.1 --directory docs
 ```
 
-Open `http://127.0.0.1:8000/`. Install the Python dependencies first if needed, as described in [the pipeline guide](poster_pipeline.md). Every reconstruction regenerates and replaces the poster collection. The interface files are preserved. No JavaScript build step or runtime CDN is needed.
+Open `http://127.0.0.1:8000/`. See [the rebuild guide](rebuild.md) for prerequisites, catalogue checks and the optional complete Blender rebuild. Every reconstruction regenerates and replaces the poster collection. The interface files are preserved; Three.js is bundled locally without a runtime CDN.
 
 ## GitHub Pages
 

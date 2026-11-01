@@ -65,6 +65,8 @@ imageURL.searchParams.set('v', asset.sha256.slice(0, 8));
 
 ## Update the collection
 
+For the complete site, run `./tools/rebuild.sh`: see [the rebuild guide](rebuild.md). It first runs `prepare_posters.py --check-catalog` and stops if any source is missing from the manually maintained catalogue. Neither command modifies `res/posters.json`. The manual workflow remains:
+
 1. Add originals to `res/posters/` and add entries to `res/posters.json`. A `filename` alone is valid when nothing else is confirmed. Names must match exactly, including accents and spaces.
 2. Run the converter. It validates catalogue coverage, rejects missing files, duplicate entries and multi-page/frame inputs, and ignores hidden system files such as `.DS_Store`. Supported sources are PDF, PNG, JPEG, TIFF and WebP.
 3. Review the JPEGs and commit the new manifest with the images it references, including deletions from the previous iteration. Generated assets can be tracked for review, but every future site rebuild must rerun normalization before publishing.
@@ -84,7 +86,7 @@ Re-running converts the whole collection; there is no incremental cache. To comp
 
 ### Initial collection measurement
 
-Historical measurement of the initial nine-poster collection, before removal of the *En attendant Godot* original: MozJPEG 4.1.5 and Pillow 13.0.0, using pypdfium2 5.14.0, quality 88 and identical dimensions and 4:4:4 sampling. The current gallery contains eight posters.
+Historical measurement of the initial nine-poster collection, before removal of the *En attendant Godot* original: MozJPEG 4.1.5 and Pillow 13.0.0, using pypdfium2 5.14.0, quality 88 and identical dimensions and 4:4:4 sampling. The current collection is listed in `res/posters.json`.
 
 | All nine posters | MozJPEG | Pillow |
 | --- | ---: | ---: |

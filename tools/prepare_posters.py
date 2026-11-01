@@ -33,6 +33,8 @@ def arguments():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source-dir', type=Path, default=ROOT / 'res/posters')
     parser.add_argument('--catalog', type=Path, default=ROOT / 'res/posters.json')
+    parser.add_argument('--check-catalog', action='store_true',
+                        help='Validate catalogue coverage and exit without changing any files.')
     parser.add_argument('--output-dir', type=Path, default=ROOT / 'docs',
                         help='Website root; writes posters/ and data/posters.json')
     parser.add_argument('--encoder', choices=('auto', 'mozjpeg', 'pillow'), default='auto')
@@ -284,6 +286,10 @@ def prepare(args):
 def main():
     args = arguments()
     try:
+        if args.check_catalog:
+            entries = load_catalog(args.catalog, args.source_dir)
+            print(f'Catalogue OK: {len(entries)} originals, {len(entries)} entries.')
+            return 0
         prepare(args)
     except ImportError as error:
         print(f'Missing dependency: {error}. Run: python -m pip install -r tools/requirements.txt', file=sys.stderr)

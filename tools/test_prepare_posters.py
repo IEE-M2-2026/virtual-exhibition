@@ -189,6 +189,23 @@ class PosterPipelineTests(unittest.TestCase):
         self.write_catalog([{'filename': 'one.png'}, {'filename': 'one.png'}])
         self.assertIn('Duplicate catalogue filename', self.run_converter().stderr)
 
+    def test_catalog_check_is_read_only_and_reports_unlisted_originals(self):
+        with Image.new('RGB', (8, 8), 'white') as image:
+            image.save(self.sources / 'one.png')
+        self.write_catalog([{'filename': 'one.png', 'title': 'Confirmed'}])
+        original_catalog = self.catalog.read_bytes()
+        result = self.run_converter('--check-catalog')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('1 originals, 1 entries', result.stdout)
+        self.assertFalse(self.output.exists())
+        with Image.new('RGB', (8, 8), 'blue') as image:
+            image.save(self.sources / 'new poster.png')
+        result = self.run_converter('--check-catalog')
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('new poster.png', result.stderr)
+        self.assertFalse(self.output.exists())
+        self.assertEqual(self.catalog.read_bytes(), original_catalog)
+
 
 if __name__ == '__main__':
     unittest.main()
