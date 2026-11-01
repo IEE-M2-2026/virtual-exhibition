@@ -1,0 +1,278 @@
+{
+  "source": "SM_set_a.fbx",
+  "source_sha256": "348b95a20b94b16b3a1960b9dd5b1bc8667a42500e46e056080085b1c931f053",
+  "blender_version": "4.0.2",
+  "split_mode": "existing_objects",
+  "exports": [
+    {
+      "filename": "SM_set_a.fbx",
+      "object": "SM_set_a",
+      "type": "MESH",
+      "collision": false,
+      "vertices": 438,
+      "polygons": 396,
+      "triangles": 712,
+      "uv_layers": [
+        "UVChannel_1",
+        "UVChannel_2"
+      ],
+      "materials": [
+        "M_Garage_02"
+      ],
+      "world_bounds": [
+        [
+          -20.359243392944336,
+          -10.399999618530273,
+          0.09999790042638779
+        ],
+        [
+          20.369476318359375,
+          12.919483184814453,
+          11.361886024475098
+        ]
+      ],
+      "bytes": 43020,
+      "sha256": "0b3e6a30256a4dae9c9de45f2e3bbbea7584192decfc98b37cdd499cd0173dba"
+    },
+    {
+      "filename": "UCX_SM_set_a_1.fbx",
+      "object": "UCX_SM_set_a_1",
+      "type": "MESH",
+      "collision": true,
+      "vertices": 6,
+      "polygons": 2,
+      "triangles": 4,
+      "uv_layers": [
+        "UVChannel_1",
+        "UVChannel_2"
+      ],
+      "materials": [
+        "collision"
+      ],
+      "world_bounds": [
+        [
+          -20.0,
+          10.0,
+          0.1999979168176651
+        ],
+        [
+          -11.125654220581055,
+          12.685760498046875,
+          11.290596961975098
+        ]
+      ],
+      "bytes": 15740,
+      "sha256": "eda39403133be131ec4a5c276bd095a6b1f1be676d0011f49f9eb6e5241c63a4"
+    },
+    {
+      "filename": "UCX_SM_set_a_2.fbx",
+      "object": "UCX_SM_set_a_2",
+      "type": "MESH",
+      "collision": true,
+      "vertices": 14,
+      "polygons": 9,
+      "triangles": 12,
+      "uv_layers": [
+        "UVChannel_1",
+        "UVChannel_2"
+      ],
+      "materials": [
+        "collision"
+      ],
+      "world_bounds": [
+        [
+          -20.0,
+          -10.0,
+          0.1999979168176651
+        ],
+        [
+          20.0,
+          12.685758590698242,
+          0.20000161230564117
+        ]
+      ],
+      "bytes": 16172,
+      "sha256": "92ae305cb505d956460db1e66118e8b19a0bdbea9f7940dd6a7db66f154f7f31"
+    },
+    {
+      "filename": "UCX_SM_set_a_3.fbx",
+      "object": "UCX_SM_set_a_3",
+      "type": "MESH",
+      "collision": true,
+      "vertices": 12,
+      "polygons": 5,
+      "triangles": 10,
+      "uv_layers": [
+        "UVChannel_1",
+        "UVChannel_2"
+      ],
+      "materials": [
+        "collision"
+      ],
+      "world_bounds": [
+        [
+          -20.0,
+          -10.0,
+          0.19999836385250092
+        ],
+        [
+          -20.0,
+          10.000001907348633,
+          11.202062606811523
+        ]
+      ],
+      "bytes": 16092,
+      "sha256": "239478bf98a5bedd4f3f1dd61c2f50d3cc67c5681f6a96a356e4200da034ba29"
+    },
+    {
+      "filename": "UCX_SM_set_a_4.fbx",
+      "object": "UCX_SM_set_a_4",
+      "type": "MESH",
+      "collision": true,
+      "vertices": 4,
+      "polygons": 1,
+      "triangles": 2,
+      "uv_layers": [
+        "UVChannel_1",
+        "UVChannel_2"
+      ],
+      "materials": [
+        "collision"
+      ],
+      "world_bounds": [
+        [
+          -20.0,
+          -10.0,
+          0.20000161230564117
+        ],
+        [
+          20.0,
+          -9.999998092651367,
+          11.299991607666016
+        ]
+      ],
+      "bytes": 15628,
+      "sha256": "c1abe33e249b41bd6fa951c6207ad77ce94d75c572a1a2f2bd0d0e0745671bad"
+    },
+    {
+      "filename": "UCX_SM_set_a_5.fbx",
+      "object": "UCX_SM_set_a_5",
+      "type": "MESH",
+      "collision": true,
+      "vertices": 4,
+      "polygons": 1,
+      "triangles": 2,
+      "uv_layers": [
+        "UVChannel_1",
+        "UVChannel_2"
+      ],
+      "materials": [
+        "collision"
+      ],
+      "world_bounds": [
+        [
+          20.0,
+          -10.0,
+          0.19999836385250092
+        ],
+        [
+          20.0,
+          10.000001907348633,
+          11.324366569519043
+        ]
+      ],
+      "bytes": 15628,
+      "sha256": "8ed5a21a75fef49607b8b6068d9bb75ad6c688a9eb49c19a55c936d869637d63"
+    },
+    {
+      "filename": "UCX_SM_set_a_6.fbx",
+      "object": "UCX_SM_set_a_6",
+      "type": "MESH",
+      "collision": true,
+      "vertices": 14,
+      "polygons": 6,
+      "triangles": 12,
+      "uv_layers": [
+        "UVChannel_1",
+        "UVChannel_2"
+      ],
+      "materials": [
+        "collision"
+      ],
+      "world_bounds": [
+        [
+          -6.095826148986816,
+          10.0,
+          0.19999812543392181
+        ],
+        [
+          20.0,
+          11.418447494506836,
+          11.299538612365723
+        ]
+      ],
+      "bytes": 16236,
+      "sha256": "3d4aa90699ccc7be8987d1804d2eaece7d1d9a1029656b94139ea99452bc093c"
+    },
+    {
+      "filename": "UCX_SM_set_a_7.fbx",
+      "object": "UCX_SM_set_a_7",
+      "type": "MESH",
+      "collision": true,
+      "vertices": 4,
+      "polygons": 1,
+      "triangles": 2,
+      "uv_layers": [
+        "UVChannel_1",
+        "UVChannel_2"
+      ],
+      "materials": [
+        "collision"
+      ],
+      "world_bounds": [
+        [
+          -11.125654220581055,
+          10.503961563110352,
+          0.19999848306179047
+        ],
+        [
+          -3.2178850173950195,
+          10.503963470458984,
+          11.30216121673584
+        ]
+      ],
+      "bytes": 15724,
+      "sha256": "bae6575732c99f1c52c5cf38c7f07affd6b59b4d39d58be208b3bae0ff48685d"
+    },
+    {
+      "filename": "UCX_SM_set_a_8.fbx",
+      "object": "UCX_SM_set_a_8",
+      "type": "MESH",
+      "collision": true,
+      "vertices": 6,
+      "polygons": 2,
+      "triangles": 4,
+      "uv_layers": [
+        "UVChannel_1",
+        "UVChannel_2"
+      ],
+      "materials": [
+        "collision"
+      ],
+      "world_bounds": [
+        [
+          -5.003664016723633,
+          10.0,
+          0.1999984234571457
+        ],
+        [
+          -4.2215423583984375,
+          12.685760498046875,
+          11.290596961975098
+        ]
+      ],
+      "bytes": 15756,
+      "sha256": "c92b33fd1c9d8bc9706c228f4adf41b9ff31f06037bf07f6ac100561247073cb"
+    }
+  ]
+}
