@@ -2,6 +2,8 @@
 
 `tools/prepare_posters.py` reads `res/posters.json` and the originals in `res/posters/`. It writes three JPEG variants per poster and `docs/data/posters.json`. It does not modify the originals or editorial catalogue.
 
+For the standalone event mosaic, see [the event poster generator](event_poster.md): it reads the same originals and writes a complete image to `res/event_poster/`, independently of the website build.
+
 ## Install and run
 
 Use Python 3.11 or newer. From the repository root:
