@@ -46,6 +46,8 @@ class GarageAssetTests(unittest.TestCase):
 
     def test_manifest_checksums_and_generated_inventory(self):
         assets = self.manifest['parts'] + list(self.manifest['textures'].values())
+        lighting = self.manifest['lighting']
+        assets += [lighting['sky']['texture']] + lighting['probe']['faces']
         expected = {self.directory / 'manifest.json'}
         for asset in assets:
             path = ROOT / 'docs' / asset['src']
@@ -54,6 +56,24 @@ class GarageAssetTests(unittest.TestCase):
             self.assertEqual(len(data), asset['bytes'])
             self.assertEqual(hashlib.sha256(data).hexdigest(), asset['sha256'])
         self.assertEqual(expected, {p for p in self.directory.rglob('*') if p.is_file()})
+
+    def test_reflection_capture_contract(self):
+        lighting = self.manifest['lighting']
+        probe = lighting['probe']
+        self.assertEqual([face['face'] for face in probe['faces']], ['px', 'nx', 'py', 'ny', 'pz', 'nz'])
+        self.assertFalse(probe['includes_posters'])
+        self.assertEqual(lighting['sun']['intensity'], 7)
+        self.assertLess(lighting['fog']['density'], 0.01)
+        for low, point, high in zip(probe['box_min'], probe['position'], probe['box_max']):
+            self.assertLess(low, point)
+            self.assertLess(point, high)
+        for asset in [lighting['sky']['texture']] + probe['faces']:
+            data = (ROOT / 'docs' / asset['src']).read_bytes()
+            self.assertTrue(data.startswith(b'#?RADIANCE'))
+            self.assertIn(b'FORMAT=32-bit_rle_rgbe', data[:512])
+            size = probe['face_size']
+            dimensions = f'-Y {size} +X {size}' if 'face' in asset else '-Y 256 +X 512'
+            self.assertIn(dimensions.encode(), data[:512])
 
     def test_one_shared_surface_map_has_expected_channels_and_sizes(self):
         self.assertEqual(set(self.manifest['textures']), {'albedo', 'normal', 'surface', 'ao'})

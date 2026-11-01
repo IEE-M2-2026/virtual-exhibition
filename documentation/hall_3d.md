@@ -8,7 +8,7 @@ Blender 4.0.2 imports the five FBXs and exports five geometry-only GLBs, preserv
 
 The roof (`SM_set_c`) has a source object translation of approximately −9.589 m vertically. Its mesh vertices already describe the roof at its assembled elevation. Resetting this object's translation restores the roof to approximately 7.95–11.23 m; the other four parts retain their existing transforms. Blender's exporter converts Z-up to glTF Y-up. No blind scale fitting or independent recentering is applied to parts.
 
-All exported meshes share a **single `MeshStandardMaterial` instance** at runtime. No GLB contains an image, texture or material. The material receives four external texture objects once:
+All exported meshes share a **single `MeshStandardMaterial` instance** at runtime. No GLB contains an image, texture or material. The material receives four shared surface textures plus the filtered interior HDR environment:
 
 | Map | Resolution | Encoding | Role |
 | --- | --- | --- | --- |
@@ -31,17 +31,34 @@ The saved Blender material keeps albedo and AO separate too. Cycles computes its
 
 Bake controls: `--ao-size 512|1024|2048` per tile, `--ao-samples 16|32|64|128`, `--ao-distance 1.5` in metres, `--device CPU|METAL`. CPU is the portable default; Metal is available on this machine. Changing geometry or its assembled placement requires rebuilding the AO. This is static architectural contact shading, not dynamic occlusion from visitors or movable posters.
 
+## HDR sky, atmosphere and interior reflections
+
+The lighting reference is [the interactive exhibition concept](img/Concept-Interactive-Theatre-Poster-Exhibition-1.png). Editable settings live in `res/3d/garage/lighting.json`; rebuilding copies them into the public manifest, so Blender and Three.js use the same sun direction, HDR sky and capture volume.
+
+- Sun intensity is **7**, twice the previous 3.5. The hemisphere fill is 1.6, reduced from 2.1 to preserve contrast without losing architectural detail. ACES exposure stays at 1.
+- A locally generated **512 × 256 Radiance HDR gradient** blends a cool blue zenith into a bright horizon and warm ground. It drives Blender's world and the browser background/environment. It contains linear radiance above 1, rather than a tone-mapped JPEG with an HDR filename. No external sky service or downloaded third-party image is required.
+- `FogExp2` uses density **0.006** and a pale grey-blue colour: roughly 2.2% fog at 25 m and 5.6% at 40 m along the view axis. This is a subtle depth haze, not volumetric light shafts.
+- `tools/export_garage_environment.py` opens the assembled Blender project and renders **six 512² HDR faces**, with 64 Cycles samples and denoising, from Three-world position `[0, 3, 0]`. Only the five architectural meshes are present. Posters are excluded from the reflection capture.
+
+The HDR output retains scene-linear lighting (see [Blender's colour pipeline](https://developer.blender.org/docs/features/cycles/units/)). The camera conversion is explicit: Three `(x, y, z)` becomes Blender `(x, -z, y)`. External Three cube textures flip X when converted to PMREM; the capture cameras account for that convention. Face order is `px, nx, py, ny, pz, nz`. The browser tests sample each original HDR face off-centre through the actual GPU cube lookup to catch axis swaps or mirrored faces.
+
+Three prefilters the cubemap with PMREM for roughness-dependent reflections. The garage shader intersects each world-space reflection ray with the proxy box `[-20, 0.2, -10]` to `[20, 11.4, 10]`, then samples in the direction from the capture position to that intersection. This is **box-projected environment mapping**: reflections respond to the surface position and viewing direction instead of behaving like an infinitely distant sky. Zero ray components and small geometry protrusions are handled explicitly. Only the specular lookup receives this positional correction; diffuse environment lighting retains the standard irradiance calculation.
+
+This single rectangular proxy approximates the hall's envelope; interior pillars, stairs and the pitched roof are not exact reflection geometry. It is a static reflection capture, not ray tracing or screen-space reflections. No poster reflections are implemented. The geometry's existing roughness and metallic maps remain authoritative.
+
+The saved `.blend` includes the updated sky and sun, a capture-position marker and a projection-volume marker. Its camera is restored to the overview after capture. The sky is packed into the project; the six generated reflection faces are published beside the garage models.
+
 ## Loading strategy and measured sizes
 
 The model is already inexpensive: **11,764 source triangles**. Heavy geometry compression or a spatial streaming framework would add complexity for little benefit at this size. Keep the five small GLBs separate to open the space progressively, while treating textures as shared resources for the whole garage.
 
 1. Load the local Three.js module, manifests, primary shell (`a`), corrected roof (`c`) and albedo.
-2. Enable the visit immediately. Fetch the other three GLBs, normal map, packed surface map and AO atlas in the background.
+2. Enable the visit immediately. Fetch the other three GLBs, normal map, packed surface map, AO atlas, HDR sky and interior cubemap in the background.
 3. Load poster thumbnails in small batches. Upgrade only the selected or nearby visible poster to its 2048px variant. Dispose of the previous large poster texture when replacing it. Full-resolution detail images remain in the separate 2D reader.
 
 This is progressive loading of a small complete room, not distance-based unloading of architectural zones. It remains useful on a slow connection: a delayed secondary part does not block the opening of the visit. A missing secondary asset leaves a usable partial scene with an explicit notice. A failed initial load or unavailable WebGL offers retry and a link to the 2D gallery.
 
-Measured raw file sizes after the assembled AO bake with full padding:
+Measured raw file sizes including HDR lighting:
 
 | Asset group | Bytes | Approximate MiB |
 | --- | ---: | ---: |
@@ -50,11 +67,12 @@ Measured raw file sizes after the assembled AO bake with full padding:
 | Shared normal | 1,141,372 | 1.09 |
 | Shared packed surface | 325,568 | 0.31 |
 | Shared AO atlas | 1,454,536 | 1.39 |
-| Entire garage | 4,697,978 | 4.48 |
+| HDR sky + six reflection faces | 4,992,018 | 4.76 |
+| Entire garage with lighting | 9,689,996 | 9.24 |
 | Initial shell + roof + albedo | 1,154,342 | 1.10 |
-| Vendored Three.js + GLTFLoader | 796,720 | 0.76 |
+| Vendored Three.js + model/HDR loaders | 804,615 | 0.77 |
 
-These numbers exclude poster images and HTTP compression; they are not elapsed loading times. The original four PNG maps total about 58.6 MiB. The four runtime garage maps represent roughly 64 MiB of decoded RGBA8 GPU data with mipmaps, before posters, environment, shadows and render buffers. Texture sharing saves GPU allocations as well as requests. Pixel ratio is capped at 1.5; static views render only when something changes. A procedural reflection environment avoids an additional HDR download.
+These numbers exclude poster images and HTTP compression; they are not elapsed loading times. The original four PNG maps total about 58.6 MiB. The four runtime garage maps represent roughly 64 MiB of decoded RGBA8 GPU data with mipmaps, before posters, environment, shadows and render buffers. Texture sharing saves GPU allocations as well as requests. Pixel ratio is capped at 1.5; static views render only when something changes. A small procedural environment serves as a fallback while the HDR assets load. The temporary source cubemap is disposed after PMREM conversion. A missing reflection face leaves the visit usable with the sky environment and a partial-load notice.
 
 ## Visit and provisional poster placement
 
@@ -81,7 +99,7 @@ python3 -m http.server 8000 --bind 127.0.0.1 --directory docs
 
 Open `http://127.0.0.1:8000/halle.html`. The default Blender location is `/Applications/Blender.app/Contents/MacOS/Blender`; override with `--blender /path/to/blender`. `--texture-size` controls albedo, `--detail-texture-size` controls normal and packed surface maps. The full collection is rebuilt into staging directories and replaced on success. Originals and other website assets are preserved. The assembly, UV generation, bake and export are reproducible in `tools/export_garage.py`. The editable, compressed `res/3d/garage/baked/garage-assembled.blend` includes the five assembled meshes, a shared PBR material, packed textures, a preview camera and sun. It stays outside the published directory. Per-part PNGs, the full atlas and bake statistics are saved alongside it.
 
-Three.js **0.187.0** and esbuild are pinned in `tools/package-lock.json`. `vendor_three.mjs` builds a local ESM bundle plus GLTFLoader, including its helper imports, and preserves the Three.js licence. Only the 3D page loads these modules. There is no runtime CDN, server rendering or asset service. GitHub Pages continues to publish the complete `docs/` directory.
+Three.js **0.187.0** and esbuild are pinned in `tools/package-lock.json`. `vendor_three.mjs` builds a local ESM bundle plus GLTFLoader, HDRLoader and HDRCubeTextureLoader, including their helper imports, and preserves the Three.js licence. Only the 3D page loads these modules. There is no runtime CDN, server rendering or asset service. GitHub Pages continues to publish the complete `docs/` directory.
 
 ## Validation
 
@@ -96,4 +114,6 @@ The browser checks use real WebGL rendering in Chromium with SwiftShader for rep
 
 The Blender check re-bakes a small shell probe twice, first with the assembled neighbours and then with them hidden. It verifies that neighbouring parts actually darken the AO, checks the two UV sets and packed project textures, and does not save the modified scene. A separate constant-colour island probe checks that EXTEND fills the entire image, including the corners; asset checks verify the padded per-part PNGs match the published atlas. Browser screenshots include the same view with a neutral white AO atlas for comparison.
 
-Latest local verification: 12 Python asset/catalogue tests and both browser suites passed. The 256² Blender shell probe found 8,355 pixels whose occlusion increased by more than 0.05 with neighbouring parts present. The browser rendered all five AO-enabled meshes with one shared material and one request per garage texture; the neutral-AO comparison visibly changed architectural contact shading.
+Latest local verification: 13 Python asset/catalogue tests and both browser suites passed. The 256² Blender shell probe found 8,355 pixels whose occlusion increased by more than 0.05 with neighbouring parts present. The browser rendered all five AO-enabled meshes with one shared material and one request per garage texture; the neutral-AO comparison visibly changed architectural contact shading.
+
+Lighting verification also exercises the injected box-projection GLSL on the GPU against analytical ray/box intersections, including parallel rays and a point just outside the proxy. The measured maximum error was below 0.000001 world units; off-centre HDR cube samples matched their source face pixels. Capture and sky radiance both exceeded 1. A failed HDR face was checked separately: navigation remains available with the sky fallback.

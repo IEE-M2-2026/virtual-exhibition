@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { createGarageMaterial, setGarageSurface, setGarageAO } from './garage-material.js';
+import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
+import { HDRCubeTextureLoader } from 'three/addons/loaders/HDRCubeTextureLoader.js';
+import { createGarageMaterial, setGarageSurface, setGarageAO, setGarageProbe } from './garage-material.js';
 
 const siteRoot = new URL('./', document.baseURI);
 const canvas = document.querySelector('#hall-canvas');
@@ -28,6 +30,7 @@ let yaw = 0, pitch = 0, transition = null, dirty = true, ready = false, contextL
 let selected = -1, pointer = null, previousTime = 0, loadedParts = 0;
 let highTexture = null, highIndex = -1, requestedHigh = -1, highRequest = 0;
 let walkCheckTime = 0;
+let skyTarget, probeTarget, hdrSkyReady = false, probeReady = false;
 
 function assetURL(asset) {
   const url = new URL(asset.src, siteRoot);
@@ -66,10 +69,13 @@ function configureTexture(texture, color = false, gltf = false) {
 }
 
 function createLighting() {
+  const settings = manifest.lighting;
   scene.background = new THREE.Color(0xb8c7d5);
-  scene.add(new THREE.HemisphereLight(0xdceaff, 0x8a7964, 2.1));
-  const sun = new THREE.DirectionalLight(0xfff1d9, 3.5);
-  sun.position.set(4, 17, 12);
+  scene.fog = new THREE.FogExp2(settings.fog.color, settings.fog.density);
+  renderer.toneMappingExposure = settings.exposure;
+  scene.add(new THREE.HemisphereLight(settings.ambient.sky, settings.ambient.ground, settings.ambient.intensity));
+  const sun = new THREE.DirectionalLight(settings.sun.color, settings.sun.intensity);
+  sun.position.fromArray(settings.sun.position);
   sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048);
   Object.assign(sun.shadow.camera, { left: -24, right: 24, top: 18, bottom: -18, near: 0.5, far: 65 });
@@ -77,7 +83,7 @@ function createLighting() {
   sun.shadow.bias = -0.0002;
   sun.target.position.set(0, 0, 0);
   scene.add(sun, sun.target);
-  // A small procedural sky environment supplies reflections without an HDR download.
+  // Lightweight fallback while the HDR sky and interior capture stream in.
   const environment = new THREE.Scene();
   environment.background = new THREE.Color(0xc6d5e5);
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshBasicMaterial({ color: 0x827c72, side: THREE.DoubleSide }));
@@ -85,12 +91,40 @@ function createLighting() {
   ground.position.y = -8;
   environment.add(ground);
   const generator = new THREE.PMREMGenerator(renderer);
-  const target = generator.fromScene(environment, 0.04, 0.1, 100);
-  scene.environment = target.texture;
-  scene.environmentIntensity = 0.65;
+  skyTarget = generator.fromScene(environment, 0.04, 0.1, 100);
+  scene.environment = skyTarget.texture;
+  scene.environmentIntensity = settings.sky.intensity;
   generator.dispose();
   ground.geometry.dispose();
   ground.material.dispose();
+}
+
+async function loadHDRSky() {
+  const texture = await new HDRLoader().loadAsync(assetURL(manifest.lighting.sky.texture));
+  texture.mapping = THREE.EquirectangularReflectionMapping;
+  const generator = new THREE.PMREMGenerator(renderer);
+  const next = generator.fromEquirectangular(texture);
+  generator.dispose();
+  scene.background = texture;
+  scene.backgroundIntensity = manifest.lighting.sky.intensity;
+  scene.environment = next.texture;
+  skyTarget.dispose();
+  skyTarget = next;
+  hdrSkyReady = true;
+  dirty = true;
+}
+
+async function loadReflectionProbe() {
+  const settings = manifest.lighting.probe;
+  const cube = await new HDRCubeTextureLoader().loadAsync(settings.faces.map(assetURL));
+  const generator = new THREE.PMREMGenerator(renderer);
+  probeTarget = generator.fromCubemap(cube);
+  generator.dispose();
+  cube.dispose();
+  for (const face of cube.images) face.dispose();
+  setGarageProbe(garageMaterial, probeTarget.texture, settings);
+  probeReady = true;
+  dirty = true;
 }
 
 async function loadPart(part) {
@@ -353,7 +387,6 @@ async function start() {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(68, 1, 0.08, 120);
-  createLighting();
   const resize = new ResizeObserver(() => {
     const width = canvas.clientWidth, height = canvas.clientHeight;
     if (!width || !height) return;
@@ -367,6 +400,7 @@ async function start() {
   const [garage, catalog] = await Promise.all([fetchJSON('./models/garage/manifest.json'), fetchJSON('./data/posters.json')]);
   if (garage.schema_version !== 2 || catalog.schema_version !== 2) throw new Error('Unsupported manifest');
   manifest = garage;
+  createLighting();
   moveTo(new THREE.Vector3(...manifest.overview.position), new THREE.Vector3(...manifest.overview.target), true);
   garageMaterial = createGarageMaterial();
   loadingLabel.textContent = 'Ouverture du garage…';
@@ -398,6 +432,8 @@ async function start() {
   notice.textContent = 'Vous pouvez commencer la visite. Les détails du lieu arrivent…';
   const remaining = manifest.parts.filter((part) => manifest.remaining_parts.includes(part.id));
   const results = await Promise.allSettled([
+    loadHDRSky(),
+    loadReflectionProbe(),
     ...remaining.map(loadPart),
     textureLoader.loadAsync(assetURL(manifest.textures.normal)).then((texture) => {
       garageMaterial.normalMap = configureTexture(texture, false, true);
@@ -434,6 +470,8 @@ export function getDiagnostics() {
     sharedSurface: Boolean(garageMaterial?.roughnessMap && garageMaterial.roughnessMap === garageMaterial.metalnessMap),
     aoChannel: garageMaterial?.aoMap?.channel,
     aoMeshes: garageMeshes.filter((mesh) => mesh.geometry.hasAttribute('uv1') && mesh.material.aoMap === garageMaterial.aoMap).length,
+    hdrSky: hdrSkyReady, boxProjectedProbe: probeReady && garageMaterial?.defines?.GARAGE_BOX_PROJECTION === 1,
+    sunIntensity: manifest?.lighting.sun.intensity, fogDensity: scene?.fog?.density,
     highResolutionPosterTextures: highTexture ? 1 : 0,
     selected, camera: camera?.position.toArray(), triangles: renderer?.info.render.triangles,
     drawCalls: renderer?.info.render.calls, gpuTextures: renderer?.info.memory.textures,

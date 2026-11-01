@@ -72,6 +72,12 @@ def main():
         with Image.open(project / 'ao-atlas.png') as baked:
             baked.convert('RGB').save(assets / 'ao.webp', 'WEBP', lossless=True, method=6)
         textures = {name: file_info(assets / f'{name}.webp') for name in ('albedo', 'normal', 'surface', 'ao')}
+        subprocess.run([args.blender, '--background', '--factory-startup', '--python-exit-code', '1',
+                        '--python', str(ROOT / 'tools/export_garage_environment.py'), '--',
+                        '--output-dir', str(assets), '--project', str(project / 'garage-assembled.blend'),
+                        '--device', args.device], check=True)
+        lighting = json.loads((assets / 'lighting.json').read_text())
+        (assets / 'lighting.json').unlink()
         manifest = {
             'schema_version': 2, 'credit': 'TH-Studio',
             'credit_url': 'https://www.cgtrader.com/designers/th-studio',
@@ -80,6 +86,7 @@ def main():
             'ao': {'size': [args.ao_size * 3, args.ao_size * 2], 'uv_channel': 1,
                    'distance_metres': args.ao_distance, 'samples': args.ao_samples},
             'parts': parts, 'textures': textures,
+            'lighting': lighting,
             'initial_parts': ['a', 'c'], 'remaining_parts': ['b', 'd', 'e'],
             'floor_y': 0.2, 'walk_bounds': {'x': [-17.5, 17.5], 'z': [-7.8, 7.8]},
             'overview': {'position': [16, 2.1, 0], 'target': [-8, 2.0, 0]},
@@ -105,7 +112,8 @@ def main():
             for current, old in reversed(moved):
                 os.replace(old, current)
             raise
-    total = sum(p['bytes'] for p in parts) + sum(t['bytes'] for t in textures.values())
+    total = (sum(p['bytes'] for p in parts) + sum(t['bytes'] for t in textures.values())
+             + lighting['sky']['texture']['bytes'] + sum(face['bytes'] for face in lighting['probe']['faces']))
     print(f'Garage: {sum(p["triangles"] for p in parts):,} triangles, {len(parts)} GLBs, 4 shared textures, {total / 1024**2:.2f} MiB')
     print(destination / 'manifest.json')
 

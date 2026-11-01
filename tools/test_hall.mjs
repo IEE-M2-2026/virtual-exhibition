@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { dirname, extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium, expect } from '@playwright/test';
+import { checkHallLighting } from './check_hall_lighting.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../docs');
 const catalog = JSON.parse(await readFile(join(root, 'data/posters.json'), 'utf8'));
@@ -48,8 +49,13 @@ try {
   assert.equal(stats.sharedSurface, true);
   assert.equal(stats.aoChannel, 1);
   assert.equal(stats.aoMeshes, 5);
+  assert.equal(stats.hdrSky, true);
+  assert.equal(stats.boxProjectedProbe, true);
+  assert.equal(stats.sunIntensity, 7);
+  assert.equal(stats.fogDensity, 0.006);
   assert(stats.triangles > 10000, 'Real garage geometry rendered');
-  for (const texture of ['albedo.webp', 'normal.webp', 'surface.webp', 'ao.webp']) {
+  for (const texture of ['albedo.webp', 'normal.webp', 'surface.webp', 'ao.webp', 'sky.hdr',
+    ...['px', 'nx', 'py', 'ny', 'pz', 'nz'].map((face) => `hall-${face}.hdr`)]) {
     assert.equal(requests.filter((url) => new URL(url).pathname.endsWith(texture)).length, 1, `One shared request for ${texture}`);
   }
   assert(requests.every((url) => url.startsWith(base)), 'All runtime assets are hosted under the repository prefix');
@@ -109,6 +115,20 @@ try {
   release();
   await expect(page.locator('#hall-stage')).toHaveAttribute('data-state', 'complete', { timeout: 30000 });
   await page.unroute('**/garage-e.glb?*');
+  await checkHallLighting(page);
+  assert.deepEqual(exceptions, []);
+  assert.deepEqual(errors, []);
+
+  // A failed reflection face keeps the visit usable with the HDR sky fallback.
+  const partial = await context.newPage();
+  await partial.route('**/hall-px.hdr?*', (route) => route.abort());
+  await partial.goto(`${base}halle.html`);
+  await expect(partial.locator('#hall-stage')).toHaveAttribute('data-state', 'partial', { timeout: 45000 });
+  const partialStats = await partial.evaluate(async () => (await import('./js/hall.js')).getDiagnostics());
+  assert.equal(partialStats.hdrSky, true);
+  assert.equal(partialStats.boxProjectedProbe, false);
+  await expect(partial.locator('#hall-next')).toBeEnabled();
+  await partial.close();
 
   const fallback = await context.newPage();
   await fallback.addInitScript(() => {

@@ -10,6 +10,8 @@ await mkdir(new URL('addons/loaders/', target), { recursive: true });
 for (const [input, output] of [
   ['build/three.module.js', 'build/three.module.min.js'],
   ['examples/jsm/loaders/GLTFLoader.js', 'addons/loaders/GLTFLoader.js'],
+  ['examples/jsm/loaders/HDRLoader.js', 'addons/loaders/HDRLoader.js'],
+  ['examples/jsm/loaders/HDRCubeTextureLoader.js', 'addons/loaders/HDRCubeTextureLoader.js'],
 ]) {
   await build({
     entryPoints: [fileURLToPath(new URL(input, source))],
@@ -20,4 +22,4 @@ for (const [input, output] of [
 }
 await copyFile(new URL('LICENSE', source), new URL('LICENSE', target));
 await writeFile(new URL('version.json', target), JSON.stringify({ package: 'three', version: metadata.version }, null, 2) + '\n');
-console.log(`Vendored Three.js ${metadata.version} and GLTFLoader with its bundled helper dependencies.`);
+console.log(`Vendored Three.js ${metadata.version}, GLTFLoader and HDR loaders with their helper dependencies.`);
