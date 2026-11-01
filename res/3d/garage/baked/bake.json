@@ -1,0 +1,52 @@
+{
+  "tile_size": 1024,
+  "atlas_size": [
+    3072,
+    2048
+  ],
+  "samples": 64,
+  "distance_metres": 1.5,
+  "device": "METAL",
+  "all_parts_occlude": true,
+  "uv_channel": 1,
+  "parts": [
+    {
+      "part": "a",
+      "covered_pixels": 640411,
+      "min": 0.0,
+      "mean": 0.7789734601974487,
+      "occluded_fraction": 0.3640989926781395
+    },
+    {
+      "part": "b",
+      "covered_pixels": 695325,
+      "min": 0.0,
+      "mean": 0.5534406900405884,
+      "occluded_fraction": 0.7620235141840147
+    },
+    {
+      "part": "c",
+      "covered_pixels": 43299,
+      "min": 0.0,
+      "mean": 0.4433381259441376,
+      "occluded_fraction": 0.902722926626481
+    },
+    {
+      "part": "d",
+      "covered_pixels": 76506,
+      "min": 0.0,
+      "mean": 0.6187195777893066,
+      "occluded_fraction": 0.7876767835202467
+    },
+    {
+      "part": "e",
+      "covered_pixels": 85261,
+      "min": 0.0,
+      "mean": 0.49891799688339233,
+      "occluded_fraction": 0.8448645922520261
+    }
+  ],
+  "padding": "EXTEND to tile edges; nearest adjacent edge in unused tile",
+  "margin_pixels": 2048,
+  "seconds": 38.57
+}

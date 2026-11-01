@@ -32,6 +32,11 @@ class GarageAssetTests(unittest.TestCase):
             for mesh in gltf['meshes']:
                 for primitive in mesh['primitives']:
                     self.assertIn('TEXCOORD_0', primitive['attributes'])
+                    self.assertIn('TEXCOORD_1', primitive['attributes'])
+                    uv = gltf['accessors'][primitive['attributes']['TEXCOORD_1']]
+                    if 'min' in uv:
+                        self.assertGreaterEqual(min(uv['min']), 0)
+                        self.assertLessEqual(max(uv['max']), 1)
                     self.assertIn('NORMAL', primitive['attributes'])
                     total_triangles += gltf['accessors'][primitive['indices']]['count'] // 3
         self.assertEqual(total_triangles, sum(part['triangles'] for part in self.manifest['parts']))
@@ -51,11 +56,29 @@ class GarageAssetTests(unittest.TestCase):
         self.assertEqual(expected, {p for p in self.directory.rglob('*') if p.is_file()})
 
     def test_one_shared_surface_map_has_expected_channels_and_sizes(self):
-        self.assertEqual(set(self.manifest['textures']), {'albedo', 'normal', 'surface'})
+        self.assertEqual(set(self.manifest['textures']), {'albedo', 'normal', 'surface', 'ao'})
         for name, asset in self.manifest['textures'].items():
             with Image.open(ROOT / 'docs' / asset['src']) as image:
                 size = self.manifest['texture_size'] if name == 'albedo' else self.manifest['detail_texture_size']
-                self.assertEqual(image.size, (size, size))
+                expected_size = tuple(self.manifest['ao']['size']) if name == 'ao' else (size, size)
+                self.assertEqual(image.size, expected_size)
+                if name == 'ao':
+                    self.assertLess(image.getchannel('R').getextrema()[0], 200)
+                    self.assertEqual(image.getchannel('R').getextrema()[1], 255)
+                    self.assertEqual(image.getchannel('R').tobytes(), image.getchannel('G').tobytes())
+                    self.assertEqual(image.getchannel('R').tobytes(), image.getchannel('B').tobytes())
+                    tile = image.width // 3
+                    for index, part in enumerate('abcde'):
+                        x, y = (index % 3) * tile, (1 - index // 3) * tile
+                        with Image.open(ROOT / f'res/3d/garage/baked/ao-{part}.png') as source:
+                            self.assertEqual(image.crop((x, y, x + tile, y + tile)).tobytes(),
+                                             source.convert('RGB').tobytes())
+                    # The unused upper-right tile extends its left/bottom neighbours.
+                    for x in (0, tile // 3, tile - 1):
+                        for y in (0, tile // 3, tile - 1):
+                            expected = (image.getpixel((2 * tile - 1, y)) if x <= tile - 1 - y
+                                        else image.getpixel((2 * tile + x, tile)))
+                            self.assertEqual(image.getpixel((2 * tile + x, y)), expected)
                 if name == 'surface':
                     self.assertEqual(image.getchannel('R').getextrema(), (255, 255))
                     self.assertNotEqual(image.getchannel('G').getextrema()[0], image.getchannel('G').getextrema()[1])

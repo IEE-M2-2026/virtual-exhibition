@@ -1,16 +1,25 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "credit": "TH-Studio",
   "credit_url": "https://www.cgtrader.com/designers/th-studio",
   "texture_size": 2048,
   "detail_texture_size": 1024,
   "normal_source_convention": "opengl",
+  "ao": {
+    "size": [
+      3072,
+      2048
+    ],
+    "uv_channel": 1,
+    "distance_metres": 1.5,
+    "samples": 64
+  },
   "parts": [
     {
       "id": "a",
       "src": "./models/garage/garage-a.glb",
-      "bytes": 45284,
-      "sha256": "e235cc02dc58d4215dd3aa3d758f9a7eb9a61504121a1f845a28e49b83a91bfd",
+      "bytes": 53396,
+      "sha256": "ec73e6061425a4dfcdbf0909aaffdaf4ee1aa634a9103a7e2fb9b9ff5b65c0e3",
       "source_sha256": "348b95a20b94b16b3a1960b9dd5b1bc8667a42500e46e056080085b1c931f053",
       "triangles": 712,
       "bounds": [
@@ -29,8 +38,8 @@
     {
       "id": "b",
       "src": "./models/garage/garage-b.glb",
-      "bytes": 19156,
-      "sha256": "3d8cb8661681e2b4bf28bc3ed5cad4026dbd272985eb927d783d116d852a9f48",
+      "bytes": 23384,
+      "sha256": "5f91bd21a5c65390695662b0224f0e6f778ac185b34d5ada24673d25b6d162b7",
       "source_sha256": "1a0f0ff154144bd518624868c6492adffcb6c7cfc96f3314aefed11fa448de5e",
       "triangles": 304,
       "bounds": [
@@ -49,8 +58,8 @@
     {
       "id": "c",
       "src": "./models/garage/garage-c.glb",
-      "bytes": 183060,
-      "sha256": "8a039ae04fb93fa60ed6446d28c5b660ccea1c10faa9f7fc3d26f25d7891e175",
+      "bytes": 224520,
+      "sha256": "1204b99b5ba136b2fba63eb52f775969c819c5871278d77af5a788577678cbef",
       "source_sha256": "fc1e1c5829edc6ff8d4a554819f2c00d1e30d8252770c1aa2ac16bf37c064511",
       "triangles": 2798,
       "bounds": [
@@ -69,8 +78,8 @@
     {
       "id": "d",
       "src": "./models/garage/garage-d.glb",
-      "bytes": 128136,
-      "sha256": "88fd20a723b199d23d66b8306995bfe84f42d796e1fec5af4c423f5ff2020a9b",
+      "bytes": 160160,
+      "sha256": "30dbc316e20322093661579b2720dd6bb82570466dab6c69d8e11c1efb8890f7",
       "source_sha256": "f94af720428523125545abf1c0644bb9b109819caec5e693673135cb270a4203",
       "triangles": 1964,
       "bounds": [
@@ -89,8 +98,8 @@
     {
       "id": "e",
       "src": "./models/garage/garage-e.glb",
-      "bytes": 305388,
-      "sha256": "3d4158157fd95f66bc4a1972f89f6f75c04da6ae55f663392a582390fbf158fb",
+      "bytes": 438616,
+      "sha256": "58bf5b4d8ecb971638b8b1eb023765a852923ec3fbf550ab992790b62b4af8f1",
       "source_sha256": "91ea4efcd2a8c388580f18be15a604c46774cc24c1525fa2038545b481300f7b",
       "triangles": 5986,
       "bounds": [
@@ -122,6 +131,11 @@
       "src": "./models/garage/surface.webp",
       "bytes": 325568,
       "sha256": "89495f8a318392b16cdf5d606c6fdee518360dbf9d64086122e16c6f82498d93"
+    },
+    "ao": {
+      "src": "./models/garage/ao.webp",
+      "bytes": 1454536,
+      "sha256": "bc68a497ef28d8e8d048064c0b2108eb898c292d49927197d044aeca6bb6f84e"
     }
   },
   "initial_parts": [

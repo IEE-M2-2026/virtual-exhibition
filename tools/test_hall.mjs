@@ -46,13 +46,25 @@ try {
   assert.equal(stats.posters, catalog.posters.length);
   assert.equal(stats.garageMaterials, 1);
   assert.equal(stats.sharedSurface, true);
+  assert.equal(stats.aoChannel, 1);
+  assert.equal(stats.aoMeshes, 5);
   assert(stats.triangles > 10000, 'Real garage geometry rendered');
-  for (const texture of ['albedo.webp', 'normal.webp', 'surface.webp']) {
+  for (const texture of ['albedo.webp', 'normal.webp', 'surface.webp', 'ao.webp']) {
     assert.equal(requests.filter((url) => new URL(url).pathname.endsWith(texture)).length, 1, `One shared request for ${texture}`);
   }
   assert(requests.every((url) => url.startsWith(base)), 'All runtime assets are hosted under the repository prefix');
   assert(!requests.some((url) => url.includes('/posters/detail/')), 'No full-resolution reading images in 3D');
   await page.screenshot({ path: join(artifacts, 'overview.png'), fullPage: true });
+  // Same scene/camera with a neutral AO texture for visual comparison.
+  const neutralAO = await context.newPage();
+  await neutralAO.route('**/ao.webp?*', (route) => route.fulfill({
+    contentType: 'image/png',
+    body: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4//8/AAX+Av4N70a4AAAAAElFTkSuQmCC', 'base64'),
+  }));
+  await neutralAO.goto(`${base}halle.html`);
+  await expect(neutralAO.locator('#hall-stage')).toHaveAttribute('data-state', 'complete', { timeout: 45000 });
+  await neutralAO.screenshot({ path: join(artifacts, 'overview-without-ao.png'), fullPage: true });
+  await neutralAO.close();
   await page.locator('#hall-next').click();
   await expect(page.locator('#hall-title')).toHaveText(catalog.posters[0].metadata.title);
   await expect(page.locator('#hall-read')).toHaveAttribute('href', `./index.html#poster=${catalog.posters[0].id}`);

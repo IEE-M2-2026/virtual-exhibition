@@ -4,43 +4,57 @@ The first visit is implemented in `docs/halle.html`, linked from the 2D gallery.
 
 ## Assembly
 
-Blender 4.0.2 imports the five FBXs and exports five geometry-only GLBs, preserving the existing common coordinate system and first UV layer. The scene is approximately 40 × 23 × 11 metres. Source collision objects (`UCX_*`) and the unused second/lightmap UV layer are omitted from the visible export.
+Blender 4.0.2 imports the five FBXs and exports five geometry-only GLBs, preserving the existing common coordinate system and first UV layer. All five meshes are assembled in a single scene before baking. The scene is approximately 40 × 23 × 11 metres. Source collision objects (`UCX_*`) are omitted. The supplied second UV layer is replaced with a non-overlapping AO layout: one source part contains UVs outside the unit square. Both surface UVs and AO UVs are exported.
 
 The roof (`SM_set_c`) has a source object translation of approximately −9.589 m vertically. Its mesh vertices already describe the roof at its assembled elevation. Resetting this object's translation restores the roof to approximately 7.95–11.23 m; the other four parts retain their existing transforms. Blender's exporter converts Z-up to glTF Y-up. No blind scale fitting or independent recentering is applied to parts.
 
-All exported meshes share a **single `MeshStandardMaterial` instance** at runtime. No GLB contains an image, texture or material. The material receives three external texture objects once:
+All exported meshes share a **single `MeshStandardMaterial` instance** at runtime. No GLB contains an image, texture or material. The material receives four external texture objects once:
 
 | Map | Resolution | Encoding | Role |
 | --- | --- | --- | --- |
 | `albedo.webp` | 2048² | WebP quality 90 | sRGB colour |
 | `normal.webp` | 1024² | Lossless WebP | Linear normal data |
-| `surface.webp` | 1024² | Lossless WebP | Green: roughness; blue: metallic; red: white |
+| `surface.webp` | 1024² | Lossless WebP | UV0: green roughness, blue metallic, red unused/white |
+| `ao.webp` | 3072 × 2048 | Lossless WebP | UV1: assembled ambient occlusion, red channel |
 
-The roughness and metalness slots reference the **same texture object**, rather than separately decoding an identical URL. There is no supplied ambient-occlusion map, so the red channel is not presented as baked AO. Source normal-map handedness is not documented: the default preserves the source green channel (OpenGL interpretation); `--normal-y directx` explicitly flips it when required. The first visual review used the preserving default. External maps use `flipY=false` for glTF UVs, per the [Three.js GLTFLoader documentation](https://threejs.org/docs/pages/GLTFLoader).
+The roughness and metalness slots reference the **same texture object**, rather than separately decoding an identical URL. The contextual AO uses a separate UV layout and texture: packing it into the red channel of the repeating surface atlas would apply contact shadows to unrelated surfaces. Source normal-map handedness is not documented: the default preserves the source green channel (OpenGL interpretation); `--normal-y directx` explicitly flips it when required. The first visual review used the preserving default. External maps use `flipY=false` for glTF UVs, per the [Three.js GLTFLoader documentation](https://threejs.org/docs/pages/GLTFLoader).
+
+## Assembled ambient occlusion and shader
+
+`prepare_garage.py` bakes every mesh while **all five visible meshes remain in the same Cycles scene**. Collision proxies and movable exhibition panels are excluded. The AO node uses a 1.5 m reach, 64 rays and `only_local=False`; its scalar output is baked through Emission, without colour or lighting baked in. See the [Blender AO node reference](https://docs.blender.org/manual/en/4.2/render/shader_nodes/input/ao.html). The roof correction is applied before baking.
+
+Smart UV projection creates a dedicated layout per part, retaining four-pixel island spacing and a 16px outer gutter. Blender EXTEND padding is set to twice the tile width (2048px at the default resolution), enough to fill every gap and outer gutter: island edge values propagate until they meet, instead of averaging against white at lower mip levels. The UV layout and island spacing are unchanged. Five 1024² tiles form a shared 3 × 2 atlas; the unused sixth tile extends the nearest adjacent populated edge too. Coarse mip levels can still mix neighbouring islands, but no artificial white background is introduced. UV0 retains the original colour/normal/surface layout; UV1 addresses the AO atlas. The geometry remains five separate, progressively loaded GLBs, with a single material and a single copy of every texture on the GPU. Per-part PNGs are inspection outputs, not additional downloads.
+
+`docs/js/garage-material.js` customizes Three's standard PBR shader to sample the shared roughness/metalness map once: G controls roughness, B controls metallic response. Colour is decoded from sRGB; all numerical maps use linear data. Three's AO lighting code attenuates indirect diffuse and applies roughness-aware specular occlusion to environment reflections. It does not multiply the final image or the albedo, and it does not suppress direct sunlight. Normal mapping, direct shadows, tone mapping and standard metallic/dielectric behaviour are retained. This specialization is tied to the pinned Three.js release; browser checks exercise shader compilation.
+
+The saved Blender material keeps albedo and AO separate too. Cycles computes its own light transport in a rendered preview, so the baked AO node is provided for inspection and web use, without multiplying colour and double-darkening the Blender render. The Blender preview and browser use different lighting models and are not pixel-identical.
+
+Bake controls: `--ao-size 512|1024|2048` per tile, `--ao-samples 16|32|64|128`, `--ao-distance 1.5` in metres, `--device CPU|METAL`. CPU is the portable default; Metal is available on this machine. Changing geometry or its assembled placement requires rebuilding the AO. This is static architectural contact shading, not dynamic occlusion from visitors or movable posters.
 
 ## Loading strategy and measured sizes
 
 The model is already inexpensive: **11,764 source triangles**. Heavy geometry compression or a spatial streaming framework would add complexity for little benefit at this size. Keep the five small GLBs separate to open the space progressively, while treating textures as shared resources for the whole garage.
 
 1. Load the local Three.js module, manifests, primary shell (`a`), corrected roof (`c`) and albedo.
-2. Enable the visit immediately. Fetch the other three GLBs, normal map and packed surface map in the background.
+2. Enable the visit immediately. Fetch the other three GLBs, normal map, packed surface map and AO atlas in the background.
 3. Load poster thumbnails in small batches. Upgrade only the selected or nearby visible poster to its 2048px variant. Dispose of the previous large poster texture when replacing it. Full-resolution detail images remain in the separate 2D reader.
 
 This is progressive loading of a small complete room, not distance-based unloading of architectural zones. It remains useful on a slow connection: a delayed secondary part does not block the opening of the visit. A missing secondary asset leaves a usable partial scene with an explicit notice. A failed initial load or unavailable WebGL offers retry and a link to the 2D gallery.
 
-Measured raw file sizes for the first export:
+Measured raw file sizes after the assembled AO bake with full padding:
 
 | Asset group | Bytes | Approximate MiB |
 | --- | ---: | ---: |
-| Five GLBs together | 681,024 | 0.65 |
+| Five GLBs together | 900,076 | 0.86 |
 | Shared albedo | 876,426 | 0.84 |
 | Shared normal | 1,141,372 | 1.09 |
 | Shared packed surface | 325,568 | 0.31 |
-| Entire garage | 3,024,390 | **2.88** |
-| Initial shell + roof + albedo | 1,104,770 | **1.05** |
+| Shared AO atlas | 1,454,536 | 1.39 |
+| Entire garage | 4,697,978 | 4.48 |
+| Initial shell + roof + albedo | 1,154,342 | 1.10 |
 | Vendored Three.js + GLTFLoader | 796,720 | 0.76 |
 
-These numbers exclude poster images and HTTP compression; they are not elapsed loading times. The original four PNG maps total about 58.6 MiB. The three runtime garage maps represent roughly 32 MiB of decoded RGBA8 GPU data with mipmaps, before posters, environment, shadows and render buffers. Texture sharing saves GPU allocations as well as requests. Pixel ratio is capped at 1.5; static views render only when something changes. A procedural reflection environment avoids an additional HDR download.
+These numbers exclude poster images and HTTP compression; they are not elapsed loading times. The original four PNG maps total about 58.6 MiB. The four runtime garage maps represent roughly 64 MiB of decoded RGBA8 GPU data with mipmaps, before posters, environment, shadows and render buffers. Texture sharing saves GPU allocations as well as requests. Pixel ratio is capped at 1.5; static views render only when something changes. A procedural reflection environment avoids an additional HDR download.
 
 ## Visit and provisional poster placement
 
@@ -59,13 +73,13 @@ From the repository root, with the Python environment installed:
 
 ```sh
 .venv/bin/python tools/prepare_posters.py --encoder mozjpeg
-.venv/bin/python tools/prepare_garage.py
+.venv/bin/python tools/prepare_garage.py --device METAL
 npm --prefix tools ci
 npm --prefix tools run vendor:three
 python3 -m http.server 8000 --bind 127.0.0.1 --directory docs
 ```
 
-Open `http://127.0.0.1:8000/halle.html`. The default Blender location is `/Applications/Blender.app/Contents/MacOS/Blender`; override with `--blender /path/to/blender`. `--texture-size` controls albedo, `--detail-texture-size` controls normal and packed surface maps. The full collection is rebuilt into staging directories and replaced on success. Originals and other website assets are preserved. No `.blend` project needs to be edited manually: the assembly correction is reproducible in `tools/export_garage.py`.
+Open `http://127.0.0.1:8000/halle.html`. The default Blender location is `/Applications/Blender.app/Contents/MacOS/Blender`; override with `--blender /path/to/blender`. `--texture-size` controls albedo, `--detail-texture-size` controls normal and packed surface maps. The full collection is rebuilt into staging directories and replaced on success. Originals and other website assets are preserved. The assembly, UV generation, bake and export are reproducible in `tools/export_garage.py`. The editable, compressed `res/3d/garage/baked/garage-assembled.blend` includes the five assembled meshes, a shared PBR material, packed textures, a preview camera and sun. It stays outside the published directory. Per-part PNGs, the full atlas and bake statistics are saved alongside it.
 
 Three.js **0.187.0** and esbuild are pinned in `tools/package-lock.json`. `vendor_three.mjs` builds a local ESM bundle plus GLTFLoader, including its helper imports, and preserves the Three.js licence. Only the 3D page loads these modules. There is no runtime CDN, server rendering or asset service. GitHub Pages continues to publish the complete `docs/` directory.
 
@@ -75,6 +89,11 @@ Three.js **0.187.0** and esbuild are pinned in `tools/package-lock.json`. `vendo
 .venv/bin/python -m unittest discover -s tools -p 'test_*.py'
 npm --prefix tools run test:gallery
 npm --prefix tools run test:hall
+/Applications/Blender.app/Contents/MacOS/Blender --background res/3d/garage/baked/garage-assembled.blend --python-exit-code 1 --python tools/check_garage_bake.py
 ```
 
 The browser checks use real WebGL rendering in Chromium with SwiftShader for repeatable automated runs. They check asset requests, all five loaded parts, shared material/texture identity, poster navigation, texture eviction, keyboard movement, mobile layout, direct links, a deliberately delayed GLB, and the no-WebGL fallback. Asset tests also verify GLB UVs, absence of embedded textures and collision meshes, roof elevation, file checksums and packed-map channels. Screenshots are saved to a temporary directory and visually reviewed. Software-rendered test results do not constitute a frame-rate benchmark on a phone or a physical GPU.
+
+The Blender check re-bakes a small shell probe twice, first with the assembled neighbours and then with them hidden. It verifies that neighbouring parts actually darken the AO, checks the two UV sets and packed project textures, and does not save the modified scene. A separate constant-colour island probe checks that EXTEND fills the entire image, including the corners; asset checks verify the padded per-part PNGs match the published atlas. Browser screenshots include the same view with a neutral white AO atlas for comparison.
+
+Latest local verification: 12 Python asset/catalogue tests and both browser suites passed. The 256² Blender shell probe found 8,355 pixels whose occlusion increased by more than 0.05 with neighbouring parts present. The browser rendered all five AO-enabled meshes with one shared material and one request per garage texture; the neutral-AO comparison visibly changed architectural contact shading.

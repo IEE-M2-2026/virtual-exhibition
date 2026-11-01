@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { createGarageMaterial, setGarageSurface, setGarageAO } from './garage-material.js';
 
 const siteRoot = new URL('./', document.baseURI);
 const canvas = document.querySelector('#hall-canvas');
@@ -364,10 +365,10 @@ async function start() {
   resize.observe(canvas);
   renderer.setAnimationLoop(tick);
   const [garage, catalog] = await Promise.all([fetchJSON('./models/garage/manifest.json'), fetchJSON('./data/posters.json')]);
-  if (garage.schema_version !== 1 || catalog.schema_version !== 2) throw new Error('Unsupported manifest');
+  if (garage.schema_version !== 2 || catalog.schema_version !== 2) throw new Error('Unsupported manifest');
   manifest = garage;
   moveTo(new THREE.Vector3(...manifest.overview.position), new THREE.Vector3(...manifest.overview.target), true);
-  garageMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.85, metalness: 0, side: THREE.DoubleSide });
+  garageMaterial = createGarageMaterial();
   loadingLabel.textContent = 'Ouverture du garage…';
   const initial = manifest.parts.filter((part) => manifest.initial_parts.includes(part.id));
   let initialCompleted = 0;
@@ -406,9 +407,11 @@ async function start() {
     }),
     textureLoader.loadAsync(assetURL(manifest.textures.surface)).then((texture) => {
       const shared = configureTexture(texture, false, true);
-      garageMaterial.roughnessMap = garageMaterial.metalnessMap = shared;
-      garageMaterial.roughness = garageMaterial.metalness = 1;
-      garageMaterial.needsUpdate = true;
+      setGarageSurface(garageMaterial, shared);
+      dirty = true;
+    }),
+    textureLoader.loadAsync(assetURL(manifest.textures.ao)).then((texture) => {
+      setGarageAO(garageMaterial, configureTexture(texture, false, true));
       dirty = true;
     }),
     loadThumbnails().then((failed) => { if (failed) throw new Error('Poster thumbnail unavailable'); }),
@@ -429,6 +432,8 @@ export function getDiagnostics() {
     state: stage.dataset.state, parts: loadedParts, posters: panels.length,
     garageMaterials: new Set(garageMeshes.map((mesh) => mesh.material)).size,
     sharedSurface: Boolean(garageMaterial?.roughnessMap && garageMaterial.roughnessMap === garageMaterial.metalnessMap),
+    aoChannel: garageMaterial?.aoMap?.channel,
+    aoMeshes: garageMeshes.filter((mesh) => mesh.geometry.hasAttribute('uv1') && mesh.material.aoMap === garageMaterial.aoMap).length,
     highResolutionPosterTextures: highTexture ? 1 : 0,
     selected, camera: camera?.position.toArray(), triangles: renderer?.info.render.triangles,
     drawCalls: renderer?.info.render.calls, gpuTextures: renderer?.info.memory.textures,
