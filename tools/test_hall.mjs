@@ -4,7 +4,7 @@ import { readFile, mkdtemp } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { chromium, expect } from '@playwright/test';
+import { chromium, firefox, expect } from '@playwright/test';
 import { checkHallLighting } from './check_hall_lighting.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../docs');
@@ -28,7 +28,10 @@ await new Promise((done) => server.listen(0, '127.0.0.1', done));
 const base = `http://127.0.0.1:${server.address().port}${prefix}`;
 let browser;
 try {
-  browser = await chromium.launch({
+  const useFirefox = process.env.PLAYWRIGHT_BROWSER === 'firefox';
+  browser = await (useFirefox ? firefox : chromium).launch(useFirefox ? {
+    executablePath: process.env.PLAYWRIGHT_FIREFOX_EXECUTABLE_PATH || undefined,
+  } : {
     executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined,
     args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
   });
@@ -53,6 +56,8 @@ try {
   assert.equal(stats.boxProjectedProbe, true);
   assert.equal(stats.sunIntensity, 7);
   assert.equal(stats.fogDensity, 0.006);
+  assert.equal(stats.probeIntensity, 4);
+  assert.equal(stats.roughnessContrast, 3);
   assert(stats.triangles > 10000, 'Real garage geometry rendered');
   for (const texture of ['albedo.webp', 'normal.webp', 'surface.webp', 'ao.webp', 'sky.hdr',
     ...['px', 'nx', 'py', 'ny', 'pz', 'nz'].map((face) => `hall-${face}.hdr`)]) {

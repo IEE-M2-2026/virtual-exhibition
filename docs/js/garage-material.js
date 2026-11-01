@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 /** Shared garage shader: colour/normal/RM on UV0, assembled AO on UV1. */
-export function createGarageMaterial() {
+export function createGarageMaterial({ floor = {}, roughness = {} } = {}) {
   const material = new THREE.MeshStandardMaterial({
     name: 'Garage shared PBR + assembled AO',
     color: 0xffffff, roughness: 0.85, metalness: 0,
@@ -11,6 +11,12 @@ export function createGarageMaterial() {
     garageProbePosition: { value: new THREE.Vector3() },
     garageBoxMin: { value: new THREE.Vector3() },
     garageBoxMax: { value: new THREE.Vector3() },
+    garageFloorHeight: { value: floor.height ?? 0.2 },
+    garageFloorNormalScale: { value: floor.normal_scale ?? 1 },
+    garageRoughnessContrast: { value: roughness.contrast ?? 1 },
+    garageRoughnessPivot: { value: roughness.pivot ?? 0.5 },
+    garageRoughnessMin: { value: roughness.minimum ?? 0 },
+    garageRoughnessMax: { value: roughness.maximum ?? 1 },
   };
   material.userData.probeUniforms = probe;
   // Keep Three's lighting, normal mapping and roughness-aware specular occlusion.
@@ -30,6 +36,20 @@ export function createGarageMaterial() {
       uniform vec3 garageProbePosition;
       uniform vec3 garageBoxMin;
       uniform vec3 garageBoxMax;
+      uniform float garageFloorHeight;
+      uniform float garageFloorNormalScale;
+      uniform float garageRoughnessContrast;
+      uniform float garageRoughnessPivot;
+      uniform float garageRoughnessMin;
+      uniform float garageRoughnessMax;
+      float garageRemapRoughness(float source) {
+        return clamp(0.5 + (source - garageRoughnessPivot) * garageRoughnessContrast,
+          garageRoughnessMin, garageRoughnessMax);
+      }
+      float garageGroundMask(vec3 worldNormal) {
+        return (1.0 - smoothstep(0.01, 0.025, abs(vGarageWorldPosition.y - garageFloorHeight)))
+          * smoothstep(0.98, 0.999, worldNormal.y);
+      }
       vec3 garageBoxDirection(vec3 direction) {
         // Intersect the reflection ray with the room's proxy box. Clamp tiny
         // protrusions into the box and protect axis-parallel rays from NaNs.
@@ -52,6 +72,13 @@ export function createGarageMaterial() {
           reflectVec = normalize(garageBoxDirection(reflectVec));
         #endif
       `));
+    // Only the normal-detail adjustment is floor-specific. Roughness contrast
+    // uses the original shared map across the entire building.
+    shader.fragmentShader = shader.fragmentShader.replace('#include <normal_fragment_begin>', `
+      #include <normal_fragment_begin>
+      float garageFloorMask = garageGroundMask(transformDirectionByInverseViewMatrix(normal, viewMatrix));
+    `).replace('#include <normal_fragment_maps>', THREE.ShaderChunk.normal_fragment_maps.replace(
+      'mapN.xy *= normalScale;', 'mapN.xy *= normalScale * mix(1.0, garageFloorNormalScale, garageFloorMask);'));
     const roughnessChunk = '#include <roughnessmap_fragment>';
     const metalnessChunk = '#include <metalnessmap_fragment>';
     if (!shader.fragmentShader.includes(roughnessChunk) || !shader.fragmentShader.includes(metalnessChunk)) {
@@ -63,6 +90,7 @@ export function createGarageMaterial() {
         vec4 garageSurface = texture2D( roughnessMap, vRoughnessMapUv );
         roughnessFactor *= garageSurface.g;
       #endif
+      roughnessFactor = garageRemapRoughness(roughnessFactor);
     `).replace(metalnessChunk, `
       float metalnessFactor = metalness;
       #ifdef USE_METALNESSMAP
@@ -74,7 +102,7 @@ export function createGarageMaterial() {
       #endif
     `);
   };
-  material.customProgramCacheKey = () => 'garage-shared-rm-ao-box-probe-v2';
+  material.customProgramCacheKey = () => 'garage-shared-rm-ao-box-probe-contrast-v4';
   return material;
 }
 

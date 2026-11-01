@@ -40,6 +40,52 @@ if args.device == 'METAL':
 else:
     scene.cycles.device = 'CPU'
 
+# Match the web's global roughness contrast before capturing reflected light.
+# Only the normal-detail multiplier remains restricted to the main floor.
+floor = config['floor']
+roughness = config['roughness']
+material = next(obj for obj in scene.objects if obj.type == 'MESH').data.materials[0]
+nodes, links = material.node_tree.nodes, material.node_tree.links
+bsdf = nodes.get('Principled BSDF')
+roughness_source = bsdf.inputs['Roughness'].links[0].from_socket
+normal_map = bsdf.inputs['Normal'].links[0].from_node
+normal_strength = normal_map.inputs['Strength'].default_value
+geometry = nodes.new('ShaderNodeNewGeometry')
+geometry.label = 'Ground-floor normal-detail mask'
+position = nodes.new('ShaderNodeSeparateXYZ')
+surface_normal = nodes.new('ShaderNodeSeparateXYZ')
+links.new(geometry.outputs['Position'], position.inputs[0])
+links.new(geometry.outputs['True Normal'], surface_normal.inputs[0])
+
+def math_node(operation, *values):
+    node = nodes.new('ShaderNodeMath')
+    node.operation = operation
+    for index, value in enumerate(values):
+        if isinstance(value, (float, int)):
+            node.inputs[index].default_value = value
+        else:
+            links.new(value, node.inputs[index])
+    return node.outputs[0]
+
+def smoothstep(value, low, high, start=0, end=1):
+    node = nodes.new('ShaderNodeMapRange')
+    node.interpolation_type = 'SMOOTHSTEP'
+    links.new(value, node.inputs['Value'])
+    for name, number in [('From Min', low), ('From Max', high), ('To Min', start), ('To Max', end)]:
+        node.inputs[name].default_value = number
+    return node.outputs[0]
+
+height_distance = math_node('ABSOLUTE', math_node('SUBTRACT', position.outputs['Z'], floor['height']))
+height_mask = smoothstep(height_distance, 0.01, 0.025, 1, 0)
+up_mask = smoothstep(surface_normal.outputs['Z'], 0.98, 0.999)
+floor_mask = math_node('MULTIPLY', height_mask, up_mask)
+centered = math_node('SUBTRACT', roughness_source, roughness['pivot'])
+contrasted = math_node('MULTIPLY_ADD', centered, roughness['contrast'], 0.5)
+bounded = math_node('MINIMUM', math_node('MAXIMUM', contrasted, roughness['minimum']), roughness['maximum'])
+links.new(bounded, bsdf.inputs['Roughness'])
+normal_factor = math_node('MULTIPLY_ADD', floor_mask, floor['normal_scale'] - 1, 1)
+links.new(math_node('MULTIPLY', normal_factor, normal_strength), normal_map.inputs['Strength'])
+
 # One original, linear HDR gradient drives Blender's world and the web sky.
 width, height = 512, 256
 altitude = np.sin(((np.arange(height) + 0.5) / height - 0.5) * math.pi)

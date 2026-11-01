@@ -35,7 +35,7 @@ Bake controls: `--ao-size 512|1024|2048` per tile, `--ao-samples 16|32|64|128`, 
 
 The lighting reference is [the interactive exhibition concept](img/Concept-Interactive-Theatre-Poster-Exhibition-1.png). Editable settings live in `res/3d/garage/lighting.json`; rebuilding copies them into the public manifest, so Blender and Three.js use the same sun direction, HDR sky and capture volume.
 
-- Sun intensity is **7**, twice the previous 3.5. The hemisphere fill is 1.6, reduced from 2.1 to preserve contrast without losing architectural detail. ACES exposure stays at 1.
+- Sun intensity is **7**, twice the previous 3.5. The hemisphere fill is 0.5 and interior-probe intensity is 4, so directional environment lighting is visible rather than dominated by a uniform fill. ACES exposure stays at 1.
 - A locally generated **512 × 256 Radiance HDR gradient** blends a cool blue zenith into a bright horizon and warm ground. It drives Blender's world and the browser background/environment. It contains linear radiance above 1, rather than a tone-mapped JPEG with an HDR filename. No external sky service or downloaded third-party image is required.
 - `FogExp2` uses density **0.006** and a pale grey-blue colour: roughly 2.2% fog at 25 m and 5.6% at 40 m along the view axis. This is a subtle depth haze, not volumetric light shafts.
 - `tools/export_garage_environment.py` opens the assembled Blender project and renders **six 512² HDR faces**, with 64 Cycles samples and denoising, from Three-world position `[0, 3, 0]`. Only the five architectural meshes are present. Posters are excluded from the reflection capture.
@@ -44,7 +44,28 @@ The HDR output retains scene-linear lighting (see [Blender's colour pipeline](ht
 
 Three prefilters the cubemap with PMREM for roughness-dependent reflections. The garage shader intersects each world-space reflection ray with the proxy box `[-20, 0.2, -10]` to `[20, 11.4, 10]`, then samples in the direction from the capture position to that intersection. This is **box-projected environment mapping**: reflections respond to the surface position and viewing direction instead of behaving like an infinitely distant sky. Zero ray components and small geometry protrusions are handled explicitly. Only the specular lookup receives this positional correction; diffuse environment lighting retains the standard irradiance calculation.
 
-This single rectangular proxy approximates the hall's envelope; interior pillars, stairs and the pitched roof are not exact reflection geometry. It is a static reflection capture, not ray tracing or screen-space reflections. No poster reflections are implemented. The geometry's existing roughness and metallic maps remain authoritative.
+This single rectangular proxy approximates the hall's envelope; interior pillars, stairs and the pitched roof are not exact reflection geometry. It is a static reflection capture, not ray tracing or screen-space reflections. No poster reflections are implemented. The supplied surface maps remain shared; the shader increases roughness-map contrast across all architectural surfaces as described below. Metallic values are unchanged.
+
+### Global roughness contrast
+
+The source roughness map remains the input for every architectural surface. A floor-only multiplier made the floor too uniformly glossy, so it has been replaced by a single global contrast curve. The curve in `lighting.json` is applied identically in the web shader and Blender's shared material before the six HDR faces are rendered:
+
+```text
+roughness = clamp(0.5 + (source - 0.62) * 3, 0.25, 1.0)
+```
+
+The settings are `roughness.contrast`, `pivot`, `minimum` and `maximum`. Contrast is tripled around a pivot of 0.62; the lower bound prevents mirror-like finishes. Example values:
+
+| Source roughness | Rendered roughness |
+| ---: | ---: |
+| 0.52 | 0.25 |
+| 0.62 | 0.50 |
+| 0.72 | 0.80 |
+| 0.90 | 1.00 |
+
+This retains the texture's spatial pattern, distinguishing smooth patches from matte areas on the floor, walls, roof, stairs and metalwork. The original maps are unchanged. There is no remaining floor-only roughness multiplier. Metallic values remain untouched, and every mesh still shares one material and one set of textures.
+
+The separate normal-detail adjustment remains limited to upward-facing surfaces at `floor.height = 0.2`: `floor.normal_scale = 0.35` gives a normal strength of 0.21 instead of 0.6 there. It does not control roughness. Probe intensity remains 4, hemisphere fill 0.5 and sun intensity 7. Windows still reflect in smoother patches; posters remain absent from the capture. See the [previous versus contrasted roughness comparison](img/hall-roughness-contrast.jpg).
 
 The saved `.blend` includes the updated sky and sun, a capture-position marker and a projection-volume marker. Its camera is restored to the overview after capture. The sky is packed into the project; the six generated reflection faces are published beside the garage models.
 
@@ -67,8 +88,8 @@ Measured raw file sizes including HDR lighting:
 | Shared normal | 1,141,372 | 1.09 |
 | Shared packed surface | 325,568 | 0.31 |
 | Shared AO atlas | 1,454,536 | 1.39 |
-| HDR sky + six reflection faces | 4,992,018 | 4.76 |
-| Entire garage with lighting | 9,689,996 | 9.24 |
+| HDR sky + six reflection faces | 5,026,267 | 4.79 |
+| Entire garage with lighting | 9,724,245 | 9.27 |
 | Initial shell + roof + albedo | 1,154,342 | 1.10 |
 | Vendored Three.js + model/HDR loaders | 804,615 | 0.77 |
 
@@ -111,7 +132,7 @@ npm --prefix tools run test:hall
 /Applications/Blender.app/Contents/MacOS/Blender --background res/3d/garage/baked/garage-assembled.blend --python-exit-code 1 --python tools/check_garage_bake.py
 ```
 
-The browser checks use real WebGL rendering in Chromium with SwiftShader for repeatable automated runs. They check asset requests, all five loaded parts, shared material/texture identity, poster navigation, texture eviction, keyboard movement, mobile layout, direct links, a deliberately delayed GLB, and the no-WebGL fallback. Asset tests also verify GLB UVs, absence of embedded textures and collision meshes, roof elevation, file checksums and packed-map channels. Screenshots are saved to a temporary directory and visually reviewed. Software-rendered test results do not constitute a frame-rate benchmark on a phone or a physical GPU.
+The browser checks use real WebGL rendering in Chromium with SwiftShader for repeatable automated runs. Set `PLAYWRIGHT_BROWSER=firefox` to run the same suite in Playwright Firefox; optional `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` and `PLAYWRIGHT_FIREFOX_EXECUTABLE_PATH` select installed test binaries. They check asset requests, all five loaded parts, shared material/texture identity, poster navigation, texture eviction, keyboard movement, mobile layout, direct links, a deliberately delayed GLB, and the no-WebGL fallback. Asset tests also verify GLB UVs, absence of embedded textures and collision meshes, roof elevation, file checksums and packed-map channels. Screenshots are saved to a temporary directory and visually reviewed. Software-rendered test results do not constitute a frame-rate benchmark on a phone or a physical GPU.
 
 The Blender check re-bakes a small shell probe twice, first with the assembled neighbours and then with them hidden. It verifies that neighbouring parts actually darken the AO, checks the two UV sets and packed project textures, and does not save the modified scene. A separate constant-colour island probe checks that EXTEND fills the entire image, including the corners; asset checks verify the padded per-part PNGs match the published atlas. Browser screenshots include the same view with a neutral white AO atlas for comparison.
 
@@ -124,3 +145,5 @@ Lighting verification also exercises the injected box-projection GLSL on the GPU
 GitHub Pages serves the HTML, JavaScript and CSS with a ten-minute cache lifetime observed on this deployment. A successful push can therefore coexist with an older module cached in a visitor's browser. Before committing changes to the front end, run `python3 tools/version_frontend.py` (or `npm --prefix tools run version:site`) and commit the updated HTML too. The tool appends each file's content hash to script/style URLs and versions import-map targets, including transitive garage material and HDR loader imports. Dynamic diagnostic imports resolve to the same module instance. Model and image URLs already use manifest hashes. Run `python3 tools/version_frontend.py --check` to detect stale frontend URLs.
 
 After a push, allow the Pages deployment to finish. If a tab still shows the previous view, force reload with Cmd+Shift+R on macOS, or compare in a private window; HTML itself can still be cached briefly. On 2026-11-01, a clean browser session produced pixel-identical local and live screenshots, and all sixteen garage geometry/texture/HDR files matched their manifest hashes. The deployed lighting changes were present; no new deployment was required to recover them.
+
+The global-contrast update passed the complete hall suite in both Chromium and Firefox. GPU checks validate the roughness curve at several heights, and separately verify that the normal-detail mask excludes walls, undersides and mezzanines. The six captured HDR faces were regenerated with the matching Blender material.

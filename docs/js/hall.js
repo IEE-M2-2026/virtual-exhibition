@@ -402,7 +402,7 @@ async function start() {
   manifest = garage;
   createLighting();
   moveTo(new THREE.Vector3(...manifest.overview.position), new THREE.Vector3(...manifest.overview.target), true);
-  garageMaterial = createGarageMaterial();
+  garageMaterial = createGarageMaterial(manifest.lighting);
   loadingLabel.textContent = 'Ouverture du garage…';
   const initial = manifest.parts.filter((part) => manifest.initial_parts.includes(part.id));
   let initialCompleted = 0;
@@ -472,6 +472,8 @@ export function getDiagnostics() {
     aoMeshes: garageMeshes.filter((mesh) => mesh.geometry.hasAttribute('uv1') && mesh.material.aoMap === garageMaterial.aoMap).length,
     hdrSky: hdrSkyReady, boxProjectedProbe: probeReady && garageMaterial?.defines?.GARAGE_BOX_PROJECTION === 1,
     sunIntensity: manifest?.lighting.sun.intensity, fogDensity: scene?.fog?.density,
+    probeIntensity: garageMaterial?.envMapIntensity,
+    roughnessContrast: garageMaterial?.userData.probeUniforms.garageRoughnessContrast.value,
     highResolutionPosterTextures: highTexture ? 1 : 0,
     selected, camera: camera?.position.toArray(), triangles: renderer?.info.render.triangles,
     drawCalls: renderer?.info.render.calls, gpuTextures: renderer?.info.memory.textures,

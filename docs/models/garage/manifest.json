@@ -156,13 +156,23 @@
     "ambient": {
       "sky": "#dceaff",
       "ground": "#8a7964",
-      "intensity": 1.6
+      "intensity": 0.5
     },
     "fog": {
       "color": "#c5cbd0",
       "density": 0.006
     },
     "exposure": 1,
+    "roughness": {
+      "contrast": 3,
+      "pivot": 0.62,
+      "minimum": 0.25,
+      "maximum": 1
+    },
+    "floor": {
+      "height": 0.2,
+      "normal_scale": 0.35
+    },
     "sky": {
       "zenith": [
         0.35,
@@ -202,14 +212,14 @@
         11.4,
         10
       ],
-      "intensity": 0.8,
+      "intensity": 4,
       "face_size": 512,
       "samples": 64,
       "faces": [
         {
           "src": "./models/garage/hall-px.hdr",
-          "bytes": 839859,
-          "sha256": "0cd4b6671c8dfdbb2c12bee5ff9082fb0ccb4ea2a9f7e15142913fa63b95f862",
+          "bytes": 850835,
+          "sha256": "d49d0934f1c9e7ef73b8e9a2d59677e18f68e1d3848653a465efd1cdd2eb3f93",
           "face": "px",
           "world_forward": [
             -1,
@@ -224,8 +234,8 @@
         },
         {
           "src": "./models/garage/hall-nx.hdr",
-          "bytes": 849009,
-          "sha256": "c3e69d8b730640b3b927676e6190ea097bbedcccc589627aab2d538b253e5395",
+          "bytes": 857906,
+          "sha256": "3a109a209c642f2dd22c6518c2acdeae160da1f6654db8e21c7ce2292eb69df3",
           "face": "nx",
           "world_forward": [
             1,
@@ -240,8 +250,8 @@
         },
         {
           "src": "./models/garage/hall-py.hdr",
-          "bytes": 824349,
-          "sha256": "dd10ea1842cb0d53505a4d696343073f1896f9362b1cbbfcf87bf81511032882",
+          "bytes": 829496,
+          "sha256": "4dc97a026bc7cbbb348ba47b88532ee6379edb9026065f14506af8ff5460d790",
           "face": "py",
           "world_forward": [
             0,
@@ -256,8 +266,8 @@
         },
         {
           "src": "./models/garage/hall-ny.hdr",
-          "bytes": 797492,
-          "sha256": "bcf375fe2a4b7dd61b3f649ef9320cc70896296185ac6c7acc9487b5f5e2f1c0",
+          "bytes": 798835,
+          "sha256": "2bf1fe66c36ff38ef571b9156e5770059cec2ef61f062b10012eded90efde60d",
           "face": "ny",
           "world_forward": [
             0,
@@ -272,8 +282,8 @@
         },
         {
           "src": "./models/garage/hall-pz.hdr",
-          "bytes": 839764,
-          "sha256": "ae51a1777e84b2450257d6addf1250497d1e55105f13b9205c486860f07a4ac9",
+          "bytes": 844155,
+          "sha256": "521b34124eb1d9bfdfd97bb283bebf578f10352d3e034695be8ef833701a655c",
           "face": "pz",
           "world_forward": [
             0,
@@ -288,8 +298,8 @@
         },
         {
           "src": "./models/garage/hall-nz.hdr",
-          "bytes": 830232,
-          "sha256": "f217e0cd1a05c64952fd9dd76609c18a9892facb1a900d9f01c3c4ce4f9aed2b",
+          "bytes": 833727,
+          "sha256": "75935ecce41df42b11ee8d235d9ceca1adda27ea647af0d8565fd722d4f05f5d",
           "face": "nz",
           "world_forward": [
             0,
@@ -305,7 +315,7 @@
       ],
       "includes_posters": false,
       "encoding": "Radiance RGBE, linear scene radiance",
-      "capture_seconds": 11.09
+      "capture_seconds": 11.55
     }
   },
   "initial_parts": [

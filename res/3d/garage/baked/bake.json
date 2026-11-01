@@ -48,5 +48,5 @@
   ],
   "padding": "EXTEND to tile edges; nearest adjacent edge in unused tile",
   "margin_pixels": 2048,
-  "seconds": 9.08
+  "seconds": 9.31
 }

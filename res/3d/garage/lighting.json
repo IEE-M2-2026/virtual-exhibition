@@ -1,8 +1,10 @@
 {
   "sun": {"position": [4, 17, 12], "color": "#fff1d9", "linear_color": [1, 0.88, 0.69], "intensity": 7},
-  "ambient": {"sky": "#dceaff", "ground": "#8a7964", "intensity": 1.6},
+  "ambient": {"sky": "#dceaff", "ground": "#8a7964", "intensity": 0.5},
   "fog": {"color": "#c5cbd0", "density": 0.006},
   "exposure": 1,
+  "roughness": {"contrast": 3, "pivot": 0.62, "minimum": 0.25, "maximum": 1},
+  "floor": {"height": 0.2, "normal_scale": 0.35},
   "sky": {"zenith": [0.35, 0.7, 1.5], "horizon": [2.4, 2.5, 2.7], "ground": [0.22, 0.19, 0.16], "intensity": 0.5},
-  "probe": {"position": [0, 3, 0], "box_min": [-20, 0.2, -10], "box_max": [20, 11.4, 10], "intensity": 0.8, "face_size": 512, "samples": 64}
+  "probe": {"position": [0, 3, 0], "box_min": [-20, 0.2, -10], "box_max": [20, 11.4, 10], "intensity": 4, "face_size": 512, "samples": 64}
 }

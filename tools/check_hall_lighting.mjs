@@ -13,7 +13,7 @@ export async function checkHallLighting(page) {
     renderer.setSize(1, 1);
     const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.FloatType });
     const scene = new THREE.Scene(), camera = new THREE.Camera();
-    const base = createGarageMaterial();
+    const base = createGarageMaterial(manifest.lighting);
     const injected = { uniforms: {}, vertexShader: THREE.ShaderLib.standard.vertexShader,
       fragmentShader: THREE.ShaderLib.standard.fragmentShader };
     base.onBeforeCompile(injected);
@@ -54,6 +54,31 @@ export async function checkHallLighting(page) {
       const actual = render();
       projectionError = Math.max(projectionError, ...actual.map((value, i) => Math.abs(value - expected[i])));
     }
+    material.fragmentShader = `${injected.fragmentShader.slice(begin, end)}
+      uniform vec3 ray; void main(){ gl_FragColor=vec4(vec3(garageGroundMask(normalize(ray))),1.0); }`;
+    material.needsUpdate = true;
+    let floorMaskError = 0;
+    for (const [position, normal, expected] of [
+      [[0, 0.2, 0], [0, 1, 0], 1], [[0, 0.2, 0], [1, 0, 0], 0],
+      [[0, 3.2, 0], [0, 1, 0], 0], [[0, 0.2, 0], [0, -1, 0], 0],
+    ]) {
+      uniforms.point.value.fromArray(position);
+      uniforms.ray.value.fromArray(normal);
+      floorMaskError = Math.max(floorMaskError, Math.abs(render()[0] - expected));
+    }
+    material.fragmentShader = `${injected.fragmentShader.slice(begin, end)}
+      uniform vec3 ray; void main(){ gl_FragColor=vec4(vec3(garageRemapRoughness(ray.x)),1.0); }`;
+    material.needsUpdate = true;
+    let roughnessError = 0;
+    const curve = manifest.lighting.roughness;
+    for (const source of [0, 0.4, 0.52, 0.62, 0.72, 0.9, 1]) {
+      const expected = Math.min(curve.maximum, Math.max(curve.minimum, 0.5 + (source - curve.pivot) * curve.contrast));
+      for (const height of [0.2, 3.2, 10]) {
+        uniforms.point.value.set(0, height, 0);
+        uniforms.ray.value.set(source, 0, 0);
+        roughnessError = Math.max(roughnessError, Math.abs(render()[0] - expected));
+      }
+    }
     material.dispose();
 
     // Compare GPU lookup against independent camera-ray projection into each
@@ -88,9 +113,11 @@ export async function checkHallLighting(page) {
     for (const image of cube.images) image.dispose();
     cubeMaterial.dispose(); base.dispose(); plane.geometry.dispose(); target.dispose();
     renderer.dispose(); renderer.forceContextLoss();
-    return { projectionError, cubeError, hdrPeak, skyPeak };
+    return { projectionError, floorMaskError, roughnessError, cubeError, hdrPeak, skyPeak };
   });
   assert(results.projectionError < 0.0001, `Box projection GPU error: ${results.projectionError}`);
+  assert(results.floorMaskError < 0.0001, 'Floor normal adjustment must exclude walls, ceilings and mezzanines');
+  assert(results.roughnessError < 0.0001, 'Roughness contrast must apply equally at every height');
   assert(results.cubeError < 0.005, `Cube face orientation/sampling error: ${results.cubeError}`);
   assert(results.hdrPeak > 1 && results.skyPeak > 1, 'Capture and sky preserve HDR radiance');
   console.log('Lighting GPU checks:', results);
