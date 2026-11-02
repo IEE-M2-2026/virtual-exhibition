@@ -18,6 +18,36 @@
   },
   "posters": [
     {
+      "id": "scenes-from-a-marriage-fbc08b",
+      "metadata": {
+        "title": "Scenes from a marriage"
+      },
+      "source_sha256": "fbc08b22d60d51bf34803a7a3c51ec158559101025bbdc3eeaac432268d1b644",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/scenes-from-a-marriage-fbc08b.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 81135,
+          "sha256": "77323f3958d77af07745f2cc4bb3097844c4e616312fb049bdc3a0a436a165b8"
+        },
+        "texture": {
+          "src": "./posters/texture/scenes-from-a-marriage-fbc08b.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 885748,
+          "sha256": "c94efb82eb1d8e393756d28f88d527e1ea0d3b1ff08e49bc6e04f691890092d6"
+        },
+        "detail": {
+          "src": "./posters/detail/scenes-from-a-marriage-fbc08b.jpg",
+          "width": 2896,
+          "height": 4096,
+          "bytes": 3196482,
+          "sha256": "1ef600322111c4f58297851223798d944d6fcfd620fe9d35d0297ef230dd6d70"
+        }
+      }
+    },
+    {
       "id": "papa-doit-manger-marie-ndiaye-a64596",
       "metadata": {
         "title": "Papa doit manger",

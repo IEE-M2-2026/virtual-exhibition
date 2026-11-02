@@ -6,8 +6,8 @@
   "dpi": 300,
   "columns": 4,
   "rows": 4,
-  "poster_count": 14,
-  "filler_count": 2,
+  "poster_count": 15,
+  "filler_count": 1,
   "seed": 2026,
   "margin": 0,
   "gutter": 0,
@@ -34,7 +34,7 @@
         1240
       ],
       "kind": "poster",
-      "id": "papa-doit-manger-marie-ndiaye-a64596",
+      "id": "scenes-from-a-marriage-fbc08b",
       "image_box": [
         0,
         0,
@@ -52,12 +52,12 @@
         1240
       ],
       "kind": "poster",
-      "id": "la-mouche-704d75",
+      "id": "noces-de-sang-federico-garcia-lorca-f6c1a3",
       "image_box": [
         877,
         0,
         1754,
-        1240
+        1239
       ]
     },
     {
@@ -70,7 +70,7 @@
         1240
       ],
       "kind": "poster",
-      "id": "top-girls-caryl-churchill-723a4e",
+      "id": "incendies-wajdi-mouawad-23782d",
       "image_box": [
         1754,
         0,
@@ -88,11 +88,11 @@
         1240
       ],
       "kind": "poster",
-      "id": "4-48-psychose-sarah-kane-d230a9",
+      "id": "antigone-jean-anouilh-ca6bee",
       "image_box": [
         2631,
         0,
-        3508,
+        3507,
         1240
       ]
     },
@@ -104,148 +104,153 @@
         1240,
         877,
         2480
+      ],
+      "kind": "poster",
+      "id": "incendies-wajdi-mouawad-e27920",
+      "image_box": [
+        0,
+        1240,
+        877,
+        2480
+      ]
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "box": [
+        877,
+        1240,
+        1754,
+        2480
+      ],
+      "kind": "poster",
+      "id": "4-48-psychose-sarah-kane-d16acb",
+      "image_box": [
+        877,
+        1240,
+        1754,
+        2480
+      ]
+    },
+    {
+      "row": 1,
+      "column": 2,
+      "box": [
+        1754,
+        1240,
+        2631,
+        2480
+      ],
+      "kind": "poster",
+      "id": "huis-clos-jean-paul-sartre-b14104",
+      "image_box": [
+        1754,
+        1240,
+        2631,
+        2480
+      ]
+    },
+    {
+      "row": 1,
+      "column": 3,
+      "box": [
+        2631,
+        1240,
+        3508,
+        2480
+      ],
+      "kind": "poster",
+      "id": "rhinoceros-eugene-ionesco-6fd0ea",
+      "image_box": [
+        2631,
+        1240,
+        3508,
+        2480
+      ]
+    },
+    {
+      "row": 2,
+      "column": 0,
+      "box": [
+        0,
+        2480,
+        877,
+        3720
+      ],
+      "kind": "poster",
+      "id": "la-mouche-704d75",
+      "image_box": [
+        0,
+        2480,
+        877,
+        3720
+      ]
+    },
+    {
+      "row": 2,
+      "column": 1,
+      "box": [
+        877,
+        2480,
+        1754,
+        3720
       ],
       "kind": "event",
       "background": "#293db4",
       "text_mode": "both"
     },
     {
-      "row": 1,
-      "column": 1,
-      "box": [
-        877,
-        1240,
-        1754,
-        2480
-      ],
-      "kind": "poster",
-      "id": "rhinoceros-eugene-ionesco-71736d",
-      "image_box": [
-        877,
-        1240,
-        1753,
-        2480
-      ]
-    },
-    {
-      "row": 1,
+      "row": 2,
       "column": 2,
       "box": [
         1754,
-        1240,
+        2480,
         2631,
-        2480
+        3720
       ],
       "kind": "poster",
-      "id": "dans-la-solitude-des-champs-de-coton-bernard-marie-koltes-138853",
+      "id": "papa-doit-manger-marie-ndiaye-a64596",
       "image_box": [
         1754,
-        1240,
-        2630,
-        2480
-      ]
-    },
-    {
-      "row": 1,
-      "column": 3,
-      "box": [
+        2480,
         2631,
-        1240,
-        3508,
-        2480
-      ],
-      "kind": "poster",
-      "id": "huis-clos-jean-paul-sartre-b14104",
-      "image_box": [
-        2631,
-        1240,
-        3508,
-        2480
+        3720
       ]
     },
     {
       "row": 2,
+      "column": 3,
+      "box": [
+        2631,
+        2480,
+        3508,
+        3720
+      ],
+      "kind": "poster",
+      "id": "4-48-psychose-sarah-kane-d230a9",
+      "image_box": [
+        2631,
+        2480,
+        3508,
+        3720
+      ]
+    },
+    {
+      "row": 3,
       "column": 0,
       "box": [
         0,
-        2480,
+        3720,
         877,
-        3720
+        4961
       ],
       "kind": "poster",
       "id": "4-48-psychose-sarah-kane-239732",
       "image_box": [
         0,
-        2480,
-        876,
-        3720
-      ]
-    },
-    {
-      "row": 2,
-      "column": 1,
-      "box": [
-        877,
-        2480,
-        1754,
-        3720
-      ],
-      "kind": "event",
-      "background": "#191919",
-      "text_mode": "both"
-    },
-    {
-      "row": 2,
-      "column": 2,
-      "box": [
-        1754,
-        2480,
-        2631,
-        3720
-      ],
-      "kind": "poster",
-      "id": "incendies-wajdi-mouawad-23782d",
-      "image_box": [
-        1754,
-        2480,
-        2630,
-        3720
-      ]
-    },
-    {
-      "row": 2,
-      "column": 3,
-      "box": [
-        2631,
-        2480,
-        3508,
-        3720
-      ],
-      "kind": "poster",
-      "id": "noces-de-sang-federico-garcia-lorca-f6c1a3",
-      "image_box": [
-        2631,
-        2480,
-        3508,
-        3719
-      ]
-    },
-    {
-      "row": 3,
-      "column": 0,
-      "box": [
-        0,
         3720,
         877,
-        4961
-      ],
-      "kind": "poster",
-      "id": "incendies-wajdi-mouawad-e27920",
-      "image_box": [
-        0,
-        3720,
-        877,
-        4961
+        4960
       ]
     },
     {
@@ -258,7 +263,7 @@
         4961
       ],
       "kind": "poster",
-      "id": "antigone-jean-anouilh-ca6bee",
+      "id": "dans-la-solitude-des-champs-de-coton-bernard-marie-koltes-138853",
       "image_box": [
         877,
         3720,
@@ -276,7 +281,7 @@
         4961
       ],
       "kind": "poster",
-      "id": "rhinoceros-eugene-ionesco-6fd0ea",
+      "id": "rhinoceros-eugene-ionesco-71736d",
       "image_box": [
         1754,
         3720,
@@ -294,7 +299,7 @@
         4961
       ],
       "kind": "poster",
-      "id": "4-48-psychose-sarah-kane-d16acb",
+      "id": "top-girls-caryl-churchill-723a4e",
       "image_box": [
         2631,
         3720,
