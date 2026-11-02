@@ -18,6 +18,38 @@
   },
   "posters": [
     {
+      "id": "incendies-wajdi-mouawad-23782d",
+      "metadata": {
+        "title": "Incendies",
+        "author": "Wajdi Mouawad",
+        "premiere_year": 2003
+      },
+      "source_sha256": "23782d24eac596367b7e12bc8810cc2bec35eb55533be9defa73d559a348b862",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/incendies-wajdi-mouawad-23782d.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 43321,
+          "sha256": "da4ab31b7c1f36f3a2a132f618678247e7553502f92e3faa1220bdb646d099d4"
+        },
+        "texture": {
+          "src": "./posters/texture/incendies-wajdi-mouawad-23782d.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 265531,
+          "sha256": "30ebd6ade3ecded38790a7896c7b14b60189bd438d7d2889298982fa1601d823"
+        },
+        "detail": {
+          "src": "./posters/detail/incendies-wajdi-mouawad-23782d.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 626091,
+          "sha256": "4b427ecce246d676a959ff09702e0501c76ddb03d4f17eb577a3cd594e0f971d"
+        }
+      }
+    },
+    {
       "id": "top-girls-caryl-churchill-723a4e",
       "metadata": {
         "title": "Top Girls",
