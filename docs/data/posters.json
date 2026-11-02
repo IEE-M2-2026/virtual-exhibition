@@ -18,6 +18,38 @@
   },
   "posters": [
     {
+      "id": "papa-doit-manger-marie-ndiaye-a64596",
+      "metadata": {
+        "title": "Papa doit manger",
+        "author": "Marie NDiaye",
+        "premiere_year": 2003
+      },
+      "source_sha256": "a645969a7b7ab7113a7f10738d195a9d84b356bfc66390396acf8fef90eb3e28",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/papa-doit-manger-marie-ndiaye-a64596.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 34976,
+          "sha256": "78acf6bbc640cd6601dafd16695e62cf34be473ff528161ddeb7027d2e37357b"
+        },
+        "texture": {
+          "src": "./posters/texture/papa-doit-manger-marie-ndiaye-a64596.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 234653,
+          "sha256": "4c8ac73226b973af74eb4b5d9a7561721fb263b364550dd6302924d50ae9fe56"
+        },
+        "detail": {
+          "src": "./posters/detail/papa-doit-manger-marie-ndiaye-a64596.jpg",
+          "width": 2896,
+          "height": 4096,
+          "bytes": 549691,
+          "sha256": "1784313c7abe22e9499a60b1baf9ed0a37f55a2425a1ef0ecf56ca45adbdc5c4"
+        }
+      }
+    },
+    {
       "id": "incendies-wajdi-mouawad-23782d",
       "metadata": {
         "title": "Incendies",
