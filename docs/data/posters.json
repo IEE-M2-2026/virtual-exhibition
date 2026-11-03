@@ -18,6 +18,36 @@
   },
   "posters": [
     {
+      "id": "les-raisins-de-la-colere-0a3f72",
+      "metadata": {
+        "title": "Les raisins de la colère"
+      },
+      "source_sha256": "0a3f72be891793267796aac3ac46c1557911c1437843303a4cc3199f1ddcf17d",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/les-raisins-de-la-colere-0a3f72.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 54888,
+          "sha256": "e30796012b0d156b28e5a711385a3eb361c78fbd5a4e6532cf5fc1121e57e667"
+        },
+        "texture": {
+          "src": "./posters/texture/les-raisins-de-la-colere-0a3f72.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 453973,
+          "sha256": "99b844f2c816e4cba733b16c29c6556092b145dd6f97a9c64c410333eb667359"
+        },
+        "detail": {
+          "src": "./posters/detail/les-raisins-de-la-colere-0a3f72.jpg",
+          "width": 2481,
+          "height": 3508,
+          "bytes": 1068816,
+          "sha256": "d4280c7580d4364ebd8f633f0b4b959b144f6e0804698f028427cd14a82187fc"
+        }
+      }
+    },
+    {
       "id": "scenes-from-a-marriage-fbc08b",
       "metadata": {
         "title": "Scenes from a marriage"
