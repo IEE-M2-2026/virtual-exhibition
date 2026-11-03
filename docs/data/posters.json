@@ -18,6 +18,101 @@
   },
   "posters": [
     {
+      "id": "rhinoceros-eugene-ionesco-77e311",
+      "metadata": {
+        "title": "Rhinocéros",
+        "author": "Eugène Ionesco",
+        "premiere_year": 1959
+      },
+      "source_sha256": "77e31161a6c70bb1dc38f132772d1de2cbcf3865beece79cc0699469439c60a4",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/rhinoceros-eugene-ionesco-77e311.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 53069,
+          "sha256": "992a9ed59159d800b641152b03f4134b9a913028aea80847622ca389a69b6c57"
+        },
+        "texture": {
+          "src": "./posters/texture/rhinoceros-eugene-ionesco-77e311.jpg",
+          "width": 1449,
+          "height": 2048,
+          "bytes": 399013,
+          "sha256": "a964271f98cf092fc13a05dcb1e04884c6fc5b651ba16000733c8a059ba03138"
+        },
+        "detail": {
+          "src": "./posters/detail/rhinoceros-eugene-ionesco-77e311.jpg",
+          "width": 2899,
+          "height": 4096,
+          "bytes": 1133740,
+          "sha256": "fcadd38637d237d6f5adb494520ba00104c1f6ee702ce6df97ba7806e9ca04ea"
+        }
+      }
+    },
+    {
+      "id": "antigone-jean-anouilh-be4e1c",
+      "metadata": {
+        "title": "Antigone",
+        "author": "Jean Anouilh",
+        "premiere_year": 1944
+      },
+      "source_sha256": "be4e1cdaa0212abcbb759aa049617eb369dfb94a79cdc3e3d585cde69be9d489",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/antigone-jean-anouilh-be4e1c.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 35380,
+          "sha256": "146420824fd1affbc97eb04fa84366b3baf066c62562bd523ba45484e15ab53d"
+        },
+        "texture": {
+          "src": "./posters/texture/antigone-jean-anouilh-be4e1c.jpg",
+          "width": 1414,
+          "height": 2000,
+          "bytes": 293458,
+          "sha256": "2b54b8faf2ccbc50ab15ff7213f9bfa2736607614b9b26d8235ceae4e07083f5"
+        },
+        "detail": {
+          "src": "./posters/detail/antigone-jean-anouilh-be4e1c.jpg",
+          "width": 1414,
+          "height": 2000,
+          "bytes": 293458,
+          "sha256": "2b54b8faf2ccbc50ab15ff7213f9bfa2736607614b9b26d8235ceae4e07083f5"
+        }
+      }
+    },
+    {
+      "id": "l-orfevrerie-emma-mihalyi-715659",
+      "metadata": {
+        "title": "L'Orfèvrerie",
+        "author": "Emma Mihalyi"
+      },
+      "source_sha256": "715659aad90c0e9050009bddf3a3ab1adb7214c5a6655dd9bd66a48b8ed20803",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/l-orfevrerie-emma-mihalyi-715659.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 28862,
+          "sha256": "1da8df71d79c71948653f6b29804b91a7bcf08e6861dd77cf4afc24a531dc852"
+        },
+        "texture": {
+          "src": "./posters/texture/l-orfevrerie-emma-mihalyi-715659.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 254985,
+          "sha256": "f5d3801a4675d376b6225fee9613a139575d95aa399abb548d8ed494a0323188"
+        },
+        "detail": {
+          "src": "./posters/detail/l-orfevrerie-emma-mihalyi-715659.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 705571,
+          "sha256": "e9b4aa228a784e423580a668c82693d35dd0374a6ee889282ad4437f32679c2c"
+        }
+      }
+    },
+    {
       "id": "les-raisins-de-la-colere-0a3f72",
       "metadata": {
         "title": "Les raisins de la colère"
