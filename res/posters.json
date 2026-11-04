@@ -1,5 +1,23 @@
 [
   {
+    "filename": "Affiche Maëliss Doué.pdf",
+    "title": "Un désir nommé tramway"
+  },
+  {
+    "filename": "Affiche Le Canard Sauvage_Emma Crouzet-Melis.pdf",
+    "title": "Le Canard Sauvage"
+  },
+  {
+    "filename": "Affiche Une Maison de Poupée - ARRONDEAU Zelie.png",
+    "title": "Une Maison de Poupée"
+  },
+  {
+    "filename": "GANDREY_Emma_Affiches Incendies .pdf",
+    "title": "Incendies",
+    "author": "Wajdi Mouawad",
+    "premiere_year": 2003
+  },
+  {
     "filename": "Inès_Thiebaud_le_dieu_du_carnage.pdf",
     "title": "Le Dieu du carnage",
     "author": "Yasmina Reza",
@@ -85,7 +103,7 @@
     "premiere_year": 1959
   },
   {
-    "filename": "Affiche [Huis Clos].pdf",
+    "filename": "Affiche [Huis Clos] Alice Hellot et Juliette Poultier.pdf",
     "title": "Huis clos",
     "author": "Jean-Paul Sartre",
     "premiere_year": 1944

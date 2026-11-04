@@ -18,6 +18,128 @@
   },
   "posters": [
     {
+      "id": "un-desir-nomme-tramway-03ea60",
+      "metadata": {
+        "title": "Un désir nommé tramway"
+      },
+      "source_sha256": "03ea602d9fa14a29b23aa14e7a99fb9015c31cf4c50597e05a9bab7183db8c66",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/un-desir-nomme-tramway-03ea60.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 89760,
+          "sha256": "660016f689ae7d50bc5a55dfacf5076f3f1dd55f1c720718a332654d415e6082"
+        },
+        "texture": {
+          "src": "./posters/texture/un-desir-nomme-tramway-03ea60.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 725113,
+          "sha256": "8e646d9b79056e175f1068c9a514ea3177ad4a6c5b7eb686d903ea981eeceb30"
+        },
+        "detail": {
+          "src": "./posters/detail/un-desir-nomme-tramway-03ea60.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 1914388,
+          "sha256": "110709b46d1bf27e51d5408b71ac43b64330614df86f9d8f4ab900226d6403ef"
+        }
+      }
+    },
+    {
+      "id": "le-canard-sauvage-8c2446",
+      "metadata": {
+        "title": "Le Canard Sauvage"
+      },
+      "source_sha256": "8c244632ab98ede82fecabfbcf11231d7b45833f2bc176a894f04b73977ee4be",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/le-canard-sauvage-8c2446.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 46901,
+          "sha256": "e377b148f7d08defe274f6a417a20c07953152ce6da49477b9160151b8abf277"
+        },
+        "texture": {
+          "src": "./posters/texture/le-canard-sauvage-8c2446.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 789956,
+          "sha256": "54d147e2e1c5a831b850d5b88d7be7e45afe2523502d2059d572302ea6999f7f"
+        },
+        "detail": {
+          "src": "./posters/detail/le-canard-sauvage-8c2446.jpg",
+          "width": 2896,
+          "height": 4096,
+          "bytes": 2413265,
+          "sha256": "dddd72dde31dc15f95ad8c0d16ccd8a5a6a457e8e467d4038f2899540cec750f"
+        }
+      }
+    },
+    {
+      "id": "une-maison-de-poupee-270f03",
+      "metadata": {
+        "title": "Une Maison de Poupée"
+      },
+      "source_sha256": "270f03bcdb807a068fdfbc5197d5f086fcca402fc2d9cfea345be9b14c3aaa68",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/une-maison-de-poupee-270f03.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 80612,
+          "sha256": "79b5d29257a4c39995ce7b4d3bd6a605a4515cf82af904fb952e2acd46994ecd"
+        },
+        "texture": {
+          "src": "./posters/texture/une-maison-de-poupee-270f03.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 607558,
+          "sha256": "3028ef0bce3a89df36c5b95ed0443a690af2206a099ed63d9912ffceb13716cf"
+        },
+        "detail": {
+          "src": "./posters/detail/une-maison-de-poupee-270f03.jpg",
+          "width": 1587,
+          "height": 2245,
+          "bytes": 690755,
+          "sha256": "78d81fbc6095ad9d2c0dca4c9a4b8ec904c7eea2a2d3becade4182c16725e049"
+        }
+      }
+    },
+    {
+      "id": "incendies-wajdi-mouawad-c1773d",
+      "metadata": {
+        "title": "Incendies",
+        "author": "Wajdi Mouawad",
+        "premiere_year": 2003
+      },
+      "source_sha256": "c1773d2d3be3186d3562557a708862f05c7dce5c14bf30b1116548c6528d2eba",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/incendies-wajdi-mouawad-c1773d.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 29511,
+          "sha256": "ada7a04aaeb1fa5b0f0a04040728ba8b888b884de6b0779ec5b081e0f7721f8c"
+        },
+        "texture": {
+          "src": "./posters/texture/incendies-wajdi-mouawad-c1773d.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 192185,
+          "sha256": "9b6010fc64fe04fcd07a6f083f6e2eebca25edbdb1ed65507418841a2a57fa4e"
+        },
+        "detail": {
+          "src": "./posters/detail/incendies-wajdi-mouawad-c1773d.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 532175,
+          "sha256": "8f8877b79256cab64cccfd55aef59d4736dec7f2c70da7e01d1deff0081ea0f6"
+        }
+      }
+    },
+    {
       "id": "le-dieu-du-carnage-yasmina-reza-426c5d",
       "metadata": {
         "title": "Le Dieu du carnage",
