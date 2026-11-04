@@ -18,6 +18,102 @@
   },
   "posters": [
     {
+      "id": "le-dieu-du-carnage-yasmina-reza-426c5d",
+      "metadata": {
+        "title": "Le Dieu du carnage",
+        "author": "Yasmina Reza",
+        "premiere_year": 2006
+      },
+      "source_sha256": "426c5d4a26b95e6e8ad104557921a9aa64323fd35a2da23790798bc9a5dfdef6",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/le-dieu-du-carnage-yasmina-reza-426c5d.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 40180,
+          "sha256": "32d4bfa6dea982bcabdc272f47908ac4f05fff08c79c94a13d2b4fc6037c4889"
+        },
+        "texture": {
+          "src": "./posters/texture/le-dieu-du-carnage-yasmina-reza-426c5d.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 236441,
+          "sha256": "15fc50e3b5a8fa9fa0d0e387a2c499ad4a5ab988502c1591b9dd638d0334e179"
+        },
+        "detail": {
+          "src": "./posters/detail/le-dieu-du-carnage-yasmina-reza-426c5d.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 536202,
+          "sha256": "0a73cab74a6989fc630fda4623db58a04366124f7b2a2e253e857def23d838fc"
+        }
+      }
+    },
+    {
+      "id": "oh-les-beaux-jours-samuel-beckett-3cdb47",
+      "metadata": {
+        "title": "Oh les beaux jours",
+        "author": "Samuel Beckett",
+        "premiere_year": 1961
+      },
+      "source_sha256": "3cdb47818280f300e155c98730e4c3307f3e49b65df28f409d377dd16cd29d11",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/oh-les-beaux-jours-samuel-beckett-3cdb47.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 61907,
+          "sha256": "0de0bdafa1f2eca4a3f7005b9d6d6b243cdd9e39d06f4360281a893e7d559c14"
+        },
+        "texture": {
+          "src": "./posters/texture/oh-les-beaux-jours-samuel-beckett-3cdb47.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 648172,
+          "sha256": "74deec0da3d510ab4e06a67cdf56ff009e23854d94e5455e26ab3ac988faf7ef"
+        },
+        "detail": {
+          "src": "./posters/detail/oh-les-beaux-jours-samuel-beckett-3cdb47.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 1843083,
+          "sha256": "3cec895378229a6800317d0d9835a0af0613f966b736e29595a7677986f96395"
+        }
+      }
+    },
+    {
+      "id": "dom-juan-moliere-53be35",
+      "metadata": {
+        "title": "Dom Juan",
+        "author": "Molière",
+        "premiere_year": 1665
+      },
+      "source_sha256": "53be351a9626cf96554690d880ba1969e712ee736c25501f5cd0218ee4740a2d",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/dom-juan-moliere-53be35.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 53450,
+          "sha256": "bd2f239c1cfb1657169386843506503af3ff0dea785ab439d520bd088bea770d"
+        },
+        "texture": {
+          "src": "./posters/texture/dom-juan-moliere-53be35.jpg",
+          "width": 1447,
+          "height": 2048,
+          "bytes": 427773,
+          "sha256": "26c06aaa15c7810e7c7ab413de4ed80b79ff4a15485f01064c1db67b0b839f5d"
+        },
+        "detail": {
+          "src": "./posters/detail/dom-juan-moliere-53be35.jpg",
+          "width": 2895,
+          "height": 4096,
+          "bytes": 1082709,
+          "sha256": "c4d9d3b668ea303fb2c343836536ad5bc8b0b2a07ead756f1a4fb1ae39c9bd84"
+        }
+      }
+    },
+    {
       "id": "top-girls-caryl-churchill-f3acc3",
       "metadata": {
         "title": "Top Girls",
