@@ -110,8 +110,18 @@ button {
   border-bottom: 1px solid var(--rule);
 }
 
+.header-identity {
+  display: flex;
+  flex: 1 1 600px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 48px;
+  min-width: 0;
+}
+
 .brand {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 16px;
   min-width: 0;
@@ -136,6 +146,13 @@ button {
   line-height: 1.3;
   letter-spacing: 0.01em;
   overflow-wrap: break-word;
+}
+
+.pedagogical-notice {
+  max-width: 32ch;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 .site-nav {
