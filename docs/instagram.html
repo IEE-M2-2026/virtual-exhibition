@@ -6,7 +6,7 @@
   <title>Le fil Instagram — IEE Paris 8</title>
   <link rel="icon" href="./favicon.svg?v=02d25c2b85ad" type="image/svg+xml">
   <link rel="stylesheet" href="./css/gallery.css?v=3a1a6f9fff05">
-  <link rel="stylesheet" href="./css/instagram.css?v=aa2f187bece4">
+  <link rel="stylesheet" href="./css/instagram.css?v=7309cc973032">
 </head>
 <body>
   <a class="skip-link" href="#le-fil">Aller au contenu</a>
@@ -57,19 +57,25 @@
         <span class="phone-side side-volume" aria-hidden="true"></span>
         <span class="phone-side side-power" aria-hidden="true"></span>
         <div class="phone-screen">
-          <div class="phone-status" aria-hidden="true"><span>9:41</span><span class="status-indicators">▂▄▆ <span class="battery"></span></span></div>
+          <div class="phone-status" aria-hidden="true"><span id="phone-clock"></span><span class="status-indicators">▂▄▆ <span class="battery"></span></span></div>
           <div class="phone-notch" aria-hidden="true"><span></span></div>
           <div class="instagram-bar"><span class="instagram-wordmark">Instagram</span><span class="app-icons" aria-hidden="true"><svg><use href="#heart"/></svg><svg><use href="#send"/></svg></span></div>
+          <div class="post-window">
+          <div class="post-track">
+          <article class="feed-post">
           <div class="account-bar"><span class="account-avatar" aria-hidden="true">IEE</span><div><strong>iee.paris8</strong><small>Affiches de théâtre · Paris 8</small></div><span class="account-menu" aria-hidden="true">•••</span></div>
           <button id="post-image-button" class="post-image-button" type="button" aria-label="Afficher l’affiche suivante" disabled>
-            <img id="post-image" alt="" hidden>
-            <span id="image-status" role="status">Chargement des affiches…</span>
+            <img id="post-image" class="post-image" alt="" hidden>
+            <span id="image-status" class="image-status" role="status">Chargement des affiches…</span>
           </button>
           <div class="post-actions" aria-hidden="true"><svg><use href="#heart"/></svg><svg><use href="#comment"/></svg><svg><use href="#send"/></svg><svg class="save-icon"><use href="#bookmark"/></svg></div>
           <div class="post-caption" aria-live="polite" aria-atomic="true">
             <p class="caption-account">iee.paris8 <span>· L’exposition</span></p>
-            <h2 id="post-title">Les affiches de théâtre</h2>
-            <p id="post-author"></p>
+            <h2 id="post-title" class="post-title">Les affiches de théâtre</h2>
+            <p id="post-author" class="post-author"></p>
+          </div>
+          </article>
+          </div>
           </div>
           <div class="app-bottom" aria-hidden="true"><svg><use href="#home"/></svg><svg><use href="#search"/></svg><svg><use href="#plus"/></svg><svg><use href="#reel"/></svg><span class="profile-avatar">IEE</span></div>
           <div class="home-indicator" aria-hidden="true"></div>
@@ -81,6 +87,6 @@
     <noscript><p>Activez JavaScript pour parcourir le fil. <a href="./index.html">Retour à la galerie</a></p></noscript>
   </main>
   <footer class="site-footer"><p>IEE · Université Paris 8</p><p>Atelier infographie · 2026</p></footer>
-  <script type="module" src="./js/instagram.js?v=195e26d4da85"></script>
+  <script type="module" src="./js/instagram.js?v=fdbe90cd4492"></script>
 </body>
 </html>

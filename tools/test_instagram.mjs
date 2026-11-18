@@ -34,6 +34,9 @@ try {
   const next = page.locator('#next-post');
   const imageButton = page.locator('#post-image-button');
   await expect(next).toBeEnabled();
+  async function settled() {
+    await expect(next).toHaveAttribute('aria-disabled', 'false');
+  }
   const ids = [];
   for (let i = 0; i < catalog.posters.length; i += 1) {
     await expect(page.locator('#post-image')).toBeVisible();
@@ -45,17 +48,22 @@ try {
     await expect(page.locator('#post-title')).toHaveText(poster.metadata.title || 'Affiche sans titre');
     await expect(page.locator('#post-author')).toHaveText(poster.metadata.author || 'Auteurice non renseigné·e');
     await expect(page.locator('#feed-position')).toHaveText(`Affiche ${i + 1} sur ${catalog.posters.length} · Ordre aléatoire`);
-    if (i < catalog.posters.length - 1) await (i % 2 ? next : imageButton).click();
+    if (i < catalog.posters.length - 1) {
+      await (i % 2 ? next : imageButton).click();
+      await settled();
+    }
   }
   assert.equal(new Set(ids).size, catalog.posters.length, 'Each poster appears once per cycle');
   assert.notDeepEqual(ids, catalog.posters.map(p => p.id), 'Traversal shuffles catalogue order');
   await next.focus();
   await page.keyboard.press('Enter');
+  await settled();
   assert.notEqual(await imageButton.getAttribute('data-poster-id'), ids.at(-1));
   await expect(page.locator('#feed-position')).toContainText(`Affiche 1 sur ${catalog.posters.length}`);
   await imageButton.focus();
   const before = await imageButton.getAttribute('data-poster-id');
   await page.keyboard.press('Space');
+  await settled();
   assert.notEqual(await imageButton.getAttribute('data-poster-id'), before);
   for (const width of [1396, 1024, 768, 390, 320]) {
     await page.setViewportSize({ width, height: 1050 });
@@ -89,6 +97,7 @@ try {
   await expect(page.locator('#image-status')).toContainText('Image indisponible');
   await expect(next).toBeEnabled();
   await next.click();
+  await settled();
   await expect(page.locator('#feed-position')).toContainText('Affiche 2 sur');
   await page.unroute('**/posters/texture/**');
   // All pages link to the new view, including on a GitHub Pages subpath.
@@ -96,8 +105,70 @@ try {
     const html = await (await page.request.get(base + filename)).text();
     assert(html.includes('href="./instagram.html"'));
   }
+  // Hold the next download: the current publication must survive an early click.
+  const gated = await browser.newPage({ viewport: { width: 390, height: 1050 } });
+  gated.on('pageerror', error => errors.push(error.message));
+  let held;
+  let textureRequests = 0;
+  await gated.route('**/posters/texture/**', route => {
+    textureRequests += 1;
+    if (textureRequests === 2) held = route;
+    else return route.continue();
+  });
+  await gated.goto(base + 'instagram.html', { waitUntil: 'domcontentloaded' });
+  await expect(gated.locator('#next-post')).toBeEnabled();
+  await expect.poll(() => Boolean(held)).toBe(true);
+  assert.equal(textureRequests, 2, 'Next image is requested before any click');
+  const initialId = await gated.locator('#post-image-button').getAttribute('data-poster-id');
+  const initialTitle = await gated.locator('#post-title').textContent();
+  await gated.locator('#next-post').click();
+  await expect(gated.locator('#next-post')).toHaveAttribute('aria-disabled', 'true');
+  await expect(gated.locator('#post-title')).toHaveText(initialTitle);
+  await expect(gated.locator('#post-image')).toBeVisible();
+  assert.equal(await gated.locator('.post-track').evaluate(el => el.getAnimations().length), 0);
+  await gated.locator('#next-post').dispatchEvent('click');
+  await held.continue();
+  await expect(gated.locator('.post-track')).toHaveClass(/is-moving/);
+  // Inspect the middle of the real animation without racing its short duration.
+  const motion = await gated.locator('.post-track').evaluate(el => {
+    const animation = el.getAnimations()[0];
+    animation.pause();
+    animation.currentTime = 320;
+    const incoming = el.children[1];
+    const image = incoming.querySelector('img');
+    return { y: new DOMMatrixReadOnly(getComputedStyle(el).transform).m42,
+      ready: image.complete && image.naturalWidth > 0, inert: incoming.inert,
+      ids: incoming.querySelectorAll('[id]').length,
+      steps: animation.effect.getKeyframes().some(frame => frame.easing.startsWith('steps')) };
+  });
+  assert(motion.y < 0 && motion.ready && motion.inert && !motion.ids && motion.steps, JSON.stringify(motion));
+  await gated.screenshot({ path: join(artifacts, 'feed-scroll-midpoint.png'), fullPage: true });
+  await gated.locator('.post-track').evaluate(el => el.getAnimations()[0].finish());
+  await expect(gated.locator('#next-post')).toHaveAttribute('aria-disabled', 'false');
+  await expect(gated.locator('#feed-position')).toContainText('Affiche 2 sur');
+  assert.notEqual(await gated.locator('#post-image-button').getAttribute('data-poster-id'), initialId);
+  assert.equal(await gated.locator('.feed-post').count(), 1);
+  assert.equal(await gated.locator('#post-image').count(), 1);
+  await expect.poll(() => textureRequests).toBe(3);
+  await gated.screenshot({ path: join(artifacts, 'feed-scroll-finished.png'), fullPage: true });
+  // Reduced motion still waits for preloading, then switches without animation.
+  await gated.emulateMedia({ reducedMotion: 'reduce' });
+  await gated.locator('#next-post').click();
+  await expect(gated.locator('#next-post')).toHaveAttribute('aria-disabled', 'false');
+  await expect(gated.locator('#feed-position')).toContainText('Affiche 3 sur');
+  assert.equal(await gated.locator('.post-track').evaluate(el => el.getAnimations().length), 0);
+  // A frozen browser clock verifies both local time and the next minute.
+  await gated.clock.install({ time: new Date('2026-11-18T13:41:59Z') });
+  await gated.clock.fastForward(1000);
+  const localTime = () => gated.evaluate(() => new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit' }).format(new Date()));
+  await expect(gated.locator('#phone-clock')).toHaveText(await localTime());
+  const previousTime = await gated.locator('#phone-clock').textContent();
+  await gated.clock.fastForward(60000);
+  await expect(gated.locator('#phone-clock')).toHaveText(await localTime());
+  assert.notEqual(await gated.locator('#phone-clock').textContent(), previousTime);
+  await gated.close();
   assert.deepEqual(errors, []);
-  console.log(`Instagram checks passed: ${catalog.posters.length} posters, shuffled cycle, captions, keyboard, responsive layout and error recovery. Screenshots: ${artifacts}`);
+  console.log(`Instagram checks passed: ${catalog.posters.length} posters, shuffled cycle, captions, keyboard, responsive layout, error recovery, preload gating, scroll animation, reduced motion and live clock. Screenshots: ${artifacts}`);
 } finally {
   await browser?.close();
   await new Promise(done => server.close(done));
