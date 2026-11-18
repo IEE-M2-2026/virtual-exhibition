@@ -550,34 +550,34 @@
       }
     },
     {
-      "id": "4-48-psychose-sarah-kane-d16acb",
+      "id": "4-48-psychose-sarah-kane-7b9b4b",
       "metadata": {
         "title": "4.48 Psychose",
         "author": "Sarah Kane",
         "premiere_year": 2000
       },
-      "source_sha256": "d16acb89d30ad8c8cfe668ec755e4a3b0aff9f94f2a7355200c2d26b424c2f52",
+      "source_sha256": "7b9b4b62565f855229b92b067d8ec1660c9aabeccf251f89db1a64f4160fbdb1",
       "images": {
         "thumbnail": {
-          "src": "./posters/thumbnail/4-48-psychose-sarah-kane-d16acb.jpg",
+          "src": "./posters/thumbnail/4-48-psychose-sarah-kane-7b9b4b.jpg",
           "width": 362,
           "height": 512,
-          "bytes": 43748,
-          "sha256": "14f6b43426d59623ff402d3b01cd892d7cf4c6cd3fbcec9231881a10efe8e052"
+          "bytes": 40722,
+          "sha256": "11ba135bef3f0e4972766c80551b2c2870064423ad16acd51cc097d89cc9ef1a"
         },
         "texture": {
-          "src": "./posters/texture/4-48-psychose-sarah-kane-d16acb.jpg",
-          "width": 1414,
-          "height": 2000,
-          "bytes": 301741,
-          "sha256": "dd1a101ebb54a2e39e897af5f5cc7b6b6582a3793a6b452de0fb078fd79aea70"
+          "src": "./posters/texture/4-48-psychose-sarah-kane-7b9b4b.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 285775,
+          "sha256": "05893443663b37e2e545174f93fd413899f01eb7659f3be0140b8221cc81f4c2"
         },
         "detail": {
-          "src": "./posters/detail/4-48-psychose-sarah-kane-d16acb.jpg",
-          "width": 1414,
-          "height": 2000,
-          "bytes": 301741,
-          "sha256": "dd1a101ebb54a2e39e897af5f5cc7b6b6582a3793a6b452de0fb078fd79aea70"
+          "src": "./posters/detail/4-48-psychose-sarah-kane-7b9b4b.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 716626,
+          "sha256": "52478db4d69bd86d3ca93baa7e0fc1c6039310dd2666d61eb669a17947e846fb"
         }
       }
     },
