@@ -6,7 +6,7 @@ After adding or modifying an original in **`res/posters/`**, update **`res/poste
 ./tools/rebuild.sh
 ```
 
-The executable script also works from another working directory when invoked by its absolute path. It rebuilds all poster variants, the shared catalogue used by both galleries, the locally bundled Three.js modules and the frontend cache hashes. The complete website remains in `docs/`. It does not commit, push or start a web server.
+The executable script also works from another working directory when invoked by its absolute path. It rebuilds all poster variants, the shared catalogue used by both galleries, a public web copy of the existing collective poster for the project page, the locally bundled Three.js modules and the frontend cache hashes. The complete website remains in `docs/`. It does not commit, push or start a web server.
 
 ## One-time setup
 
@@ -31,6 +31,14 @@ Modified originals are converted again and their source checksums determine the 
 
 Conversion failures preserve the previous poster images and public manifest. The build stops on any error; review and publish only after it reports success. Two simultaneous runs of this wrapper are prevented by `.rebuild-lock/`. After a forced termination, remove an abandoned empty lock directory with `rmdir .rebuild-lock` once no build is running. Do not run the individual converters concurrently with the wrapper.
 
+## Collective poster on the project page
+
+`docs/projet.html` presents the French and English project texts, followed by the collective poster. The two text columns are separated by a 1 px rule; on narrow screens they stack in French–English order.
+
+Every rebuild exports the existing `res/event_poster/event-poster.png` to `docs/images/affiche-collective.jpg` through `tools/export_collective_poster.py`: sRGB, up to 2480 px on the long edge, progressive JPEG, no original filenames or private metadata. The source composition remains unchanged. The public image and its full-size link receive a content hash for cache refresh. Export failures preserve the previous public copy and other site assets.
+
+To update the composition itself after adding posters, first run `.venv/bin/python tools/prepare_event_poster.py`, then `./tools/rebuild.sh`. The normal rebuild deliberately exports the existing composition rather than rearranging it. See [collective poster generation](event_poster.md).
+
 ## Rebuild the architecture too
 
 An ordinary poster update reuses and validates the existing 3D assets: poster panels load the shared catalogue at runtime, and posters are excluded from the reflection probe. There is no reason to repeat the Blender bake for a new PDF.
@@ -51,4 +59,4 @@ Blender is required for this option. It is found on `PATH` or at `/Applications/
 .venv/bin/python -m http.server 8000 --bind 127.0.0.1 --directory docs
 ```
 
-Open `http://127.0.0.1:8000/` and `http://127.0.0.1:8000/halle.html`. Review the result, then commit the source/catalogue changes and all generated changes in `docs/`, including deletions. Push normally; GitHub Pages publishes the complete `docs/` directory. See [gallery validation](gallery.md#validation) for optional browser checks.
+Open `http://127.0.0.1:8000/`, `http://127.0.0.1:8000/halle.html`, `http://127.0.0.1:8000/instagram.html` and `http://127.0.0.1:8000/projet.html`. Review the result, then commit the source/catalogue changes and all generated changes in `docs/`, including deletions. Push normally; GitHub Pages publishes the complete `docs/` directory. See [gallery validation](gallery.md#validation) for optional browser checks.

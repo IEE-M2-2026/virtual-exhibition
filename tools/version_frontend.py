@@ -44,6 +44,8 @@ def updated_html(page):
                   lambda m: m.group(1) + versioned(m.group(2)) + m.group(3), html)
     html = re.sub(r'(<link\b[^>]*\bhref=")([^"?]+\.(?:css|svg))(?:\?[^\"]*)?("[^>]*>)',
                   lambda m: m.group(1) + versioned(m.group(2)) + m.group(3), html)
+    html = re.sub(r'((?:src|href)=")([.]/images/[^"?]+\.(?:jpg|png))(?:\?[^\"]*)?(")',
+                  lambda m: m.group(1) + versioned(m.group(2)) + m.group(3), html)
     return html
 
 

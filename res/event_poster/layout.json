@@ -6,8 +6,8 @@
   "dpi": 300,
   "columns": 6,
   "rows": 6,
-  "poster_count": 27,
-  "filler_count": 9,
+  "poster_count": 28,
+  "filler_count": 8,
   "seed": 2026,
   "margin": 0,
   "gutter": 0,
@@ -486,9 +486,14 @@
         1754,
         4134
       ],
-      "kind": "event",
-      "background": "#f5c842",
-      "text_mode": "both"
+      "kind": "poster",
+      "id": "incendies-wajdi-mouawad-d0c090",
+      "image_box": [
+        1169,
+        3307,
+        1754,
+        4134
+      ]
     },
     {
       "row": 4,
@@ -500,7 +505,7 @@
         4134
       ],
       "kind": "poster",
-      "id": "huis-clos-jean-paul-sartre-b14104",
+      "id": "huis-clos-jean-paul-sartre-91b684",
       "image_box": [
         1754,
         3307,
@@ -518,8 +523,8 @@
         4134
       ],
       "kind": "event",
-      "background": "#293db4",
-      "text_mode": "title"
+      "background": "#f5c842",
+      "text_mode": "both"
     },
     {
       "row": 4,
@@ -531,7 +536,7 @@
         4134
       ],
       "kind": "event",
-      "background": "#191919",
+      "background": "#293db4",
       "text_mode": "title"
     },
     {
@@ -544,7 +549,7 @@
         4961
       ],
       "kind": "event",
-      "background": "#c9dc72",
+      "background": "#191919",
       "text_mode": "title"
     },
     {
@@ -575,7 +580,7 @@
         4961
       ],
       "kind": "event",
-      "background": "#ec674e",
+      "background": "#c9dc72",
       "text_mode": "title"
     },
     {
@@ -588,8 +593,8 @@
         4961
       ],
       "kind": "event",
-      "background": "#b5a0d6",
-      "text_mode": "hashtag"
+      "background": "#ec674e",
+      "text_mode": "title"
     },
     {
       "row": 5,

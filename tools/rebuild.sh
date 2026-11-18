@@ -12,6 +12,7 @@ Usage: tools/rebuild.sh [--full] [--encoder mozjpeg|pillow|auto]
 Rebuild docs/ after adding or changing originals in res/posters/:
   - check that every original has an entry in res/posters.json (never modified);
   - replace all normalized posters and the shared 2D/3D catalogue;
+  - export the existing collective poster for the project page;
   - rebuild the locally bundled Three.js modules;
   - refresh and verify frontend cache hashes and existing garage assets.
 
@@ -85,6 +86,8 @@ fi
 
 printf '\nNormalizing the complete poster collection…\n'
 "$python_bin" tools/prepare_posters.py --encoder "$encoder"
+printf '\nExporting the collective poster for the project page…\n'
+"$python_bin" tools/export_collective_poster.py
 printf '\nBundling Three.js and updating frontend versions…\n'
 node tools/vendor_three.mjs
 "$python_bin" tools/version_frontend.py

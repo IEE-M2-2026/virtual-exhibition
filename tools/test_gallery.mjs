@@ -91,15 +91,9 @@ try {
   assert(requests.every((value) => value.startsWith(url)), 'No third-party or origin-root requests');
   await page.screenshot({ path: join(artifactDir, 'desktop.png'), fullPage: true });
 
-  for (const label of ['Le projet']) {
-    const link = page.getByRole('link', { name: label, exact: true });
-    await expect(link).toHaveAttribute('aria-disabled', 'true');
-    assert.equal(await link.getAttribute('href'), null);
-    await link.evaluate((el) => el.click());
-    await link.focus();
-    await page.keyboard.press('Enter');
-    assert.equal(page.url(), url);
-  }
+  const projectLink = page.getByRole('link', { name: 'Le projet', exact: true });
+  await expect(projectLink).toHaveAttribute('href', './projet.html');
+  assert.equal(await projectLink.getAttribute('aria-disabled'), null, 'Project link is not disabled');
   await expect(page.getByRole('link', { name: 'La halle 3D', exact: true })).toHaveAttribute('href', './halle.html');
   await expect(page.getByRole('link', { name: /Entrer dans la halle/ })).toHaveAttribute('href', './halle.html');
   assert(!requests.some((value) => value.includes('/vendor/three/') || value.includes('/models/')), 'The 2D page must not load the 3D engine or assets');
@@ -194,7 +188,7 @@ try {
   await expect(page.locator('#gallery-status')).toHaveText('Les affiches seront bientôt disponibles.');
   await expect(page.locator('#sort-order')).toBeDisabled();
   assert.deepEqual(exceptions, [], 'No uncaught JavaScript errors');
-  console.log(`PASS: ${catalog.posters.length} posters; responsive layout; inactive navigation; sorting; detail/zoom/keyboard/focus; deep links/history; error retry; empty state; repository prefix.`);
+  console.log(`PASS: ${catalog.posters.length} posters; responsive layout; project navigation; sorting; detail/zoom/keyboard/focus; deep links/history; error retry; empty state; repository prefix.`);
   console.log(`Screenshots: ${artifactDir}`);
 } finally {
   await browser?.close();

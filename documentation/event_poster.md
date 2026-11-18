@@ -26,7 +26,7 @@ Sorties :
 - `res/event_poster/event-poster.png` : image RVB sRGB, 3508 × 4961 pixels, résolution déclarée de 300 dpi (A3 portrait approximatif). Ce n'est pas une épreuve CMJN.
 - `res/event_poster/layout.json` : paramètres et placements, avec des identifiants publics, sans noms de fichiers originaux ni champs étudiants.
 
-L'image précédente n'est remplacée qu'après un rendu réussi ; les autres fichiers du dossier de sortie restent intacts. La génération est indépendante de la reconstruction du site.
+L'image précédente n'est remplacée qu'après un rendu réussi ; les autres fichiers du dossier de sortie restent intacts. La génération de la composition est indépendante de la reconstruction du site. `tools/rebuild.sh` exporte ensuite l’image existante vers `docs/images/affiche-collective.jpg` pour la page « Le projet », sans modifier la composition source. Voir [la reconstruction du site](rebuild.md#collective-poster-on-the-project-page).
 
 ## Options
 
