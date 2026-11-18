@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Le fil Instagram — IEE Paris 8</title>
+  <link rel="icon" href="./favicon.svg?v=02d25c2b85ad" type="image/svg+xml">
+  <link rel="stylesheet" href="./css/gallery.css?v=3a1a6f9fff05">
+  <link rel="stylesheet" href="./css/instagram.css?v=aa2f187bece4">
+</head>
+<body>
+  <a class="skip-link" href="#le-fil">Aller au contenu</a>
+  <header class="site-header">
+    <div class="header-identity">
+      <div class="brand">
+        <p class="wordmark">IEE</p>
+        <span class="brand-divider" aria-hidden="true"></span>
+        <p class="brand-lines">Institut d’études européennes<br>Paris 8</p>
+      </div>
+      <p class="pedagogical-notice">Projet pédagogique, les affiches et spectacles sont fictifs</p>
+    </div>
+    <nav class="site-nav" aria-label="Navigation principale">
+      <a href="./index.html">Les affiches</a>
+      <a href="./halle.html">La halle 3D</a>
+      <a href="./instagram.html" aria-current="page">Le fil Instagram</a>
+      <a role="link" aria-disabled="true" tabindex="0" title="Bientôt disponible">Le projet</a>
+    </nav>
+  </header>
+
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></symbol>
+    <symbol id="comment" viewBox="0 0 24 24"><path d="M21 11.5a9 9 0 0 1-9.5 9L3 22l1.5-7.5A9 9 0 1 1 21 11.5Z"/></symbol>
+    <symbol id="send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9L2 9 22 2ZM11 13 22 2"/></symbol>
+    <symbol id="bookmark" viewBox="0 0 24 24"><path d="M5 3h14v19l-7-5-7 5V3Z"/></symbol>
+    <symbol id="home" viewBox="0 0 24 24"><path d="m3 10 9-8 9 8v12h-6v-8H9v8H3V10Z"/></symbol>
+    <symbol id="search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="7"/><path d="m15 15 7 7"/></symbol>
+    <symbol id="plus" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M12 7v10M7 12h10"/></symbol>
+    <symbol id="reel" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M3 8h18M8 3l4 5m3-5 4 5m-9 4 5 3-5 3v-6Z"/></symbol>
+  </svg>
+
+  <main id="le-fil" tabindex="-1" class="feed-stage">
+    <div class="feed-intro">
+      <p class="eyebrow">EXPOSITION COLLECTIVE · 2026</p>
+      <h1>Le fil<br> Instagram</h1>
+      <p class="feed-description">Les affiches de théâtre, au creux de la main.</p>
+      <p class="feed-instructions">Cliquez sur l’affiche pour découvrir la suivante. Le fil se mélange à chaque nouveau tour.</p>
+      <div class="feed-controls">
+        <p id="feed-position" role="status" aria-live="polite">Chargement du fil…</p>
+        <button id="next-post" type="button" disabled>Affiche suivante <span aria-hidden="true">→</span></button>
+      </div>
+      <p class="simulation-note">iPhone 13 mini · Simulation Instagram</p>
+    </div>
+
+    <section class="phone-area" aria-label="Fil des affiches dans un iPhone 13 mini simulé">
+      <div class="iphone">
+        <span class="phone-side side-silent" aria-hidden="true"></span>
+        <span class="phone-side side-volume" aria-hidden="true"></span>
+        <span class="phone-side side-power" aria-hidden="true"></span>
+        <div class="phone-screen">
+          <div class="phone-status" aria-hidden="true"><span>9:41</span><span class="status-indicators">▂▄▆ <span class="battery"></span></span></div>
+          <div class="phone-notch" aria-hidden="true"><span></span></div>
+          <div class="instagram-bar"><span class="instagram-wordmark">Instagram</span><span class="app-icons" aria-hidden="true"><svg><use href="#heart"/></svg><svg><use href="#send"/></svg></span></div>
+          <div class="account-bar"><span class="account-avatar" aria-hidden="true">IEE</span><div><strong>iee.paris8</strong><small>Affiches de théâtre · Paris 8</small></div><span class="account-menu" aria-hidden="true">•••</span></div>
+          <button id="post-image-button" class="post-image-button" type="button" aria-label="Afficher l’affiche suivante" disabled>
+            <img id="post-image" alt="" hidden>
+            <span id="image-status" role="status">Chargement des affiches…</span>
+          </button>
+          <div class="post-actions" aria-hidden="true"><svg><use href="#heart"/></svg><svg><use href="#comment"/></svg><svg><use href="#send"/></svg><svg class="save-icon"><use href="#bookmark"/></svg></div>
+          <div class="post-caption" aria-live="polite" aria-atomic="true">
+            <p class="caption-account">iee.paris8 <span>· L’exposition</span></p>
+            <h2 id="post-title">Les affiches de théâtre</h2>
+            <p id="post-author"></p>
+          </div>
+          <div class="app-bottom" aria-hidden="true"><svg><use href="#home"/></svg><svg><use href="#search"/></svg><svg><use href="#plus"/></svg><svg><use href="#reel"/></svg><span class="profile-avatar">IEE</span></div>
+          <div class="home-indicator" aria-hidden="true"></div>
+        </div>
+      </div>
+      <p id="feed-error" class="feed-error" role="alert" hidden></p>
+      <button id="retry-feed" class="retry-button" type="button" hidden>Réessayer</button>
+    </section>
+    <noscript><p>Activez JavaScript pour parcourir le fil. <a href="./index.html">Retour à la galerie</a></p></noscript>
+  </main>
+  <footer class="site-footer"><p>IEE · Université Paris 8</p><p>Atelier infographie · 2026</p></footer>
+  <script type="module" src="./js/instagram.js?v=195e26d4da85"></script>
+</body>
+</html>
