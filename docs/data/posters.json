@@ -806,32 +806,32 @@
       }
     },
     {
-      "id": "la-mouche-704d75",
+      "id": "la-mouche-5ec309",
       "metadata": {
         "title": "La Mouche"
       },
-      "source_sha256": "704d75888dbe206d9363361696d489f654191126ef3ce9b52b53fad932e74a09",
+      "source_sha256": "5ec309705751992fe8196eb3f0f9ddf403f911d4268a841d70eb7f8c935127dc",
       "images": {
         "thumbnail": {
-          "src": "./posters/thumbnail/la-mouche-704d75.jpg",
+          "src": "./posters/thumbnail/la-mouche-5ec309.jpg",
           "width": 362,
           "height": 512,
-          "bytes": 26146,
-          "sha256": "c95bcd409b30cc59485df131295bc5dc7b342b2daad7ec09dd7794d55f7d8186"
+          "bytes": 34691,
+          "sha256": "7bd78af231d6e10b5f77276e8b23b569fe7e958040aef6771522f4489800181d"
         },
         "texture": {
-          "src": "./posters/texture/la-mouche-704d75.jpg",
+          "src": "./posters/texture/la-mouche-5ec309.jpg",
           "width": 1414,
           "height": 2000,
-          "bytes": 257385,
-          "sha256": "48a0f5785c83fa8cd03fb7e4c2165bf8014dfb4452f44f3b5a3cfede13108d6f"
+          "bytes": 291148,
+          "sha256": "7e4bcb1a3533cd5840b63349ac5ba71053a735d1bcd38d2ff6a3e1a52cb2ecb2"
         },
         "detail": {
-          "src": "./posters/detail/la-mouche-704d75.jpg",
+          "src": "./posters/detail/la-mouche-5ec309.jpg",
           "width": 1414,
           "height": 2000,
-          "bytes": 257385,
-          "sha256": "48a0f5785c83fa8cd03fb7e4c2165bf8014dfb4452f44f3b5a3cfede13108d6f"
+          "bytes": 291148,
+          "sha256": "7e4bcb1a3533cd5840b63349ac5ba71053a735d1bcd38d2ff6a3e1a52cb2ecb2"
         }
       }
     },
