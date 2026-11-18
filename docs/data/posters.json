@@ -615,34 +615,34 @@
       }
     },
     {
-      "id": "huis-clos-jean-paul-sartre-b14104",
+      "id": "huis-clos-jean-paul-sartre-91b684",
       "metadata": {
         "title": "Huis clos",
         "author": "Jean-Paul Sartre",
         "premiere_year": 1944
       },
-      "source_sha256": "b1410491489897148e8637eb5680a83e2e100d1fcc863f2c117b92df23906a12",
+      "source_sha256": "91b684a63356d6648553ea5c0b05a3c5a477a82cb1e6816b88093cf800cf565e",
       "images": {
         "thumbnail": {
-          "src": "./posters/thumbnail/huis-clos-jean-paul-sartre-b14104.jpg",
+          "src": "./posters/thumbnail/huis-clos-jean-paul-sartre-91b684.jpg",
           "width": 362,
           "height": 512,
-          "bytes": 37485,
-          "sha256": "fecd53b3cef842503255d3a26fe2d96ca5af4a802b0a016a821437d947bf4354"
+          "bytes": 55685,
+          "sha256": "db430a49c8423632937d30f1d2ce5c4cddbd7ac65d54c39d660fe02eea75c105"
         },
         "texture": {
-          "src": "./posters/texture/huis-clos-jean-paul-sartre-b14104.jpg",
+          "src": "./posters/texture/huis-clos-jean-paul-sartre-91b684.jpg",
           "width": 1448,
           "height": 2048,
-          "bytes": 190890,
-          "sha256": "9699ec405742180fb8caf87f1123b1595e0629a94d0c37ea3817fb5ac330a5cf"
+          "bytes": 768006,
+          "sha256": "340eccbb5d01e22353f89ba22eac9fe991c1cd4450f567a195cf068ab479f26c"
         },
         "detail": {
-          "src": "./posters/detail/huis-clos-jean-paul-sartre-b14104.jpg",
+          "src": "./posters/detail/huis-clos-jean-paul-sartre-91b684.jpg",
           "width": 2897,
           "height": 4096,
-          "bytes": 418747,
-          "sha256": "ff1b29bbb2b9abcd0570d4bfe2eb0be03e8f534d26a5ba09a3224b2541999879"
+          "bytes": 2308298,
+          "sha256": "f94ae37396377f32e65c5e531df24fa70e870188a307515d7542326791908c18"
         }
       }
     },
@@ -865,6 +865,38 @@
           "height": 4096,
           "bytes": 964414,
           "sha256": "143ab8b06a6f120fe71773b15d15db8e228e0b8baf14e2c64a0a0d5b793a503c"
+        }
+      }
+    },
+    {
+      "id": "incendies-wajdi-mouawad-d0c090",
+      "metadata": {
+        "title": "Incendies",
+        "author": "Wajdi Mouawad",
+        "premiere_year": 2003
+      },
+      "source_sha256": "d0c090a4ba14dcbe6dafdc97700b0d820bb89b799a86508aded94b6e656a05b3",
+      "images": {
+        "thumbnail": {
+          "src": "./posters/thumbnail/incendies-wajdi-mouawad-d0c090.jpg",
+          "width": 362,
+          "height": 512,
+          "bytes": 48535,
+          "sha256": "fcdd96b964e4eb5b413a5a076eb0e810daee83ee0da2a1d65cd70dab19489292"
+        },
+        "texture": {
+          "src": "./posters/texture/incendies-wajdi-mouawad-d0c090.jpg",
+          "width": 1448,
+          "height": 2048,
+          "bytes": 286783,
+          "sha256": "1c828194bc251172cb57d1e45210b0adb03b6a125937ee556c7ca4106d012a63"
+        },
+        "detail": {
+          "src": "./posters/detail/incendies-wajdi-mouawad-d0c090.jpg",
+          "width": 2897,
+          "height": 4096,
+          "bytes": 672866,
+          "sha256": "4ed8f9f82070575533860c4110e7e78199f8b96144b26ea63884ec058a989a22"
         }
       }
     }
