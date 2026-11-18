@@ -6,8 +6,8 @@
   "dpi": 300,
   "columns": 6,
   "rows": 6,
-  "poster_count": 28,
-  "filler_count": 8,
+  "poster_count": 29,
+  "filler_count": 7,
   "seed": 2026,
   "margin": 0,
   "gutter": 0,
@@ -47,11 +47,11 @@
         826
       ],
       "kind": "poster",
-      "id": "l-orfevrerie-emma-mihalyi-715659",
+      "id": "antigone-jean-anouilh-be4e1c",
       "image_box": [
         584,
         0,
-        1169,
+        1168,
         826
       ]
     },
@@ -65,7 +65,7 @@
         826
       ],
       "kind": "poster",
-      "id": "scenes-from-a-marriage-fbc08b",
+      "id": "les-raisins-de-la-colere-0a3f72",
       "image_box": [
         1169,
         0,
@@ -83,12 +83,12 @@
         826
       ],
       "kind": "poster",
-      "id": "incendies-wajdi-mouawad-e27920",
+      "id": "4-48-psychose-sarah-kane-239732",
       "image_box": [
         1754,
         0,
         2338,
-        826
+        825
       ]
     },
     {
@@ -101,11 +101,11 @@
         826
       ],
       "kind": "poster",
-      "id": "rhinoceros-eugene-ionesco-77e311",
+      "id": "top-girls-caryl-churchill-f3acc3",
       "image_box": [
         2338,
         0,
-        2923,
+        2922,
         826
       ]
     },
@@ -119,11 +119,11 @@
         826
       ],
       "kind": "poster",
-      "id": "4-48-psychose-sarah-kane-d16acb",
+      "id": "top-girls-caryl-churchill-723a4e",
       "image_box": [
         2923,
         0,
-        3507,
+        3508,
         826
       ]
     },
@@ -137,12 +137,12 @@
         1653
       ],
       "kind": "poster",
-      "id": "antigone-jean-anouilh-be4e1c",
+      "id": "rhinoceros-eugene-ionesco-77e311",
       "image_box": [
         0,
-        826,
+        827,
         584,
-        1652
+        1651
       ]
     },
     {
@@ -155,7 +155,7 @@
         1653
       ],
       "kind": "poster",
-      "id": "antigone-jean-anouilh-ca6bee",
+      "id": "dans-la-solitude-des-champs-de-coton-bernard-marie-koltes-138853",
       "image_box": [
         584,
         826,
@@ -173,7 +173,7 @@
         1653
       ],
       "kind": "poster",
-      "id": "oh-les-beaux-jours-samuel-beckett-3cdb47",
+      "id": "le-dieu-du-carnage-yasmina-reza-da697f",
       "image_box": [
         1169,
         826,
@@ -191,7 +191,7 @@
         1653
       ],
       "kind": "poster",
-      "id": "les-raisins-de-la-colere-0a3f72",
+      "id": "l-orfevrerie-emma-mihalyi-715659",
       "image_box": [
         1754,
         826,
@@ -209,7 +209,7 @@
         1653
       ],
       "kind": "poster",
-      "id": "4-48-psychose-sarah-kane-d230a9",
+      "id": "antigone-jean-anouilh-ca6bee",
       "image_box": [
         2338,
         826,
@@ -240,7 +240,7 @@
         2480
       ],
       "kind": "poster",
-      "id": "le-canard-sauvage-8c2446",
+      "id": "un-desir-nomme-tramway-03ea60",
       "image_box": [
         0,
         1653,
@@ -258,12 +258,12 @@
         2480
       ],
       "kind": "poster",
-      "id": "la-mouche-704d75",
+      "id": "noces-de-sang-federico-garcia-lorca-f6c1a3",
       "image_box": [
         584,
         1653,
         1169,
-        2480
+        2479
       ]
     },
     {
@@ -276,7 +276,7 @@
         2480
       ],
       "kind": "poster",
-      "id": "le-dieu-du-carnage-yasmina-reza-426c5d",
+      "id": "incendies-wajdi-mouawad-c1773d",
       "image_box": [
         1169,
         1653,
@@ -294,7 +294,7 @@
         2480
       ],
       "kind": "poster",
-      "id": "incendies-wajdi-mouawad-c1773d",
+      "id": "une-maison-de-poupee-270f03",
       "image_box": [
         1754,
         1653,
@@ -312,7 +312,7 @@
         2480
       ],
       "kind": "poster",
-      "id": "une-maison-de-poupee-270f03",
+      "id": "le-canard-sauvage-8c2446",
       "image_box": [
         2338,
         1653,
@@ -330,7 +330,7 @@
         2480
       ],
       "kind": "poster",
-      "id": "un-desir-nomme-tramway-03ea60",
+      "id": "le-misanthrope-moliere-5ac010",
       "image_box": [
         2923,
         1653,
@@ -361,7 +361,7 @@
         3307
       ],
       "kind": "poster",
-      "id": "incendies-wajdi-mouawad-23782d",
+      "id": "papa-doit-manger-marie-ndiaye-a64596",
       "image_box": [
         584,
         2480,
@@ -379,12 +379,12 @@
         3307
       ],
       "kind": "poster",
-      "id": "noces-de-sang-federico-garcia-lorca-f6c1a3",
+      "id": "4-48-psychose-sarah-kane-d230a9",
       "image_box": [
         1169,
         2480,
         1754,
-        3306
+        3307
       ]
     },
     {
@@ -397,7 +397,7 @@
         3307
       ],
       "kind": "poster",
-      "id": "top-girls-caryl-churchill-723a4e",
+      "id": "incendies-wajdi-mouawad-23782d",
       "image_box": [
         1754,
         2480,
@@ -415,7 +415,7 @@
         3307
       ],
       "kind": "poster",
-      "id": "4-48-psychose-sarah-kane-239732",
+      "id": "la-mouche-704d75",
       "image_box": [
         2338,
         2480,
@@ -433,7 +433,7 @@
         3307
       ],
       "kind": "poster",
-      "id": "rhinoceros-eugene-ionesco-6fd0ea",
+      "id": "rhinoceros-eugene-ionesco-608d7b",
       "image_box": [
         2923,
         2480,
@@ -451,7 +451,7 @@
         4134
       ],
       "kind": "poster",
-      "id": "papa-doit-manger-marie-ndiaye-a64596",
+      "id": "scenes-from-a-marriage-fbc08b",
       "image_box": [
         0,
         3307,
@@ -469,7 +469,7 @@
         4134
       ],
       "kind": "poster",
-      "id": "rhinoceros-eugene-ionesco-71736d",
+      "id": "4-48-psychose-sarah-kane-d16acb",
       "image_box": [
         584,
         3307,
@@ -487,7 +487,7 @@
         4134
       ],
       "kind": "poster",
-      "id": "incendies-wajdi-mouawad-d0c090",
+      "id": "incendies-wajdi-mouawad-e27920",
       "image_box": [
         1169,
         3307,
@@ -505,7 +505,7 @@
         4134
       ],
       "kind": "poster",
-      "id": "huis-clos-jean-paul-sartre-91b684",
+      "id": "rhinoceros-eugene-ionesco-6fd0ea",
       "image_box": [
         1754,
         3307,
@@ -548,9 +548,14 @@
         584,
         4961
       ],
-      "kind": "event",
-      "background": "#191919",
-      "text_mode": "title"
+      "kind": "poster",
+      "id": "incendies-wajdi-mouawad-d0c090",
+      "image_box": [
+        0,
+        4134,
+        584,
+        4960
+      ]
     },
     {
       "row": 5,
@@ -562,7 +567,7 @@
         4961
       ],
       "kind": "poster",
-      "id": "dom-juan-moliere-53be35",
+      "id": "oh-les-beaux-jours-samuel-beckett-3cdb47",
       "image_box": [
         584,
         4134,
@@ -580,7 +585,7 @@
         4961
       ],
       "kind": "event",
-      "background": "#c9dc72",
+      "background": "#191919",
       "text_mode": "title"
     },
     {
@@ -593,7 +598,7 @@
         4961
       ],
       "kind": "event",
-      "background": "#ec674e",
+      "background": "#c9dc72",
       "text_mode": "title"
     },
     {
@@ -606,7 +611,7 @@
         4961
       ],
       "kind": "poster",
-      "id": "dans-la-solitude-des-champs-de-coton-bernard-marie-koltes-138853",
+      "id": "huis-clos-jean-paul-sartre-91b684",
       "image_box": [
         2338,
         4134,
@@ -624,7 +629,7 @@
         4961
       ],
       "kind": "poster",
-      "id": "top-girls-caryl-churchill-f3acc3",
+      "id": "dom-juan-moliere-53be35",
       "image_box": [
         2923,
         4134,
